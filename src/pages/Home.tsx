@@ -18,106 +18,107 @@ const Home: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>UniCali | La herramienta definitiva para tu vida universitaria</title>
+        <title>UniCali | Plataforma Académica Inteligente</title>
       </Helmet>
 
       <main>
         {/* Hero Section */}
-        <section style={{ padding: '12rem 0 8rem', textAlign: 'center', position: 'relative' }}>
+        <section style={{ padding: '10rem 0 6rem', textAlign: 'center', position: 'relative' }}>
           <div className="container">
             <div className="reveal stagger-1" style={{ marginBottom: '2rem' }}>
               <span style={{ 
-                background: 'rgba(255, 45, 146, 0.1)', 
+                border: '1px solid var(--primary)', 
                 color: 'var(--primary)', 
-                padding: '0.5rem 1.5rem', 
-                borderRadius: '50px',
-                fontSize: '0.8rem',
+                padding: '0.4rem 1.2rem', 
+                fontSize: '0.7rem',
                 fontWeight: 600,
-                letterSpacing: '0.1em',
+                letterSpacing: '0.2em',
                 textTransform: 'uppercase'
               }}>
-                Nueva Versión 1.5.0 ya disponible
+                Build 1.5.0 • Estabilidad Confirmada
               </span>
             </div>
             <h1 className="reveal stagger-2">
               UniCali
             </h1>
             <p className="reveal stagger-3" style={{ 
-              maxWidth: '600px', 
-              margin: '2.5rem auto', 
-              fontSize: '1.25rem', 
+              maxWidth: '650px', 
+              margin: '2rem auto', 
+              fontSize: '1.2rem', 
               color: 'var(--text-dim)',
-              lineHeight: 1.6
+              lineHeight: 1.6,
+              fontWeight: 300
             }}>
-              La plataforma independiente que está transformando la experiencia universitaria. 
-              Sin contraseñas, sin rastreo, solo tú y tu éxito académico.
+              La arquitectura académica definitiva para el estudiante contemporáneo. 
+              Privacidad absoluta y rendimiento optimizado bajo un enfoque offline-first.
             </p>
-            <div className="reveal stagger-4" style={{ marginTop: '3rem' }}>
-              <a href="#descarga" className="download-btn">Descargar para Android</a>
-              <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-dim)' }}>
-                Gratis • Código Abierto • Seguro
-              </p>
+            <div className="reveal stagger-4" style={{ marginTop: '3.5rem' }}>
+              <a href="#descarga" className="btn-primary">Obtener Binario</a>
+              <div style={{ marginTop: '1.5rem', fontSize: '0.7rem', color: 'var(--text-dim)', letterSpacing: '0.05em' }}>
+                DISTRIBUCIÓN INDEPENDIENTE • 42MB
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Features Section */}
-        <section id="funcionalidades" style={{ padding: '6rem 0' }}>
+        {/* Modules Section */}
+        <section id="funcionalidades" style={{ padding: '8rem 0' }}>
           <div className="container">
-            <div className="reveal" style={{ marginBottom: '5rem' }}>
-              <h2 style={{ textAlign: 'center' }}>Diseñado para el Estudiante Moderno</h2>
+            <div className="reveal" style={{ marginBottom: '6rem', textAlign: 'center' }}>
+              <h2 style={{ fontSize: '3.5rem' }}>Ecosistema de Herramientas</h2>
+              <div style={{ width: '60px', height: '1px', background: 'var(--primary)', margin: '2rem auto 0' }} />
             </div>
             
             <div className="grid">
               <FeatureCard 
-                title="Seguridad" 
-                desc="Tus datos nunca salen de tu dispositivo. Utilizamos almacenamiento local encriptado para garantizar que tu información personal sea solo tuya."
+                title="Protocolo de Seguridad" 
+                desc="Tus datos permanecen en el perímetro de tu dispositivo. Encriptación local sin persistencia en servidores externos."
                 icon={<SecurityIcon />}
                 className="col-span-4"
+                stagger="stagger-1"
               />
               <FeatureCard 
-                title="Comunidad" 
-                desc="Conecta con otros estudiantes de UniCali. Comparte recursos, participa en foros y mantente al día con lo que sucede en el campus."
+                title="Núcleo Comunitario" 
+                desc="Intercambio de recursos y sincronización de eventos académicos a través de una red distribuida."
                 icon={<CommunityIcon />}
                 className="col-span-4"
+                stagger="stagger-2"
               />
               <FeatureCard 
-                title="Herramientas" 
-                desc="Calcula promedios, proyecta notas y organiza tu semestre con herramientas diseñadas específicamente para tu carrera."
+                title="Motor Analítico" 
+                desc="Cálculo predictivo de rendimiento y proyección de resultados con precisión algorítmica."
                 icon={<ToolsIcon />}
                 className="col-span-4"
+                stagger="stagger-3"
               />
             </div>
           </div>
         </section>
 
-        {/* Download Section */}
-        <section id="descarga" style={{ padding: '8rem 0', background: 'var(--bg-secondary)' }}>
+        {/* Protocol Section */}
+        <section id="descarga" style={{ padding: '10rem 0', background: 'var(--bg-secondary)', borderTop: '1px solid var(--border)' }}>
           <div className="container">
-            <div className="grid" style={{ alignItems: 'center' }}>
-              <div className="col-span-6 reveal">
-                <h2 style={{ marginBottom: '2rem' }}>Empieza Hoy</h2>
-                <p style={{ color: 'var(--text-dim)', fontSize: '1.1rem', marginBottom: '3rem' }}>
-                  Únete a miles de estudiantes que ya están usando UniCali para tomar el control de su vida académica. 
-                  Instalación rápida, sin registros complicados.
-                </p>
-                <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
-                  <Step num="1" title="Descarga" text="Obtén el archivo APK desde nuestros servidores seguros." />
-                  <Step num="2" title="Instala" text="Habilita 'Orígenes desconocidos' en tu Android." />
-                  <Step num="3" title="Disfruta" text="Abre la app y comienza a gestionar tu semestre." />
+            <div className="grid" style={{ alignItems: 'start' }}>
+              <div className="col-span-7 reveal">
+                <h2 style={{ marginBottom: '3rem' }}>Protocolo de Instalación</h2>
+                <div style={{ display: 'flex', gap: '2rem', flexDirection: 'column' }}>
+                  <Step num="01" title="Suministro" text="Descarga del binario oficial app-release.apk desde la infraestructura de UniCali." />
+                  <Step num="02" title="Autorización" text="Habilitación de permisos para orígenes externos en la configuración del sistema Android." />
+                  <Step num="03" title="Despliegue" text="Validación de firma digital e inicialización del entorno académico local." />
                 </div>
               </div>
-              <div className="col-span-6 reveal stagger-2" style={{ textAlign: 'center' }}>
+              <div className="col-span-5 reveal stagger-2" style={{ textAlign: 'center' }}>
                 <div style={{ 
-                  padding: '4rem', 
-                  border: '1px solid var(--border)', 
-                  borderRadius: '24px',
-                  background: 'var(--bg)'
+                  padding: '4rem 2rem', 
+                  border: '1px dashed var(--primary)', 
+                  background: 'var(--bg)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'
                 }}>
-                  <div style={{ fontSize: '4rem', marginBottom: '2rem' }}>📱</div>
-                  <a href="#" className="download-btn" style={{ padding: '1.5rem 3rem', fontSize: '1.1rem' }}>
-                    Descargar UniCali APK
-                  </a>
+                  <DeviceIcon />
+                  <div style={{ height: '3rem' }} />
+                  <a href="#" className="btn-primary" style={{ width: '100%' }}>Descargar APK</a>
                 </div>
               </div>
             </div>
@@ -128,43 +129,39 @@ const Home: React.FC = () => {
   );
 };
 
-const FeatureCard: React.FC<{ title: string; desc: string; icon: React.ReactNode; className: string }> = ({ title, desc, icon, className }) => (
-  <div className={`module-card reveal ${className}`}>
-    <div style={{ marginBottom: '1.5rem', color: 'var(--primary)' }}>{icon}</div>
-    <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{title}</h3>
-    <p style={{ color: 'var(--text-dim)', fontSize: '0.95rem' }}>{desc}</p>
+const FeatureCard: React.FC<{ title: string; desc: string; icon: React.ReactNode; className: string; stagger: string }> = ({ title, desc, icon, className, stagger }) => (
+  <div className={`module-card reveal ${className} ${stagger}`}>
+    <div style={{ marginBottom: '2rem', color: 'var(--primary)' }}>{icon}</div>
+    <h3 style={{ fontSize: '1.6rem', marginBottom: '1.5rem', fontFamily: 'var(--font-serif)' }}>{title}</h3>
+    <p style={{ color: 'var(--text-dim)', fontSize: '1rem', fontWeight: 300, lineHeight: 1.7 }}>{desc}</p>
   </div>
 );
 
 const Step: React.FC<{ num: string; title: string; text: string }> = ({ num, title, text }) => (
-  <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '1.5rem' }}>
+  <div style={{ display: 'flex', gap: '2rem', paddingBottom: '2rem', borderBottom: '1px solid var(--border)' }}>
     <div style={{ 
-      width: '40px', 
-      height: '40px', 
-      borderRadius: '50%', 
-      border: '1px solid var(--primary)', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center',
+      fontFamily: 'var(--font-serif)',
+      fontSize: '2rem',
       color: 'var(--primary)',
-      fontWeight: 'bold',
-      flexShrink: 0
+      opacity: 0.5,
+      lineHeight: 1,
+      minWidth: '3rem'
     }}>{num}</div>
     <div>
-      <h4 style={{ fontSize: '1.1rem', marginBottom: '0.2rem' }}>{title}</h4>
-      <p style={{ fontSize: '0.9rem', color: 'var(--text-dim)' }}>{text}</p>
+      <h4 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--text)' }}>{title}</h4>
+      <p style={{ fontSize: '1rem', color: 'var(--text-dim)', fontWeight: 300 }}>{text}</p>
     </div>
   </div>
 );
 
 const SecurityIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
   </svg>
 );
 
 const CommunityIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
     <circle cx="9" cy="7" r="4" />
     <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -173,8 +170,19 @@ const CommunityIcon = () => (
 );
 
 const ToolsIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <path d="M9 3v18" />
+    <path d="M15 3v18" />
+    <path d="M3 9h18" />
+    <path d="M3 15h18" />
+  </svg>
+);
+
+const DeviceIcon = () => (
+  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+    <line x1="12" y1="18" x2="12" y2="18" />
   </svg>
 );
 
