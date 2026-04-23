@@ -116,18 +116,15 @@ h2 {
 .reveal {
   opacity: 0;
   transform: translateY(20px);
-  filter: blur(5px);
   transition: 
     opacity var(--duration-long) var(--ease-out),
-    transform var(--duration-long) var(--ease-out),
-    filter var(--duration-long) var(--ease-out);
-  will-change: transform, opacity, filter;
+    transform var(--duration-long) var(--ease-out);
+  will-change: transform, opacity;
 }
 
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
-  filter: blur(0px);
 }
 
 /* Stagger reveals */
@@ -213,7 +210,7 @@ h2 {
 
 /* Phone Showcase */
 .gallery-section {
-  padding: 8rem 0;
+  padding: 4rem 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -222,12 +219,12 @@ h2 {
 
 .phone-display-wrapper {
   perspective: 2000px;
-  margin: 2rem 0;
+  margin: 1rem 0;
 }
 
 .phone-container {
-  width: 300px;
-  height: 620px;
+  width: 280px;
+  height: 580px;
   background: var(--bg);
   border: 1px solid var(--border);
   padding: 10px;
@@ -293,20 +290,8 @@ h2 {
   z-index: 20;
 }
 
-.phone-notch::after {
-  content: "";
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #1a1a1a;
-}
-
 .gallery-label-container {
-  margin-top: 3rem;
+  margin-top: 2rem;
   height: 2rem;
   display: flex;
   justify-content: center;
@@ -316,7 +301,7 @@ h2 {
 .gallery-label {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: var(--primary);
   opacity: 0;
   transform: translateY(10px);
@@ -332,12 +317,12 @@ h2 {
 /* Indicators */
 .gallery-indicators {
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
 }
 
 .indicator {
-  width: 40px;
+  width: 30px;
   height: 2px;
   background: var(--border);
   position: relative;
@@ -359,9 +344,14 @@ h2 {
 /* Responsive Scaling */
 @media (max-width: 768px) {
   .container { padding: 0 1.5rem; }
-  .luxury-grid { grid-template-columns: 1fr; gap: 0; }
+  .luxury-grid { grid-template-columns: 1fr; gap: 1rem; }
   .col-span-4, .col-span-6 { grid-column: span 12; }
-  h1 { font-size: clamp(3rem, 18vw, 6rem); }
+  h1 { font-size: clamp(2.5rem, 15vw, 4rem); }
+  h2 { font-size: clamp(1.8rem, 10vw, 2.5rem); }
+  .nav-float { padding: 1rem 0; }
+  .nav-link { font-size: 0.6rem; letter-spacing: 0.2em; }
+  .phone-container { width: 240px; height: 500px; }
+  section { padding: 4rem 0 !important; }
 }
 
 @media (min-width: 769px) {

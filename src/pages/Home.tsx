@@ -25,19 +25,6 @@ const Home: React.FC = () => {
     return () => clearInterval(timer);
   }, [isHovered, nextSlide]);
 
-  useEffect(() => {
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('is-visible');
-      });
-    }, observerOptions);
-
-    const elements = document.querySelectorAll('.reveal');
-    elements.forEach(el => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <>
       <Helmet>
@@ -99,7 +86,7 @@ const Home: React.FC = () => {
                       src={shot.src} 
                       alt={shot.label} 
                       className={`phone-screen ${currentIndex === i ? 'active' : ''}`} 
-                      loading="lazy"
+                      loading={i === 0 ? "eager" : "lazy"}
                     />
                   ))}
                 </div>

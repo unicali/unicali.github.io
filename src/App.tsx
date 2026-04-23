@@ -20,15 +20,44 @@ const App: React.FC = () => {
   }, [pathname]);
 
   useEffect(() => {
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    }, observerOptions);
+
+    const observeElements = () => {
+      const elements = document.querySelectorAll('.reveal');
+      elements.forEach(el => observer.observe(el));
+    };
+
+    // Small delay to ensure route content is rendered
+    const timeoutId = setTimeout(observeElements, 100);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      observer.disconnect();
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const scrollProgress = document.getElementById('scroll-progress');
-      if (scrollProgress) {
-        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = (window.scrollY / totalHeight) * 100;
-        scrollProgress.style.width = `${progress}%`;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollProgress = document.getElementById('scroll-progress');
+          if (scrollProgress) {
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (window.scrollY / totalHeight) * 100;
+            scrollProgress.style.width = `${progress}%`;
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
