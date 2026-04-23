@@ -38,36 +38,35 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <div className="dots-overlay" />
       <div id="scroll-progress" />
       
-      {/* Navigation */}
-      <nav style={{ 
-        padding: '2rem 0', 
-        position: 'sticky', 
-        top: 0, 
-        background: 'var(--glass)', 
-        backdropFilter: 'blur(20px)',
-        zIndex: 100,
-        transition: 'background-color 0.6s var(--easing-slow)'
-      }}>
+      {/* Floating Navigation */}
+      <nav className="nav-float">
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link to="/" style={{ 
-            fontSize: '1rem', 
-            fontWeight: 600, 
+            fontSize: '0.85rem', 
+            fontWeight: 500, 
             color: 'var(--primary)', 
             textDecoration: 'none',
-            letterSpacing: '0.3em',
+            letterSpacing: '0.4em',
             textTransform: 'uppercase'
           }}>
             UniCali
           </Link>
           <div style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
-            <a href="#assets" className="nav-link">Recursos</a>
-            <a href="#protocol" className="nav-link">Protocolo</a>
+            <a href="#features" className="nav-link">Sistemas</a>
+            <a href="#install" className="nav-link">Despliegue</a>
             <button 
               onClick={toggleTheme}
-              className="theme-toggle"
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '0.5rem',
+                color: 'var(--primary)',
+                display: 'flex',
+                alignItems: 'center'
+              }}
               aria-label="Toggle Theme"
             >
               <ThemeIcon isDark={theme === 'dark'} />
@@ -82,35 +81,34 @@ const App: React.FC = () => {
         <Route path="/terminos" element={<Terms />} />
       </Routes>
 
-      {/* Footer */}
-      <footer style={{ background: 'var(--bg-subtle)', borderTop: '1px solid var(--border)' }}>
+      {/* Minimalist Footer */}
+      <footer style={{ padding: '8rem 0 4rem', borderTop: '1px solid var(--border)' }}>
         <div className="container">
-          <div className="editorial-grid">
+          <div className="luxury-grid">
             <div className="col-span-6 reveal">
-              <h3 style={{ marginBottom: '2rem', fontSize: '2rem' }}>UniCali</h3>
-              <p style={{ color: 'var(--text-dim)', maxWidth: '400px', fontWeight: 300 }}>
-                Arquitectura de alto rendimiento para la gestión académica independiente. 
-                Soberanía de datos y persistencia descentralizada.
+              <h3 style={{ fontSize: '1.2rem', marginBottom: '1.5rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>UniCali</h3>
+              <p style={{ color: 'var(--text-dim)', maxWidth: '350px', fontSize: '0.9rem' }}>
+                Infraestructura digital independiente para la optimización académica y la soberanía de datos del estudiante.
               </p>
             </div>
             <div className="col-span-3 reveal stagger-1">
-              <span className="sub-header" style={{ display: 'block', marginBottom: '1.5rem' }}>Ecosistema</span>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Marco Legal</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                 <Link to="/privacidad" className="nav-link">Privacidad</Link>
                 <Link to="/terminos" className="nav-link">Términos</Link>
               </div>
             </div>
             <div className="col-span-3 reveal stagger-2">
-              <span className="sub-header" style={{ display: 'block', marginBottom: '1.5rem' }}>Desarrollo</span>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <a href="#" className="nav-link">Repositorio</a>
-                <a href="#" className="nav-link">Versiones</a>
+              <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Ecosistema</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                <a href="#" className="nav-link">Código Fuente</a>
+                <a href="#" className="nav-link">Documentación</a>
               </div>
             </div>
           </div>
-          <div style={{ marginTop: '8rem', textAlign: 'center' }}>
-            <p style={{ fontSize: '0.6rem', color: 'var(--text-dim)', letterSpacing: '0.4em', textTransform: 'uppercase' }}>
-              © 2026 UNICALI • INDEPENDENT ACADEMIC INFRASTRUCTURE
+          <div style={{ marginTop: '6rem', paddingTop: '2rem', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
+            <p style={{ fontSize: '0.6rem', color: 'var(--text-dim)', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
+              © 2026 UniCali • Ingeniería Independiente
             </p>
           </div>
         </div>
@@ -120,18 +118,11 @@ const App: React.FC = () => {
 };
 
 const ThemeIcon: React.FC<{ isDark: boolean }> = ({ isDark }) => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
     {isDark ? (
       <>
         <circle cx="12" cy="12" r="5" />
-        <line x1="12" y1="1" x2="12" y2="3" />
-        <line x1="12" y1="21" x2="12" y2="23" />
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-        <line x1="1" y1="12" x2="3" y2="12" />
-        <line x1="21" y1="12" x2="23" y2="12" />
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
       </>
     ) : (
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
