@@ -86,6 +86,8 @@ const Home: React.FC = () => {
             className="phone-display-wrapper reveal stagger-2"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            onClick={nextSlide}
+            style={{ cursor: 'pointer' }}
           >
             <div className="phone-container">
               <div className="phone-notch"></div>
