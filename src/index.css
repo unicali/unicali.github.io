@@ -211,6 +211,151 @@ h2 {
   opacity: 0.7;
 }
 
+/* Phone Showcase */
+.gallery-section {
+  padding: 8rem 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.phone-display-wrapper {
+  perspective: 2000px;
+  margin: 2rem 0;
+}
+
+.phone-container {
+  width: 300px;
+  height: 620px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 10px;
+  border-radius: 40px;
+  position: relative;
+  box-shadow: 
+    0 10px 20px rgba(0,0,0,0.05),
+    0 40px 100px rgba(var(--primary-rgb), 0.08);
+  transition: transform 1.2s var(--ease-out), box-shadow 1.2s var(--ease-out);
+  transform-style: preserve-3d;
+}
+
+.phone-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+.phone-inner {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 0 2px #1a1a1a;
+}
+
+.phone-screen-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.phone-screen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s var(--ease-in-out), transform 1.2s var(--ease-out);
+  transform: scale(1.05);
+}
+
+.phone-screen.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.phone-notch {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 25px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 20;
+}
+
+.phone-notch::after {
+  content: "";
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1a1a1a;
+}
+
+.gallery-label-container {
+  margin-top: 3rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gallery-label {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--primary);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.8s var(--ease-out);
+  position: absolute;
+}
+
+.gallery-label.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Indicators */
+.gallery-indicators {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.indicator {
+  width: 40px;
+  height: 2px;
+  background: var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.indicator::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; height: 100%; width: 0%;
+  background: var(--primary);
+}
+
+.indicator.active::after {
+  width: 100%;
+  transition: width 5s linear;
+}
+
 /* Responsive Scaling */
 @media (max-width: 768px) {
   .container { padding: 0 1.5rem; }

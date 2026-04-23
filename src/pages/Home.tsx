@@ -1,7 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const Home: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const screenshots = [
+    { src: '/screenshots/login.png', label: 'Acceso Seguro' },
+    { src: '/screenshots/campus.png', label: 'Campus Virtual' },
+    { src: '/screenshots/notas.png', label: 'Gestión Académica' },
+    { src: '/screenshots/estadisticas.png', label: 'Análisis de Rendimiento' },
+    { src: '/screenshots/perfil.png', label: 'Identidad Digital' },
+    { src: '/screenshots/lab.png', label: 'Laboratorio de Datos' },
+  ];
+
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % screenshots.length);
+  }, [screenshots.length]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!isHovered) nextSlide();
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isHovered, nextSlide]);
+
   useEffect(() => {
     const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
     const observer = new IntersectionObserver((entries) => {
@@ -23,12 +46,12 @@ const Home: React.FC = () => {
 
       <main>
         {/* Hero Section */}
-        <section style={{ padding: '12rem 0 8rem' }}>
+        <section style={{ padding: '8rem 0 4rem' }}>
           <div className="container">
-            <div className="reveal stagger-1" style={{ marginBottom: '2rem' }}>
+            <div className="reveal stagger-1" style={{ marginBottom: '1.5rem' }}>
               <span className="meta-label">Versión 1.5.0</span>
             </div>
-            <h1 className="reveal stagger-2" style={{ marginBottom: '3rem' }}>
+            <h1 className="reveal stagger-2" style={{ marginBottom: '2rem' }}>
               UniCali
             </h1>
             <p className="reveal stagger-3" style={{ 
@@ -36,11 +59,13 @@ const Home: React.FC = () => {
               fontSize: '1.25rem', 
               color: 'var(--text-dim)',
               lineHeight: 1.6,
-              fontWeight: 300
+              fontWeight: 200,
+              fontFamily: 'var(--font-serif)',
+              fontStyle: 'italic'
             }}>
               Un ecosistema académico de alto rendimiento. Privacidad total, persistencia local y diseño orientado a la autonomía estudiantil.
             </p>
-            <div className="reveal stagger-4" style={{ marginTop: '5rem' }}>
+            <div className="reveal stagger-4" style={{ marginTop: '4rem' }}>
               <a href="#install" className="btn-minimal">
                 Obtener APK
               </a>
@@ -48,10 +73,62 @@ const Home: React.FC = () => {
           </div>
         </section>
 
+        {/* Improved Single Display Gallery */}
+        <section className="gallery-section">
+          <div className="container" style={{ textAlign: 'center' }}>
+            <div className="reveal" style={{ marginBottom: '2rem' }}>
+              <span className="meta-label">Interfaz</span>
+              <h2 style={{ marginTop: '0.5rem' }}>Ecosistema Visual</h2>
+            </div>
+          </div>
+          
+          <div 
+            className="phone-display-wrapper reveal stagger-2"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <div className="phone-container">
+              <div className="phone-notch"></div>
+              <div className="phone-inner">
+                <div className="phone-screen-wrapper">
+                  {screenshots.map((shot, i) => (
+                    <img 
+                      key={i}
+                      src={shot.src} 
+                      alt={shot.label} 
+                      className={`phone-screen ${currentIndex === i ? 'active' : ''}`} 
+                      loading="lazy"
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="gallery-label-container reveal">
+            {screenshots.map((shot, i) => (
+              <span key={i} className={`gallery-label ${currentIndex === i ? 'active' : ''}`}>
+                {shot.label}
+              </span>
+            ))}
+          </div>
+
+          <div className="gallery-indicators reveal">
+            {screenshots.map((_, i) => (
+              <div 
+                key={i} 
+                className={`indicator ${currentIndex === i ? 'active' : ''}`}
+                onClick={() => setCurrentIndex(i)}
+                style={{ cursor: 'pointer' }}
+              />
+            ))}
+          </div>
+        </section>
+
         {/* Modules Grid */}
-        <section id="features" style={{ paddingBottom: '10rem' }}>
+        <section id="features" style={{ padding: '6rem 0' }}>
           <div className="container">
-            <div className="luxury-grid" style={{ borderTop: '1px solid var(--border)' }}>
+            <div className="luxury-grid" style={{ borderTop: '1px solid var(--border)', paddingTop: '4rem' }}>
               <FeatureItem 
                 title="Gestión de Notas" 
                 desc="Visualización estructurada y cálculo de promedios ponderados en tiempo real."
@@ -72,7 +149,7 @@ const Home: React.FC = () => {
         </section>
 
         {/* Protocol Section */}
-        <section id="install" style={{ padding: '10rem 0', background: 'var(--bg-subtle)' }}>
+        <section id="install" style={{ padding: '8rem 0', background: 'var(--bg-subtle)' }}>
           <div className="container">
             <div className="luxury-grid">
               <div className="col-span-6 reveal">
@@ -116,7 +193,7 @@ const Home: React.FC = () => {
 const FeatureItem: React.FC<{ title: string; desc: string; stagger: string }> = ({ title, desc, stagger }) => (
   <div className={`col-span-4 minimal-card reveal ${stagger}`}>
     <h3 style={{ fontSize: '1.8rem', marginBottom: '1.5rem', color: 'var(--primary)' }}>{title}</h3>
-    <p style={{ fontSize: '0.95rem', color: 'var(--text-dim)', fontWeight: 300 }}>{desc}</p>
+    <p style={{ fontSize: '0.95rem', color: 'var(--text-dim)', fontWeight: 200 }}>{desc}</p>
   </div>
 );
 

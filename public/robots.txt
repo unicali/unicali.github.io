@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /elements/
 
 Sitemap: https://unicali.github.io/sitemap.xml
