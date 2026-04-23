@@ -5,30 +5,49 @@ const Terms: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Términos de Servicio | UniCali</title>
+        <title>Términos | Marco Operativo UniCali</title>
       </Helmet>
-      <section style={{ padding: '8rem 0' }}>
-        <div className="container" style={{ maxWidth: '800px' }}>
-          <h1 style={{ fontSize: '3rem', marginBottom: '3rem', fontFamily: 'var(--font-serif)' }}>Términos de Servicio</h1>
-          <div style={{ color: 'var(--text-dim)', lineHeight: '1.8', fontWeight: 300 }}>
-            <p style={{ marginBottom: '2rem', fontSize: '1.1rem' }}>
-              El uso del ecosistema UniCali implica la aceptación de los protocolos operativos detallados a continuación.
+      <section>
+        <div className="container" style={{ maxWidth: '900px' }}>
+          <span className="section-label">Legal</span>
+          <div className="reveal" style={{ marginBottom: '6rem' }}>
+            <span className="sub-header" style={{ display: 'block', marginBottom: '1.5rem' }}>Condiciones de Uso</span>
+            <h1 style={{ fontSize: 'clamp(3rem, 10vw, 6rem)', fontStyle: 'italic' }}>Términos</h1>
+          </div>
+
+          <div className="reveal stagger-1" style={{ color: 'var(--text-dim)', fontWeight: 300 }}>
+            <p style={{ fontSize: '1.4rem', color: 'var(--text)', marginBottom: '4rem', fontFamily: 'var(--font-serif)', fontStyle: 'italic', lineHeight: 1.5 }}>
+              El uso de la infraestructura digital de UniCali constituye la aceptación de los protocolos operativos 
+              y descargos de responsabilidad aquí detallados.
             </p>
-            <h2 style={{ fontSize: '1.5rem', color: 'var(--primary)', marginTop: '3rem', marginBottom: '1rem', fontFamily: 'var(--font-serif)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>01. Autonomía Operativa</h2>
-            <p style={{ marginBottom: '1.5rem' }}>
-              UniCali es una plataforma de distribución independiente desarrollada por estudiantes. 
-              <strong> No posee filiación, aval ni vinculación oficial</strong> con instituciones académicas formales.
-            </p>
-            <h2 style={{ fontSize: '1.5rem', color: 'var(--primary)', marginTop: '3rem', marginBottom: '1rem', fontFamily: 'var(--font-serif)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>02. Integridad de la Información</h2>
-            <p style={{ marginBottom: '1.5rem' }}>
-              La aplicación funciona como un visor de datos académicos para uso personal. 
-              Es responsabilidad del usuario contrastar la información proyectada con los sistemas institucionales oficiales.
-            </p>
-            <h2 style={{ fontSize: '1.5rem', color: 'var(--primary)', marginTop: '3rem', marginBottom: '1rem', fontFamily: 'var(--font-serif)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>03. Descargo de Responsabilidad</h2>
-            <p style={{ marginBottom: '1.5rem' }}>
-              El equipo de desarrollo no se responsabiliza por decisiones académicas derivadas del uso de la herramienta 
-              ni por interrupciones técnicas que puedan afectar la visualización de datos en tiempo real.
-            </p>
+
+            <div className="editorial-grid" style={{ gap: '4rem 0' }}>
+              <div className="col-span-12" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '3rem' }}>
+                <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem' }}>01. Independencia</h2>
+                <p style={{ fontSize: '1.1rem', maxWidth: '700px' }}>
+                  UniCali es una iniciativa independiente desarrollada por estudiantes. 
+                  <strong> No posee vinculación oficial,</strong> no es avalada, ni está afiliada con ninguna institución académica formal o gubernamental.
+                </p>
+              </div>
+
+              <div className="col-span-12" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '3rem' }}>
+                <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem' }}>02. Responsabilidad</h2>
+                <p style={{ fontSize: '1.1rem', maxWidth: '700px' }}>
+                  La plataforma actúa como una herramienta de visualización y organización personal. 
+                  El usuario es el único responsable de validar la exactitud de sus registros académicos 
+                  directamente en los canales oficiales proporcionados por su institución.
+                </p>
+              </div>
+
+              <div className="col-span-12">
+                <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem' }}>03. Limitación Técnica</h2>
+                <p style={{ fontSize: '1.1rem', maxWidth: '700px' }}>
+                  UniCali se suministra "tal cual", sin garantías de disponibilidad ininterrumpida. 
+                  El equipo de desarrollo no se responsabiliza por decisiones académicas basadas en la información proyectada 
+                  ni por posibles fallos técnicos derivados del entorno del dispositivo.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

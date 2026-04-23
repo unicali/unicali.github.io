@@ -38,46 +38,37 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
+      <div className="dots-overlay" />
       <div id="scroll-progress" />
       
       {/* Navigation */}
       <nav style={{ 
-        padding: '1.2rem 0', 
+        padding: '2rem 0', 
         position: 'sticky', 
         top: 0, 
-        background: 'var(--glass-bg)', 
+        background: 'var(--glass)', 
         backdropFilter: 'blur(20px)',
         zIndex: 100,
-        borderBottom: '1px solid var(--border)',
-        transition: 'background-color 0.4s var(--easing)'
+        transition: 'background-color 0.6s var(--easing-slow)'
       }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link to="/" style={{ 
-            fontSize: '1.1rem', 
+            fontSize: '1rem', 
             fontWeight: 600, 
             color: 'var(--primary)', 
             textDecoration: 'none',
-            letterSpacing: '0.15em',
+            letterSpacing: '0.3em',
             textTransform: 'uppercase'
           }}>
             UniCali
           </Link>
-          <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
-            <a href="#funcionalidades" className="nav-link">Sistemas</a>
-            <a href="#descarga" className="nav-link">Binarios</a>
+          <div style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
+            <a href="#assets" className="nav-link">Recursos</a>
+            <a href="#protocol" className="nav-link">Protocolo</a>
             <button 
               onClick={toggleTheme}
+              className="theme-toggle"
               aria-label="Toggle Theme"
-              style={{
-                background: 'none',
-                border: '1px solid var(--border)',
-                cursor: 'pointer',
-                padding: '0.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--primary)'
-              }}
             >
               <ThemeIcon isDark={theme === 'dark'} />
             </button>
@@ -92,33 +83,34 @@ const App: React.FC = () => {
       </Routes>
 
       {/* Footer */}
-      <footer>
+      <footer style={{ background: 'var(--bg-subtle)', borderTop: '1px solid var(--border)' }}>
         <div className="container">
-          <div className="grid">
-            <div className="col-span-6">
-              <h3 style={{ marginBottom: '1.5rem', fontSize: '1.5rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>UniCali</h3>
-              <p style={{ color: 'var(--text-dim)', maxWidth: '400px', fontWeight: 300, fontSize: '0.9rem' }}>
-                Infraestructura académica independiente optimizada para la autonomía estudiantil.
+          <div className="editorial-grid">
+            <div className="col-span-6 reveal">
+              <h3 style={{ marginBottom: '2rem', fontSize: '2rem' }}>UniCali</h3>
+              <p style={{ color: 'var(--text-dim)', maxWidth: '400px', fontWeight: 300 }}>
+                Arquitectura de alto rendimiento para la gestión académica independiente. 
+                Soberanía de datos y persistencia descentralizada.
               </p>
             </div>
-            <div className="col-span-3">
-              <h4 style={{ color: 'var(--text)', marginBottom: '1.2rem', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Legal</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+            <div className="col-span-3 reveal stagger-1">
+              <span className="sub-header" style={{ display: 'block', marginBottom: '1.5rem' }}>Ecosistema</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link to="/privacidad" className="nav-link">Privacidad</Link>
                 <Link to="/terminos" className="nav-link">Términos</Link>
               </div>
             </div>
-            <div className="col-span-3">
-              <h4 style={{ color: 'var(--text)', marginBottom: '1.2rem', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Repositorio</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                <a href="#" className="nav-link">Source Code</a>
-                <a href="#" className="nav-link">Documentación</a>
+            <div className="col-span-3 reveal stagger-2">
+              <span className="sub-header" style={{ display: 'block', marginBottom: '1.5rem' }}>Desarrollo</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <a href="#" className="nav-link">Repositorio</a>
+                <a href="#" className="nav-link">Versiones</a>
               </div>
             </div>
           </div>
-          <div style={{ marginTop: '5rem', paddingTop: '2.5rem', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', letterSpacing: '0.05em' }}>
-              © 2026 UNICALI • ARQUITECTURA DISTRIBUIDA • SIN FILIACIÓN INSTITUCIONAL
+          <div style={{ marginTop: '8rem', textAlign: 'center' }}>
+            <p style={{ fontSize: '0.6rem', color: 'var(--text-dim)', letterSpacing: '0.4em', textTransform: 'uppercase' }}>
+              © 2026 UNICALI • INDEPENDENT ACADEMIC INFRASTRUCTURE
             </p>
           </div>
         </div>
