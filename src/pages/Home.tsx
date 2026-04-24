@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React, { useEffect, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 
@@ -90,9 +91,9 @@ const Home: React.FC = () => {
               Un ecosistema académico de alto rendimiento. Privacidad total, persistencia local y diseño orientado a la autonomía estudiantil.
             </p>
             <div className="reveal stagger-4" style={{ marginTop: '4rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-              <a href="https://github.com/unicali/unicali.github.io/releases/tag/v1.0.0-Beta" className="btn-minimal">
+              <Link to="/descargar" className="btn-minimal">
                 Obtener APK
-              </a>
+              </Link>
               <a href="#early-access" className="btn-minimal" style={{ background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)' }}>
                 Acceso Anticipado
               </a>
