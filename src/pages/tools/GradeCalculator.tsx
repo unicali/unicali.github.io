@@ -1,6 +1,6 @@
 /* que mira bobo, anda palla. Usa la app mejor. */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
@@ -16,6 +16,8 @@ interface UnitState {
 const GradeCalculator: React.FC = () => {
   const [expandedUnit, setExpandedUnit] = useState<number | null>(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hasCelebrated = useRef(false);
 
   const [units, setUnits] = useState<UnitState[]>([
     { id: 0, name: 'Unidad 1', continua: '', parcial: '', wContinua: 20, wParcial: 13 },
@@ -38,6 +40,58 @@ const GradeCalculator: React.FC = () => {
     }, 0);
   }, [units]);
 
+  // Lógica de celebración (Confeti de alto rendimiento)
+  useEffect(() => {
+    if (finalGrade >= 11 && !hasCelebrated.current) {
+      launchConfetti();
+      hasCelebrated.current = true;
+    } else if (finalGrade < 11) {
+      hasCelebrated.current = false;
+    }
+  }, [finalGrade]);
+
+  const launchConfetti = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles: any[] = [];
+    const colors = ['#8b004a', '#c29958', '#f2efe7', '#d12b7a'];
+
+    for (let i = 0; i < 100; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        size: Math.random() * 8 + 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speed: Math.random() * 3 + 2,
+        angle: Math.random() * 6.28
+      });
+    }
+
+    let animationFrame: number;
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.y += p.speed;
+        p.x += Math.sin(p.angle) * 2;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+      });
+
+      if (particles.some(p => p.y < canvas.height)) {
+        animationFrame = requestAnimationFrame(render);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    };
+    render();
+  };
+
   const handleUpdate = (id: number, field: keyof UnitState, value: string) => {
     const num = value === '' ? '' : Math.round(Number(value));
     setUnits(prev => prev.map(u => u.id === id ? { ...u, [field]: num } : u));
@@ -50,6 +104,12 @@ const GradeCalculator: React.FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Helmet>
 
+      {/* Canvas para la celebración */}
+      <canvas 
+        ref={canvasRef} 
+        style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 2000 }}
+      />
+
       <section style={{ padding: '6rem 0 12rem' }}>
         <div className="container" style={{ maxWidth: '1200px' }}>
           <span className="section-label">Matemática Académica</span>
@@ -58,7 +118,7 @@ const GradeCalculator: React.FC = () => {
             <span className="meta-label">Versión Web</span>
             <h1 style={{ marginTop: '1.5rem', fontSize: 'clamp(2.5rem, 10vw, 5rem)', fontStyle: 'italic' }}>Calculadora</h1>
             <p style={{ color: 'var(--text-dim)', fontWeight: 300, marginTop: '1.5rem', maxWidth: '600px' }}>
-              Optimización de promedios para el sistema UNSA. Ajuste de pesos libre y visualización adaptativa.
+              Optimización de promedios para el sistema UNSA. Diferenciación visual por tipo de evaluación.
             </p>
           </div>
 
@@ -100,14 +160,15 @@ const GradeCalculator: React.FC = () => {
               fontFamily: 'var(--font-serif)', 
               color: finalGrade >= 10.5 ? 'var(--primary)' : 'var(--text)',
               lineHeight: 1,
-              marginTop: '0.2rem'
+              marginTop: '0.2rem',
+              transition: 'color 0.5s ease'
             }}>
               {finalGrade.toFixed(2)}
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
             <p style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginBottom: '0.8rem', display: isMobile ? 'none' : 'block' }}>
-              Cansado de calcular a mano?
+              {finalGrade >= 11 ? 'Excelente desempeño!' : 'Cansado de calcular a mano?'}
             </p>
             <Link to="/descargar" className="btn-minimal" style={{ padding: '0.8rem 1.8rem', fontSize: '0.7rem' }}>
               {isMobile ? 'App' : 'Descargar UniCali'}
@@ -127,6 +188,12 @@ const UnitCard: React.FC<{
   onChange: (field: keyof UnitState, value: string) => void;
 }> = ({ unit, isMobile, isOpen, onToggle, onChange }) => {
   // todo: arreglar la animacion en safari cuando haya tiempo (nunca)
+  
+  const colors = {
+    continua: '#c29958', // Dorado Envejecido
+    parcial: '#8b004a'   // Guinda Original
+  };
+
   return (
     <div className={`col-span-4`} style={{ 
       border: isMobile ? 'none' : '1px solid var(--border)',
@@ -159,16 +226,16 @@ const UnitCard: React.FC<{
         transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
         padding: isMobile ? (isOpen ? '0 1.5rem 2.5rem' : '0 1.5rem') : '0 2rem 2.5rem'
       }}>
-        {/* Input Continua */}
+        {/* Input Continua - Usando Dorado */}
         <div style={{ marginBottom: '3rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.2rem' }}>
-            <span className="meta-label" style={{ opacity: 1 }}>Evaluación Continua</span>
+            <span className="meta-label" style={{ opacity: 1, color: colors.continua }}>Evaluación Continua</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <input 
                 type="number" 
                 value={unit.wContinua}
                 onChange={(e) => onChange('wContinua', e.target.value)}
-                style={{ width: '30px', background: 'none', border: 'none', color: 'var(--primary)', fontSize: '0.75rem', textAlign: 'right', outline: 'none' }}
+                style={{ width: '30px', background: 'none', border: 'none', color: colors.continua, fontSize: '0.75rem', textAlign: 'right', outline: 'none' }}
               />
               <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>%</span>
             </div>
@@ -177,7 +244,7 @@ const UnitCard: React.FC<{
             <input 
               type="number" 
               className="input-minimal"
-              style={{ width: '60px', fontSize: '1.5rem', textAlign: 'center', padding: '0.5rem 0' }}
+              style={{ width: '60px', fontSize: '1.5rem', textAlign: 'center', padding: '0.5rem 0', borderColor: colors.continua }}
               value={unit.continua}
               onChange={(e) => onChange('continua', e.target.value)}
               min="0" max="20" step="1" placeholder="0"
@@ -185,22 +252,23 @@ const UnitCard: React.FC<{
             <input 
               type="range" 
               min="0" max="20" step="1"
+              style={{ accentColor: colors.continua }}
               value={unit.continua || 0}
               onChange={(e) => onChange('continua', e.target.value)}
             />
           </div>
         </div>
 
-        {/* Input Parcial */}
+        {/* Input Parcial - Usando Guinda */}
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.2rem' }}>
-            <span className="meta-label" style={{ opacity: 1 }}>Examen Parcial</span>
+            <span className="meta-label" style={{ opacity: 1, color: colors.parcial }}>Examen Parcial</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <input 
                 type="number" 
                 value={unit.wParcial}
                 onChange={(e) => onChange('wParcial', e.target.value)}
-                style={{ width: '30px', background: 'none', border: 'none', color: 'var(--primary)', fontSize: '0.75rem', textAlign: 'right', outline: 'none' }}
+                style={{ width: '30px', background: 'none', border: 'none', color: colors.parcial, fontSize: '0.75rem', textAlign: 'right', outline: 'none' }}
               />
               <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>%</span>
             </div>
@@ -209,7 +277,7 @@ const UnitCard: React.FC<{
             <input 
               type="number" 
               className="input-minimal"
-              style={{ width: '60px', fontSize: '1.5rem', textAlign: 'center', padding: '0.5rem 0' }}
+              style={{ width: '60px', fontSize: '1.5rem', textAlign: 'center', padding: '0.5rem 0', borderColor: colors.parcial }}
               value={unit.parcial}
               onChange={(e) => onChange('parcial', e.target.value)}
               min="0" max="20" step="1" placeholder="0"
@@ -217,6 +285,7 @@ const UnitCard: React.FC<{
             <input 
               type="range" 
               min="0" max="20" step="1"
+              style={{ accentColor: colors.parcial }}
               value={unit.parcial || 0}
               onChange={(e) => onChange('parcial', e.target.value)}
             />
