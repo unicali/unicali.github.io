@@ -6,6 +6,7 @@ import Terms from './pages/Terms';
 import Download from './pages/Download';
 import GuideTIF from './pages/guides/GuideTIF';
 import GuideRSU from './pages/guides/GuideRSU';
+import GradeCalculator from './pages/tools/GradeCalculator';
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
@@ -72,6 +73,7 @@ const App: React.FC = () => {
         <Route path="/descargar" element={<Download />} />
         <Route path="/guias/que-es-un-tif-unsa" element={<GuideTIF />} />
         <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
+        <Route path="/herramientas/calculadora-unsa" element={<GradeCalculator />} />
       </Routes>
 
       <footer style={{ padding: '10rem 0 4rem', borderTop: '1px solid var(--border)', background: 'var(--bg-subtle)' }}>
@@ -89,7 +91,7 @@ const App: React.FC = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link to="/guias/que-es-un-tif-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es un TIF?</Link>
                 <Link to="/guias/que-es-rsu-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es la RSU?</Link>
-                <span className="nav-link" style={{ opacity: 0.4, cursor: 'default', textTransform: 'none', letterSpacing: 'normal' }}>Calculadora Ponderada</span>
+                <Link to="/herramientas/calculadora-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Calculadora Ponderada</Link>
               </div>
             </div>
 
