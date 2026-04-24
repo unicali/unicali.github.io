@@ -5,6 +5,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Download from './pages/Download';
 import GuideTIF from './pages/guides/GuideTIF';
+import GuideRSU from './pages/guides/GuideRSU';
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
@@ -70,6 +71,7 @@ const App: React.FC = () => {
         <Route path="/terminos" element={<Terms />} />
         <Route path="/descargar" element={<Download />} />
         <Route path="/guias/que-es-un-tif-unsa" element={<GuideTIF />} />
+        <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
       </Routes>
 
       <footer style={{ padding: '10rem 0 4rem', borderTop: '1px solid var(--border)', background: 'var(--bg-subtle)' }}>
@@ -86,7 +88,7 @@ const App: React.FC = () => {
               <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Recursos Académicos</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link to="/guias/que-es-un-tif-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es un TIF?</Link>
-                <span className="nav-link" style={{ opacity: 0.4, cursor: 'default', textTransform: 'none', letterSpacing: 'normal' }}>Guía sobre RSU</span>
+                <Link to="/guias/que-es-rsu-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es la RSU?</Link>
                 <span className="nav-link" style={{ opacity: 0.4, cursor: 'default', textTransform: 'none', letterSpacing: 'normal' }}>Calculadora Ponderada</span>
               </div>
             </div>
@@ -96,14 +98,14 @@ const App: React.FC = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link to="/privacidad" className="nav-link">Privacidad</Link>
                 <Link to="/terminos" className="nav-link">Términos</Link>
-                <a href="mailto:soporte@unicali.io" className="nav-link">Contacto</a>
+                <a href="mailto:unicali@proton.me" className="nav-link" style={{ textTransform: 'none' }}>unicali@proton.me</a>
               </div>
             </div>
 
             <div className="col-span-2 reveal stagger-3">
               <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Social</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <a href="#" className="nav-link">GitHub</a>
+                <a href="https://github.com/unicali" className="nav-link" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <a href="#" className="nav-link">Comunidad</a>
               </div>
             </div>

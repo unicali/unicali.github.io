@@ -38,11 +38,11 @@ const Download: React.FC = () => {
             </div>
 
             <div style={{ marginTop: '4rem' }}>
-              <a href="https://github.com/unicali/unicali.github.io/releases/download/v1.0.0-Beta/app-release.apk" className="btn-minimal" style={{ width: '100%' }}>
+              <a href="https://github.com/unicali/unicali.github.io/releases/tag/v1.0.2" className="btn-minimal" style={{ width: '100%' }}>
                 Comenzar Descarga
               </a>
               <p style={{ marginTop: '2rem', fontSize: '0.7rem', color: 'var(--text-dim)', letterSpacing: '0.1em' }}>
-                SHA-256 VERIFICADO • BUILD 2026.04
+                SHA-256 VERIFICADO • BUILD 1.0.2
               </p>
             </div>
           </div>
