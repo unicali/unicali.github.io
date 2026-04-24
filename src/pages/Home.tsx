@@ -4,6 +4,15 @@ import { Helmet } from 'react-helmet-async';
 const Home: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [formState, setFormState] = useState<{
+    submitting: boolean;
+    succeeded: boolean;
+    errors: string | null;
+  }>({
+    submitting: false,
+    succeeded: false,
+    errors: null,
+  });
 
   const screenshots = [
     { src: '/screenshots/login.png', label: 'Acceso Seguro' },
@@ -24,6 +33,34 @@ const Home: React.FC = () => {
     }, 5000);
     return () => clearInterval(timer);
   }, [isHovered, nextSlide]);
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormState({ submitting: true, succeeded: false, errors: null });
+    
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch('https://formspree.io/f/xeevvvze', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        setFormState({ submitting: false, succeeded: true, errors: null });
+      } else {
+        const errorData = await response.json();
+        setFormState({ submitting: false, succeeded: false, errors: errorData.errors || 'Error en el envío.' });
+      }
+    } catch (error) {
+      setFormState({ submitting: false, succeeded: false, errors: 'Ocurrió un error de red.' });
+    }
+  };
 
   return (
     <>
@@ -52,15 +89,18 @@ const Home: React.FC = () => {
             }}>
               Un ecosistema académico de alto rendimiento. Privacidad total, persistencia local y diseño orientado a la autonomía estudiantil.
             </p>
-            <div className="reveal stagger-4" style={{ marginTop: '4rem' }}>
-              <a href="#install" className="btn-minimal">
+            <div className="reveal stagger-4" style={{ marginTop: '4rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+              <a href="https://github.com/unicali/unicali.github.io/releases/tag/v1.0.0-Beta" className="btn-minimal">
                 Obtener APK
+              </a>
+              <a href="#early-access" className="btn-minimal" style={{ background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)' }}>
+                Acceso Anticipado
               </a>
             </div>
           </div>
         </section>
 
-        {/* Improved Single Display Gallery */}
+        {/* Gallery Section */}
         <section className="gallery-section">
           <div className="container" style={{ textAlign: 'center' }}>
             <div className="reveal" style={{ marginBottom: '2rem' }}>
@@ -79,15 +119,19 @@ const Home: React.FC = () => {
             <div className="phone-container">
               <div className="phone-notch"></div>
               <div className="phone-inner">
-                <div className="phone-screen-wrapper">
+                <div 
+                  className="phone-screen-track" 
+                  style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+                >
                   {screenshots.map((shot, i) => (
-                    <img 
-                      key={i}
-                      src={shot.src} 
-                      alt={shot.label} 
-                      className={`phone-screen ${currentIndex === i ? 'active' : ''}`} 
-                      loading={i === 0 ? "eager" : "lazy"}
-                    />
+                    <div key={i} className="phone-screen-container">
+                      <img 
+                        src={shot.src} 
+                        alt={shot.label} 
+                        className="phone-screen" 
+                        loading={i === 0 ? "eager" : "lazy"}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -107,7 +151,10 @@ const Home: React.FC = () => {
               <div 
                 key={i} 
                 className={`indicator ${currentIndex === i ? 'active' : ''}`}
-                onClick={() => setCurrentIndex(i)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentIndex(i);
+                }}
                 style={{ cursor: 'pointer' }}
               />
             ))}
@@ -133,6 +180,59 @@ const Home: React.FC = () => {
                 desc="Almacenamiento local encriptado sin dependencia de servidores externos."
                 stagger="stagger-3"
               />
+            </div>
+          </div>
+        </section>
+
+        {/* Early Access Section */}
+        <section id="early-access" style={{ padding: '10rem 0', borderTop: '1px solid var(--border)' }}>
+          <div className="container">
+            <div className="reveal" style={{ textAlign: 'center', marginBottom: '5rem' }}>
+              <span className="meta-label">Beta Program</span>
+              <h2 style={{ marginTop: '1rem' }}>Forma parte del equipo</h2>
+              <p style={{ color: 'var(--text-dim)', maxWidth: '600px', margin: '1.5rem auto', fontWeight: 300 }}>
+                Accede a funciones experimentales antes que nadie y ayúdanos a construir la mejor herramienta académica.
+              </p>
+            </div>
+
+            <div className="form-container reveal stagger-2">
+              {formState.succeeded ? (
+                <div className="success-message">
+                  <h3 style={{ marginBottom: '1.5rem' }}>Registro Completado</h3>
+                  <p style={{ color: 'var(--text-dim)', marginBottom: '2.5rem' }}>
+                    Gracias por unirte. Ahora puedes acceder al canal de pruebas oficial.
+                  </p>
+                  <a href="https://play.google.com/apps/testing/com.mantra.unsap" className="btn-minimal" target="_blank" rel="noopener noreferrer">
+                    Acceder a la Beta en Google Play
+                  </a>
+                </div>
+              ) : (
+                <form onSubmit={handleFormSubmit}>
+                  <div className="input-group">
+                    <input type="text" name="name" id="name" className="input-minimal" placeholder=" " required />
+                    <label htmlFor="name" className="input-label">Nombre Completo</label>
+                  </div>
+                  <div className="input-group">
+                    <input type="email" name="email" id="email" className="input-minimal" placeholder=" " required />
+                    <label htmlFor="email" className="input-label">Correo Institucional / Personal</label>
+                  </div>
+                  <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+                    <button type="submit" className="btn-minimal" disabled={formState.submitting} style={{ border: 'none', cursor: 'pointer' }}>
+                      {formState.submitting ? 'Registrando...' : 'Solicitar Acceso'}
+                    </button>
+                    <div style={{ marginTop: '2.5rem' }}>
+                      <a href="https://play.google.com/apps/testing/com.mantra.unsap" className="secondary-link" target="_blank" rel="noopener noreferrer">
+                        ¿Ya eres verificador? Acceso Directo
+                      </a>
+                    </div>
+                  </div>
+                  {formState.errors && (
+                    <p style={{ color: 'var(--primary)', fontSize: '0.8rem', marginTop: '1.5rem', textAlign: 'center' }}>
+                      {formState.errors}
+                    </p>
+                  )}
+                </form>
+              )}
             </div>
           </div>
         </section>
