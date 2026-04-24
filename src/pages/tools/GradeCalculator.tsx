@@ -73,7 +73,6 @@ const GradeCalculator: React.FC = () => {
       });
     }
 
-    let animationFrame: number;
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => {
@@ -84,7 +83,7 @@ const GradeCalculator: React.FC = () => {
       });
 
       if (particles.some(p => p.y < canvas.height)) {
-        animationFrame = requestAnimationFrame(render);
+        requestAnimationFrame(render);
       } else {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
@@ -97,11 +96,41 @@ const GradeCalculator: React.FC = () => {
     setUnits(prev => prev.map(u => u.id === id ? { ...u, [field]: num } : u));
   };
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Calculadora Notas UNSA",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web, Android",
+    "author": {
+      "@type": "Organization",
+      "name": "UniCali"
+    },
+    "description": "Herramienta gratuita para calcular el promedio ponderado de la Universidad Nacional de San Agustín (UNSA) en tiempo real.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "COP"
+    }
+  };
+
   return (
     <>
       <Helmet>
-        <title>Calculadora UNSA | Ingeniería Académica</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>Calculadora de Notas UNSA 2026 | Promedio Exacto al Instante</title>
+        <meta name="description" content="Calcula tu promedio ponderado de la UNSA en segundos. Herramienta gratuita, sin lag y sin necesidad de escribir porcentajes. Descubre cuánto necesitas para aprobar." />
+        
+        {/* Open Graph / Social Viral Card */}
+        <meta property="og:title" content="Calculadora de Notas UNSA 2026 | Promedio Exacto" />
+        <meta property="og:description" content="¿Cuánto necesitas para aprobar? Calcula tu promedio de la UNSA en tiempo real con nuestra herramienta optimizada." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://unicali.github.io/herramientas/calculadora-unsa" />
+        <meta property="og:image" content="https://unicali.github.io/og-calculadora.jpg" />
+
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd)}
+        </script>
       </Helmet>
 
       {/* Canvas para la celebración */}
@@ -115,10 +144,11 @@ const GradeCalculator: React.FC = () => {
           <span className="section-label">Matemática Académica</span>
           
           <div className="reveal" style={{ marginBottom: '4rem' }}>
-            <span className="meta-label">Versión Web</span>
-            <h1 style={{ marginTop: '1.5rem', fontSize: 'clamp(2.5rem, 10vw, 5rem)', fontStyle: 'italic' }}>Calculadora</h1>
-            <p style={{ color: 'var(--text-dim)', fontWeight: 300, marginTop: '1.5rem', maxWidth: '600px' }}>
-              Optimización de promedios para el sistema UNSA. Diferenciación visual por tipo de evaluación.
+            <span className="meta-label">Playground Digital</span>
+            <h1 style={{ marginTop: '1.5rem', fontSize: 'clamp(2.5rem, 10vw, 5rem)', fontStyle: 'italic' }}>Calculadora de Notas UNSA</h1>
+            <p style={{ color: 'var(--text-dim)', fontWeight: 300, marginTop: '1.5rem', maxWidth: '650px', lineHeight: 1.6 }}>
+              Utiliza nuestra calculadora para obtener tu promedio ponderado final de forma instantánea. 
+              Ideal para estudiantes de la Universidad Nacional de San Agustín que buscan precisión y rapidez sin configuraciones complejas.
             </p>
           </div>
 
@@ -154,7 +184,7 @@ const GradeCalculator: React.FC = () => {
       }}>
         <div className="container" style={{ maxWidth: '1200px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <span className="meta-label">Promedio Final</span>
+            <span className="meta-label">Promedio Final Estimado</span>
             <div style={{ 
               fontSize: 'clamp(2rem, 8vw, 3.5rem)', 
               fontFamily: 'var(--font-serif)', 
@@ -168,7 +198,7 @@ const GradeCalculator: React.FC = () => {
           </div>
           <div style={{ textAlign: 'right' }}>
             <p style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginBottom: '0.8rem', display: isMobile ? 'none' : 'block' }}>
-              {finalGrade >= 11 ? 'Excelente desempeño!' : 'Cansado de calcular a mano?'}
+              {finalGrade >= 11 ? 'Excelente desempeño!' : '¿Cansado de calcular a mano?'}
             </p>
             <Link to="/descargar" className="btn-minimal" style={{ padding: '0.8rem 1.8rem', fontSize: '0.7rem' }}>
               {isMobile ? 'App' : 'Descargar UniCali'}
