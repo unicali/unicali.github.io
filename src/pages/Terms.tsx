@@ -7,7 +7,7 @@ const Terms: React.FC = () => {
       <Helmet>
         <title>Términos de Servicio | Marco Operativo UniCali</title>
       </Helmet>
-      <section style={{ padding: '10rem 0' }}>
+      <section className="section-standard">
         <div className="container" style={{ maxWidth: '900px' }}>
           <span className="section-label">Legal</span>
           <div className="reveal" style={{ marginBottom: '8rem' }}>

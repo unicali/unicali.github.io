@@ -36,7 +36,7 @@ const GuideTIF: React.FC = () => {
         </script>
       </Helmet>
 
-      <article style={{ padding: '12rem 0' }}>
+      <article className="section-hero">
         <div className="container" style={{ maxWidth: '800px' }}>
           <span className="section-label">Guía UNSA</span>
           

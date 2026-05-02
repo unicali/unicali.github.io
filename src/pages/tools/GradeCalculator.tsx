@@ -128,7 +128,7 @@ const GradeCalculator: React.FC = () => {
         style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 2000 }}
       />
 
-      <section style={{ padding: '6rem 0 12rem' }}>
+      <section className="section-hero" style={{ paddingBottom: '15rem' }}>
         <div className="container" style={{ maxWidth: '1200px' }}>
           <span className="section-label">Matemática Académica</span>
           
@@ -158,8 +158,12 @@ const GradeCalculator: React.FC = () => {
         </div>
       </section>
 
-      {/* Sticky Bottom Result & CTA */}
-      <div className="reveal" style={{
+      {/* 
+          STICKY-RESULT-INTERFACE:
+          Se eliminó la clase 'reveal' para garantizar visibilidad inmediata.
+          Optimizado con padding para áreas seguras en móviles (iOS/Android).
+      */}
+      <div style={{
         position: 'fixed',
         bottom: 0,
         left: 0,
@@ -167,15 +171,15 @@ const GradeCalculator: React.FC = () => {
         background: 'var(--glass)',
         backdropFilter: 'blur(25px)',
         borderTop: '1px solid var(--border)',
-        padding: '1.5rem 0',
+        padding: '1rem 0 calc(1rem + env(safe-area-inset-bottom))',
         zIndex: 1000,
         boxShadow: '0 -10px 40px rgba(0,0,0,0.1)'
       }}>
-        <div className="container" style={{ maxWidth: '1200px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <span className="meta-label">Promedio Final Estimado</span>
+        <div className="container" style={{ maxWidth: '1200px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ flexShrink: 0 }}>
+            <span className="meta-label" style={{ fontSize: '0.6rem' }}>Promedio Final</span>
             <div style={{ 
-              fontSize: 'clamp(2rem, 8vw, 3.5rem)', 
+              fontSize: 'clamp(2.5rem, 10vw, 4rem)', 
               fontFamily: 'var(--font-serif)', 
               color: finalGrade >= 10.5 ? 'var(--primary)' : 'var(--text)',
               lineHeight: 1,
@@ -185,11 +189,15 @@ const GradeCalculator: React.FC = () => {
               {finalGrade.toFixed(2)}
             </div>
           </div>
-          <div style={{ textAlign: 'right' }}>
-            <p style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginBottom: '0.8rem', display: isMobile ? 'none' : 'block' }}>
+          <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem' }}>
+            <p style={{ fontSize: '0.65rem', color: 'var(--text-dim)', lineHeight: '1.2', display: isMobile ? 'none' : 'block' }}>
               {finalGrade >= 11 ? 'Excelente desempeño!' : '¿Cansado de calcular a mano?'}
             </p>
-            <Link to="/descargar" className="btn-minimal" style={{ padding: '0.8rem 1.8rem', fontSize: '0.7rem' }}>
+            <Link to="/descargar" className="btn-minimal" style={{ 
+              padding: isMobile ? '0.7rem 1.2rem' : '0.8rem 1.8rem', 
+              fontSize: '0.65rem',
+              whiteSpace: 'nowrap'
+            }}>
               {isMobile ? 'App' : 'Descargar UniCali'}
             </Link>
           </div>

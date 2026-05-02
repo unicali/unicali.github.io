@@ -50,7 +50,7 @@ const GuideRSU: React.FC = () => {
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
 
-      <article style={{ padding: '12rem 0' }}>
+      <article className="section-hero">
         <div className="container" style={{ maxWidth: '800px' }}>
           <span className="section-label">Reglamento</span>
           

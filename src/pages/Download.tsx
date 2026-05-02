@@ -9,7 +9,7 @@ const Download: React.FC = () => {
         <meta name="description" content="Descarga UniCali v1.5.0 para Android. Sigue los pasos para una instalación segura y privada de tu ecosistema académico." />
       </Helmet>
       
-      <section style={{ padding: '12rem 0' }}>
+      <section className="section-hero">
         <div className="container" style={{ maxWidth: '800px', textAlign: 'center' }}>
           <div className="reveal">
             <span className="meta-label">Acceso Directo</span>

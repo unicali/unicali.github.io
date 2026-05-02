@@ -7,7 +7,7 @@ const Privacy: React.FC = () => {
       <Helmet>
         <title>Protocolo de Privacidad | UniCali Architecture</title>
       </Helmet>
-      <section style={{ padding: '10rem 0' }}>
+      <section className="section-standard">
         <div className="container" style={{ maxWidth: '900px' }}>
           <span className="section-label">Protección</span>
           <div className="reveal" style={{ marginBottom: '8rem' }}>

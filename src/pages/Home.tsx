@@ -50,7 +50,7 @@ const Home: React.FC = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section style={{ padding: '8rem 0 4rem' }}>
+      <section className="section-hero">
         <div className="container">
           <div className="reveal stagger-1" style={{ marginBottom: '1.5rem' }}>
             <span className="meta-label">Versión 1.5.0</span>
@@ -81,9 +81,9 @@ const Home: React.FC = () => {
       </section>
 
       {/* Gallery Section - Interactive 3D Phone */}
-      <section className="gallery-section" style={{ padding: '10rem 0' }}>
+      <section className="gallery-section">
         <div className="container" style={{ textAlign: 'center' }}>
-          <div className="reveal" style={{ marginBottom: '6rem' }}>
+          <div className="reveal" style={{ marginBottom: '4rem' }}>
             <span className="meta-label">Privacidad por Diseño</span>
             <h2 style={{ marginTop: '0.5rem' }}>Ecosistema Visual 3D</h2>
             <p style={{ color: 'var(--text-dim)', maxWidth: '500px', margin: '2rem auto', fontWeight: 300 }}>
@@ -100,7 +100,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Modules Grid */}
-      <section id="features" style={{ padding: '6rem 0' }}>
+      <section id="features" className="section-standard">
         <div className="container">
           <div className="luxury-grid" style={{ borderTop: '1px solid var(--border)', paddingTop: '4rem' }}>
             <FeatureItem 
@@ -123,7 +123,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Early Access Section */}
-      <section id="early-access" style={{ padding: '10rem 0', borderTop: '1px solid var(--border)' }}>
+      <section id="early-access" className="section-standard" style={{ borderTop: '1px solid var(--border)' }}>
         <div className="container">
           <div className="reveal" style={{ textAlign: 'center', marginBottom: '5rem' }}>
             <span className="meta-label">Beta Program</span>
@@ -176,7 +176,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Protocol Section */}
-      <section id="install" style={{ padding: '8rem 0', background: 'var(--bg-subtle)' }}>
+      <section id="install" className="section-standard" style={{ background: 'var(--bg-subtle)' }}>
         <div className="container">
           <div className="luxury-grid">
             <div className="col-span-6 reveal">

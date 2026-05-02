@@ -9,7 +9,7 @@ const AboutUs: React.FC = () => {
         <meta name="description" content="UniCali surge de una contradicción sistémica. Una historia de resistencia técnica, honestidad brutal y la búsqueda de la asimetría cero de información." />
       </Helmet>
 
-      <article style={{ padding: '12rem 0' }}>
+      <article className="section-hero">
         <div className="container" style={{ maxWidth: '850px' }}>
           <span className="section-label">Origen</span>
           
@@ -64,7 +64,7 @@ const AboutUs: React.FC = () => {
                 Al final del día, lo que nos impulsa es el proceso de aprendizaje al que nos hemos sometido. Estamos aprendiendo a fallar, a refactorizar y a entender que la tecnología debe servir al humano, y no al revés.
               </p>
               <p>
-                Bajo el pseudónimo de UniCali, operamos como una célula de desarrollo independiente, y cada línea de código es una prueba de que, cuando el sistema falla, los estudiantes construimos nuestras propias soluciones.
+                Bajo el pseudónimo de UniCali, operamos como una célula de desarrollo independiente, fusionando el análisis económico con la ingeniería de software. UniCali es nuestro campo de batalla, y cada línea de código es una prueba de que, cuando el sistema falla, los estudiantes construimos nuestras propias soluciones.
               </p>
             </section>
 

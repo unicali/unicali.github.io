@@ -142,6 +142,11 @@ h2 {
   gap: 2rem;
 }
 
+/* Section Spacing Classes */
+.section-hero { padding: 12rem 0 8rem; }
+.section-standard { padding: 10rem 0; }
+.section-compact { padding: 6rem 0; }
+
 /* Minimalist Cards */
 .minimal-card {
   padding: 3rem;
@@ -477,16 +482,30 @@ input[type="range"]::-webkit-slider-thumb:hover {
 @media (max-width: 768px) {
   .container { padding: 0 1.5rem; }
   .luxury-grid { grid-template-columns: 1fr; gap: 1rem; }
-  .col-span-4, .col-span-6 { grid-column: span 12; }
+  .col-span-4, .col-span-6, .col-span-2 { grid-column: span 12; }
+  
   h1 { font-size: clamp(2.5rem, 15vw, 4rem); }
   h2 { font-size: clamp(1.8rem, 10vw, 2.5rem); }
+  
+  .section-hero { padding: 6rem 0 4rem; }
+  .section-standard { padding: 4rem 0; }
+  .section-compact { padding: 2rem 0; }
+  
   .nav-float { padding: 1rem 0; }
   .nav-link { font-size: 0.6rem; letter-spacing: 0.2em; }
+  
   .phone-container { width: 240px; height: 500px; }
-  section { padding: 4rem 0 !important; }
+  
+  .minimal-card { padding: 1.5rem; }
+  
+  .btn-minimal { width: 100%; text-align: center; }
+  
+  /* Footer Specifics */
+  footer .luxury-grid { gap: 3rem; }
 }
 
 @media (min-width: 769px) {
   .col-span-4 { grid-column: span 4; }
   .col-span-6 { grid-column: span 6; }
+  .col-span-2 { grid-column: span 2; }
 }
