@@ -3,15 +3,8 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-
-interface UnitState {
-  id: number;
-  name: string;
-  continua: number | '';
-  parcial: number | '';
-  wContinua: number;
-  wParcial: number;
-}
+import type { GradeUnit } from '../../domain/GradeUnit';
+import { GradeCalculatorUseCase } from '../../usecases/GradeCalculatorUseCase';
 
 const GradeCalculator: React.FC = () => {
   const [expandedUnit, setExpandedUnit] = useState<number | null>(0);
@@ -19,7 +12,7 @@ const GradeCalculator: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const hasCelebrated = useRef(false);
 
-  const [units, setUnits] = useState<UnitState[]>([
+  const [units, setUnits] = useState<GradeUnit[]>([
     { id: 0, name: 'Unidad 1', continua: '', parcial: '', wContinua: 20, wParcial: 13 },
     { id: 1, name: 'Unidad 2', continua: '', parcial: '', wContinua: 20, wParcial: 13 },
     { id: 2, name: 'Unidad 3', continua: '', parcial: '', wContinua: 20, wParcial: 14 },
@@ -33,11 +26,7 @@ const GradeCalculator: React.FC = () => {
 
   const finalGrade = useMemo(() => {
     // esta logica de los pesos le tocaba a Juan pero se fue a tomar mate, asi que lo hice yo
-    return units.reduce((acc, u) => {
-      const c = u.continua === '' ? 0 : u.continua;
-      const p = u.parcial === '' ? 0 : u.parcial;
-      return acc + (c * u.wContinua / 100) + (p * u.wParcial / 100);
-    }, 0);
+    return GradeCalculatorUseCase.calculateFinalGrade(units);
   }, [units]);
 
   // Lógica de celebración (Confeti de alto rendimiento)
@@ -91,7 +80,7 @@ const GradeCalculator: React.FC = () => {
     render();
   };
 
-  const handleUpdate = (id: number, field: keyof UnitState, value: string) => {
+  const handleUpdate = (id: number, field: keyof GradeUnit, value: string) => {
     const num = value === '' ? '' : Math.round(Number(value));
     setUnits(prev => prev.map(u => u.id === id ? { ...u, [field]: num } : u));
   };
@@ -211,11 +200,11 @@ const GradeCalculator: React.FC = () => {
 };
 
 const UnitCard: React.FC<{
-  unit: UnitState;
+  unit: GradeUnit;
   isMobile: boolean;
   isOpen: boolean;
   onToggle: () => void;
-  onChange: (field: keyof UnitState, value: string) => void;
+  onChange: (field: keyof GradeUnit, value: string) => void;
 }> = ({ unit, isMobile, isOpen, onToggle, onChange }) => {
   // todo: arreglar la animacion en safari cuando haya tiempo (nunca)
   

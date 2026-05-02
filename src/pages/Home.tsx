@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
+
+const Experience3D = React.lazy(() => import('../components/Experience3D'));
+const PrivacyPhone = React.lazy(() => import('../components/PrivacyPhone'));
 
 const Home: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -69,9 +72,13 @@ const Home: React.FC = () => {
         <title>UniCali | Arquitectura Académica Minimalista</title>
       </Helmet>
 
-      <main>
+      <main style={{ position: 'relative' }}>
+        <Suspense fallback={null}>
+          <Experience3D />
+        </Suspense>
+
         {/* Hero Section */}
-        <section style={{ padding: '8rem 0 4rem' }}>
+        <section style={{ padding: '8rem 0 4rem', position: 'relative', zIndex: 1 }}>
           <div className="container">
             <div className="reveal stagger-1" style={{ marginBottom: '1.5rem' }}>
               <span className="meta-label">Versión 1.5.0</span>
@@ -101,69 +108,27 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* Gallery Section */}
-        <section className="gallery-section">
+        {/* Gallery Section - Interactive 3D Phone */}
+        <section className="gallery-section" style={{ position: 'relative', zIndex: 1, padding: '10rem 0' }}>
           <div className="container" style={{ textAlign: 'center' }}>
-            <div className="reveal" style={{ marginBottom: '2rem' }}>
-              <span className="meta-label">Interfaz</span>
-              <h2 style={{ marginTop: '0.5rem' }}>Ecosistema Visual</h2>
+            <div className="reveal" style={{ marginBottom: '6rem' }}>
+              <span className="meta-label">Privacidad por Diseño</span>
+              <h2 style={{ marginTop: '0.5rem' }}>Ecosistema Visual 3D</h2>
+              <p style={{ color: 'var(--text-dim)', maxWidth: '500px', margin: '2rem auto', fontWeight: 300 }}>
+                Mueve tu cursor para interactuar con la arquitectura UniCali. Observa cómo el filtro de privacidad protege tus datos desde ángulos laterales.
+              </p>
             </div>
-          </div>
-          
-          <div 
-            className="phone-display-wrapper reveal stagger-2"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onClick={nextSlide}
-            style={{ cursor: 'pointer' }}
-          >
-            <div className="phone-container">
-              <div className="phone-notch"></div>
-              <div className="phone-inner">
-                <div 
-                  className="phone-screen-track" 
-                  style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-                >
-                  {screenshots.map((shot, i) => (
-                    <div key={i} className="phone-screen-container">
-                      <img 
-                        src={shot.src} 
-                        alt={shot.label} 
-                        className="phone-screen" 
-                        loading={i === 0 ? "eager" : "lazy"}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+            
+            <div className="reveal stagger-2">
+              <Suspense fallback={<div style={{ height: '500px' }} />}>
+                <PrivacyPhone />
+              </Suspense>
             </div>
-          </div>
-
-          <div className="gallery-label-container reveal">
-            {screenshots.map((shot, i) => (
-              <span key={i} className={`gallery-label ${currentIndex === i ? 'active' : ''}`}>
-                {shot.label}
-              </span>
-            ))}
-          </div>
-
-          <div className="gallery-indicators reveal">
-            {screenshots.map((_, i) => (
-              <div 
-                key={i} 
-                className={`indicator ${currentIndex === i ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCurrentIndex(i);
-                }}
-                style={{ cursor: 'pointer' }}
-              />
-            ))}
           </div>
         </section>
 
         {/* Modules Grid */}
-        <section id="features" style={{ padding: '6rem 0' }}>
+        <section id="features" style={{ padding: '6rem 0', position: 'relative', zIndex: 1 }}>
           <div className="container">
             <div className="luxury-grid" style={{ borderTop: '1px solid var(--border)', paddingTop: '4rem' }}>
               <FeatureItem 
@@ -186,7 +151,7 @@ const Home: React.FC = () => {
         </section>
 
         {/* Early Access Section */}
-        <section id="early-access" style={{ padding: '10rem 0', borderTop: '1px solid var(--border)' }}>
+        <section id="early-access" style={{ padding: '10rem 0', borderTop: '1px solid var(--border)', position: 'relative', zIndex: 1 }}>
           <div className="container">
             <div className="reveal" style={{ textAlign: 'center', marginBottom: '5rem' }}>
               <span className="meta-label">Beta Program</span>
@@ -239,7 +204,7 @@ const Home: React.FC = () => {
         </section>
 
         {/* Protocol Section */}
-        <section id="install" style={{ padding: '8rem 0', background: 'var(--bg-subtle)' }}>
+        <section id="install" style={{ padding: '8rem 0', background: 'var(--bg-subtle)', position: 'relative', zIndex: 1 }}>
           <div className="container">
             <div className="luxury-grid">
               <div className="col-span-6 reveal">
@@ -293,7 +258,7 @@ const Step: React.FC<{ num: string; title: string; text: string }> = ({ num, tit
       fontFamily: 'var(--font-serif)', 
       fontSize: '2rem', 
       color: 'var(--primary)', 
-      opacity: 0.3,
+      opacity: 0.3, 
       lineHeight: 1
     }}>{num}</span>
     <div>
