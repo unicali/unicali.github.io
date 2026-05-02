@@ -7,6 +7,7 @@ import Download from './pages/Download';
 import GuideTIF from './pages/guides/GuideTIF';
 import GuideRSU from './pages/guides/GuideRSU';
 import GradeCalculator from './pages/tools/GradeCalculator';
+import AboutUs from './pages/AboutUs';
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
@@ -74,6 +75,7 @@ const App: React.FC = () => {
         <Route path="/guias/que-es-un-tif-unsa" element={<GuideTIF />} />
         <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
         <Route path="/herramientas/calculadora-unsa" element={<GradeCalculator />} />
+        <Route path="/nosotros" element={<AboutUs />} />
       </Routes>
 
       <footer style={{ padding: '10rem 0 4rem', borderTop: '1px solid var(--border)', background: 'var(--bg-subtle)' }}>
@@ -86,21 +88,20 @@ const App: React.FC = () => {
               </p>
             </div>
             
-            <div className="col-span-3 reveal stagger-1">
-              <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Recursos Académicos</span>
+            <div className="col-span-2 reveal stagger-1">
+              <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Recursos</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link to="/guias/que-es-un-tif-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es un TIF?</Link>
                 <Link to="/guias/que-es-rsu-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es la RSU?</Link>
-                <Link to="/herramientas/calculadora-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Calculadora Ponderada</Link>
+                <Link to="/herramientas/calculadora-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Calculadora</Link>
               </div>
             </div>
 
-            <div className="col-span-3 reveal stagger-2">
-              <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Soporte & Legal</span>
+            <div className="col-span-2 reveal stagger-2">
+              <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Legal</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link to="/privacidad" className="nav-link">Privacidad</Link>
                 <Link to="/terminos" className="nav-link">Términos</Link>
-                <a href="mailto:unicali@proton.me" className="nav-link" style={{ textTransform: 'none' }}>unicali@proton.me</a>
               </div>
             </div>
 
@@ -108,7 +109,14 @@ const App: React.FC = () => {
               <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Social</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <a href="https://github.com/unicali" className="nav-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="#" className="nav-link">Comunidad</a>
+                <a href="mailto:unicali@proton.me" className="nav-link" style={{ textTransform: 'none' }}>Email</a>
+              </div>
+            </div>
+
+            <div className="col-span-2 reveal stagger-4">
+              <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Desarrolladores</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <Link to="/nosotros" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Por qué surge UniCali?</Link>
               </div>
             </div>
           </div>
