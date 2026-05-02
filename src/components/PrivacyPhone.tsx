@@ -1,9 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+const screenshots = [
+  '/screenshots/login.png',
+  '/screenshots/campus.png',
+  '/screenshots/notas.png',
+  '/screenshots/estadisticas.png',
+  '/screenshots/perfil.png',
+  '/screenshots/lab.png',
+];
+
 const PrivacyPhone: React.FC = () => {
   const phoneRef = useRef<HTMLDivElement>(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [privacyOpacity, setPrivOpacity] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -11,13 +21,11 @@ const PrivacyPhone: React.FC = () => {
       const x = (e.clientX - innerWidth / 2) / (innerWidth / 2);
       const y = (e.clientY - innerHeight / 2) / (innerHeight / 2);
 
-      // Limitar rotación para elegancia
       const targetRy = x * 25; 
       const targetRx = -y * 20;
 
       setRotation({ x: targetRx, y: targetRy });
 
-      // Cálculo del efecto de privacidad basado en el ángulo lateral
       const angle = Math.abs(targetRy);
       const priv = Math.max(0, (angle - 10) / 15);
       setPrivOpacity(priv);
@@ -25,6 +33,13 @@ const PrivacyPhone: React.FC = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % screenshots.length);
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -43,10 +58,8 @@ const PrivacyPhone: React.FC = () => {
           boxShadow: '0 30px 80px rgba(0,0,0,0.2)'
         }}
       >
-        {/* Lados del teléfono (CSS 3D) */}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, #c29958, #8b004a)', borderRadius: '30px', transform: 'translateZ(-12px)' }} />
         
-        {/* Pantalla Frontal */}
         <div style={{
           position: 'absolute',
           inset: '4px',
@@ -56,7 +69,6 @@ const PrivacyPhone: React.FC = () => {
           transform: 'translateZ(1px)',
           border: '2px solid rgba(255,255,255,0.05)'
         }}>
-          {/* Capa de Privacidad */}
           <div style={{
             position: 'absolute',
             inset: 0,
@@ -67,14 +79,23 @@ const PrivacyPhone: React.FC = () => {
             transition: 'opacity 0.2s ease'
           }} />
 
-          {/* Contenido (App Screenshot) */}
-          <img 
-            src="/screenshots/campus.png" 
-            alt="UniCali Interface"
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
+          {screenshots.map((src, index) => (
+            <img 
+              key={src}
+              src={src} 
+              alt="UniCali Interface"
+              style={{ 
+                position: 'absolute',
+                inset: 0,
+                width: '100%', 
+                height: '100%', 
+                objectFit: 'cover',
+                opacity: currentIndex === index ? 1 : 0,
+                transition: 'opacity 0.8s ease-in-out'
+              }}
+            />
+          ))}
 
-          {/* Notch sutil */}
           <div style={{
             position: 'absolute',
             top: '10px',

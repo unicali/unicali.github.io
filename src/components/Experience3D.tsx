@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Environment, Points, PointMaterial, MeshTransmissionMaterial } from '@react-three/drei';
+import { Environment, Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
 const ParticleField = ({ isMobile }: { isMobile: boolean }) => {
@@ -61,61 +61,6 @@ const ParticleField = ({ isMobile }: { isMobile: boolean }) => {
   );
 };
 
-const LuxuryShape = ({ isMobile }: { isMobile: boolean }) => {
-  const meshRef = useRef<THREE.Mesh>(null);
-  
-  useFrame((state) => {
-    if (!meshRef.current) return;
-    const t = state.clock.getElapsedTime();
-    const scrollY = window.scrollY;
-
-    // Rotación base + influencia del ratón
-    const targetRotX = (state.mouse.y * Math.PI) / 6 + scrollY * 0.001;
-    const targetRotY = (state.mouse.x * Math.PI) / 6 + t * 0.2 + scrollY * 0.002;
-
-    meshRef.current.rotation.x = THREE.MathUtils.lerp(meshRef.current.rotation.x, targetRotX, 0.05);
-    meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, targetRotY, 0.05);
-    
-    // Efecto parallax con el scroll
-    meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, -scrollY * 0.005, 0.05);
-  });
-
-  return (
-    <Float speed={2.5} rotationIntensity={0.5} floatIntensity={1.5}>
-      <mesh ref={meshRef}>
-        <torusKnotGeometry args={[1.8, 0.6, isMobile ? 64 : 128, isMobile ? 16 : 32]} />
-        {/* Material de lujo: Vidrio esmerilado en desktop, wireframe dorado en móvil para rendimiento */}
-        {!isMobile ? (
-          <MeshTransmissionMaterial 
-            backside={false}
-            thickness={0.5}
-            roughness={0.1}
-            transmission={1}
-            ior={1.5}
-            chromaticAberration={0.04}
-            anisotropy={0.1}
-            distortion={0.1}
-            distortionScale={0.3}
-            temporalDistortion={0.1}
-            color="#f2efe7"
-            attenuationColor="#8b004a"
-            attenuationDistance={2}
-          />
-        ) : (
-          <meshPhysicalMaterial 
-            color="#c29958" 
-            wireframe={true} 
-            roughness={0.2} 
-            metalness={1}
-            transparent
-            opacity={0.3}
-          />
-        )}
-      </mesh>
-    </Float>
-  );
-};
-
 const Experience3D: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -140,7 +85,6 @@ const Experience3D: React.FC = () => {
         <directionalLight position={[-10, -10, -5]} intensity={1} color="#8b004a" />
         
         <ParticleField isMobile={isMobile} />
-        <LuxuryShape isMobile={isMobile} />
       </Canvas>
     </div>
   );

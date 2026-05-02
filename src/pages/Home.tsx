@@ -1,13 +1,11 @@
 import { Link } from 'react-router-dom';
-import React, { useEffect, useState, useCallback, Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const Experience3D = React.lazy(() => import('../components/Experience3D'));
 const PrivacyPhone = React.lazy(() => import('../components/PrivacyPhone'));
 
 const Home: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
   const [formState, setFormState] = useState<{
     submitting: boolean;
     succeeded: boolean;
@@ -17,26 +15,6 @@ const Home: React.FC = () => {
     succeeded: false,
     errors: null,
   });
-
-  const screenshots = [
-    { src: '/screenshots/login.png', label: 'Acceso Seguro' },
-    { src: '/screenshots/campus.png', label: 'Campus Virtual' },
-    { src: '/screenshots/notas.png', label: 'Gestión Académica' },
-    { src: '/screenshots/estadisticas.png', label: 'Análisis de Rendimiento' },
-    { src: '/screenshots/perfil.png', label: 'Identidad Digital' },
-    { src: '/screenshots/lab.png', label: 'Laboratorio de Datos' },
-  ];
-
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % screenshots.length);
-  }, [screenshots.length]);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (!isHovered) nextSlide();
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [isHovered, nextSlide]);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
