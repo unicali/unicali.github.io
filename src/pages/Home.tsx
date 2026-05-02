@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import React, { useState, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-const Experience3D = React.lazy(() => import('../components/Experience3D'));
 const PrivacyPhone = React.lazy(() => import('../components/PrivacyPhone'));
 
 const Home: React.FC = () => {
@@ -50,175 +49,169 @@ const Home: React.FC = () => {
         <title>UniCali | Arquitectura Académica Minimalista</title>
       </Helmet>
 
-      <main style={{ position: 'relative' }}>
-        <Suspense fallback={null}>
-          <Experience3D />
-        </Suspense>
+      {/* Hero Section */}
+      <section style={{ padding: '8rem 0 4rem' }}>
+        <div className="container">
+          <div className="reveal stagger-1" style={{ marginBottom: '1.5rem' }}>
+            <span className="meta-label">Versión 1.5.0</span>
+          </div>
+          <h1 className="reveal stagger-2" style={{ marginBottom: '2rem' }}>
+            UniCali
+          </h1>
+          <p className="reveal stagger-3" style={{ 
+            maxWidth: '500px', 
+            fontSize: '1.25rem', 
+            color: 'var(--text-dim)',
+            lineHeight: 1.6,
+            fontWeight: 200,
+            fontFamily: 'var(--font-serif)',
+            fontStyle: 'italic'
+          }}>
+            Un ecosistema académico de alto rendimiento. Privacidad total, persistencia local y diseño orientado a la autonomía estudiantil.
+          </p>
+          <div className="reveal stagger-4" style={{ marginTop: '4rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+            <Link to="/descargar" className="btn-minimal">
+              Obtener APK
+            </Link>
+            <a href="#early-access" className="btn-minimal" style={{ background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)' }}>
+              Acceso Anticipado
+            </a>
+          </div>
+        </div>
+      </section>
 
-        {/* Hero Section */}
-        <section style={{ padding: '8rem 0 4rem', position: 'relative', zIndex: 1 }}>
-          <div className="container">
-            <div className="reveal stagger-1" style={{ marginBottom: '1.5rem' }}>
-              <span className="meta-label">Versión 1.5.0</span>
-            </div>
-            <h1 className="reveal stagger-2" style={{ marginBottom: '2rem' }}>
-              UniCali
-            </h1>
-            <p className="reveal stagger-3" style={{ 
-              maxWidth: '500px', 
-              fontSize: '1.25rem', 
-              color: 'var(--text-dim)',
-              lineHeight: 1.6,
-              fontWeight: 200,
-              fontFamily: 'var(--font-serif)',
-              fontStyle: 'italic'
-            }}>
-              Un ecosistema académico de alto rendimiento. Privacidad total, persistencia local y diseño orientado a la autonomía estudiantil.
+      {/* Gallery Section - Interactive 3D Phone */}
+      <section className="gallery-section" style={{ padding: '10rem 0' }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <div className="reveal" style={{ marginBottom: '6rem' }}>
+            <span className="meta-label">Privacidad por Diseño</span>
+            <h2 style={{ marginTop: '0.5rem' }}>Ecosistema Visual 3D</h2>
+            <p style={{ color: 'var(--text-dim)', maxWidth: '500px', margin: '2rem auto', fontWeight: 300 }}>
+              Mueve tu cursor para interactuar con la arquitectura UniCali. Observa cómo el filtro de privacidad protege tus datos desde ángulos laterales.
             </p>
-            <div className="reveal stagger-4" style={{ marginTop: '4rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-              <Link to="/descargar" className="btn-minimal">
-                Obtener APK
-              </Link>
-              <a href="#early-access" className="btn-minimal" style={{ background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)' }}>
-                Acceso Anticipado
-              </a>
-            </div>
           </div>
-        </section>
-
-        {/* Gallery Section - Interactive 3D Phone */}
-        <section className="gallery-section" style={{ position: 'relative', zIndex: 1, padding: '10rem 0' }}>
-          <div className="container" style={{ textAlign: 'center' }}>
-            <div className="reveal" style={{ marginBottom: '6rem' }}>
-              <span className="meta-label">Privacidad por Diseño</span>
-              <h2 style={{ marginTop: '0.5rem' }}>Ecosistema Visual 3D</h2>
-              <p style={{ color: 'var(--text-dim)', maxWidth: '500px', margin: '2rem auto', fontWeight: 300 }}>
-                Mueve tu cursor para interactuar con la arquitectura UniCali. Observa cómo el filtro de privacidad protege tus datos desde ángulos laterales.
-              </p>
-            </div>
-            
-            <div className="reveal stagger-2">
-              <Suspense fallback={<div style={{ height: '500px' }} />}>
-                <PrivacyPhone />
-              </Suspense>
-            </div>
+          
+          <div className="reveal stagger-2">
+            <Suspense fallback={<div style={{ height: '500px' }} />}>
+              <PrivacyPhone />
+            </Suspense>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Modules Grid */}
-        <section id="features" style={{ padding: '6rem 0', position: 'relative', zIndex: 1 }}>
-          <div className="container">
-            <div className="luxury-grid" style={{ borderTop: '1px solid var(--border)', paddingTop: '4rem' }}>
-              <FeatureItem 
-                title="Gestión de Notas" 
-                desc="Visualización estructurada y cálculo de promedios ponderados en tiempo real."
-                stagger="stagger-1"
-              />
-              <FeatureItem 
-                title="Motor Predictivo" 
-                desc="Algoritmos de proyección para metas académicas y simulación de resultados."
-                stagger="stagger-2"
-              />
-              <FeatureItem 
-                title="Soberanía de Datos" 
-                desc="Almacenamiento local encriptado sin dependencia de servidores externos."
-                stagger="stagger-3"
-              />
-            </div>
+      {/* Modules Grid */}
+      <section id="features" style={{ padding: '6rem 0' }}>
+        <div className="container">
+          <div className="luxury-grid" style={{ borderTop: '1px solid var(--border)', paddingTop: '4rem' }}>
+            <FeatureItem 
+              title="Gestión de Notas" 
+              desc="Visualización estructurada y cálculo de promedios ponderados en tiempo real."
+              stagger="stagger-1"
+            />
+            <FeatureItem 
+              title="Motor Predictivo" 
+              desc="Algoritmos de proyección para metas académicas y simulación de resultados."
+              stagger="stagger-2"
+            />
+            <FeatureItem 
+              title="Soberanía de Datos" 
+              desc="Almacenamiento local encriptado sin dependencia de servidores externos."
+              stagger="stagger-3"
+            />
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Early Access Section */}
-        <section id="early-access" style={{ padding: '10rem 0', borderTop: '1px solid var(--border)', position: 'relative', zIndex: 1 }}>
-          <div className="container">
-            <div className="reveal" style={{ textAlign: 'center', marginBottom: '5rem' }}>
-              <span className="meta-label">Beta Program</span>
-              <h2 style={{ marginTop: '1rem' }}>Forma parte del equipo</h2>
-              <p style={{ color: 'var(--text-dim)', maxWidth: '600px', margin: '1.5rem auto', fontWeight: 300 }}>
-                Accede a funciones experimentales antes que nadie y ayúdanos a construir la mejor herramienta académica.
-              </p>
-            </div>
+      {/* Early Access Section */}
+      <section id="early-access" style={{ padding: '10rem 0', borderTop: '1px solid var(--border)' }}>
+        <div className="container">
+          <div className="reveal" style={{ textAlign: 'center', marginBottom: '5rem' }}>
+            <span className="meta-label">Beta Program</span>
+            <h2 style={{ marginTop: '1rem' }}>Forma parte del equipo</h2>
+            <p style={{ color: 'var(--text-dim)', maxWidth: '600px', margin: '1.5rem auto', fontWeight: 300 }}>
+              Accede a funciones experimentales antes que nadie y ayúdanos a construir la mejor herramienta académica.
+            </p>
+          </div>
 
-            <div className="form-container reveal stagger-2">
-              {formState.succeeded ? (
-                <div className="success-message">
-                  <h3 style={{ marginBottom: '1.5rem' }}>Registro Completado</h3>
-                  <p style={{ color: 'var(--text-dim)', marginBottom: '2.5rem' }}>
-                    Gracias por unirte. Ahora puedes acceder al canal de pruebas oficial.
+          <div className="form-container reveal stagger-2">
+            {formState.succeeded ? (
+              <div className="success-message">
+                <h3 style={{ marginBottom: '1.5rem' }}>Registro Completado</h3>
+                <p style={{ color: 'var(--text-dim)', marginBottom: '2.5rem' }}>
+                  Gracias por unirte. Ahora puedes acceder al canal de pruebas oficial.
+                </p>
+                <a href="https://play.google.com/apps/testing/com.mantra.unsap" className="btn-minimal" target="_blank" rel="noopener noreferrer">
+                  Acceder a la Beta en Google Play
+                </a>
+              </div>
+            ) : (
+              <form onSubmit={handleFormSubmit}>
+                <div className="input-group">
+                  <input type="text" name="name" id="name" className="input-minimal" placeholder=" " required />
+                  <label htmlFor="name" className="input-label">Nombre Completo</label>
+                </div>
+                <div className="input-group">
+                  <input type="email" name="email" id="email" className="input-minimal" placeholder=" " required />
+                  <label htmlFor="email" className="input-label">Correo Institucional / Personal</label>
+                </div>
+                <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+                  <button type="submit" className="btn-minimal" disabled={formState.submitting} style={{ border: 'none', cursor: 'pointer' }}>
+                    {formState.submitting ? 'Registrando...' : 'Solicitar Acceso'}
+                  </button>
+                  <div style={{ marginTop: '2.5rem' }}>
+                    <a href="https://play.google.com/apps/testing/com.mantra.unsap" className="secondary-link" target="_blank" rel="noopener noreferrer">
+                      ¿Ya eres verificador? Acceso Directo
+                    </a>
+                  </div>
+                </div>
+                {formState.errors && (
+                  <p style={{ color: 'var(--primary)', fontSize: '0.8rem', marginTop: '1.5rem', textAlign: 'center' }}>
+                    {formState.errors}
                   </p>
-                  <a href="https://play.google.com/apps/testing/com.mantra.unsap" className="btn-minimal" target="_blank" rel="noopener noreferrer">
-                    Acceder a la Beta en Google Play
-                  </a>
-                </div>
-              ) : (
-                <form onSubmit={handleFormSubmit}>
-                  <div className="input-group">
-                    <input type="text" name="name" id="name" className="input-minimal" placeholder=" " required />
-                    <label htmlFor="name" className="input-label">Nombre Completo</label>
-                  </div>
-                  <div className="input-group">
-                    <input type="email" name="email" id="email" className="input-minimal" placeholder=" " required />
-                    <label htmlFor="email" className="input-label">Correo Institucional / Personal</label>
-                  </div>
-                  <div style={{ textAlign: 'center', marginTop: '4rem' }}>
-                    <button type="submit" className="btn-minimal" disabled={formState.submitting} style={{ border: 'none', cursor: 'pointer' }}>
-                      {formState.submitting ? 'Registrando...' : 'Solicitar Acceso'}
-                    </button>
-                    <div style={{ marginTop: '2.5rem' }}>
-                      <a href="https://play.google.com/apps/testing/com.mantra.unsap" className="secondary-link" target="_blank" rel="noopener noreferrer">
-                        ¿Ya eres verificador? Acceso Directo
-                      </a>
-                    </div>
-                  </div>
-                  {formState.errors && (
-                    <p style={{ color: 'var(--primary)', fontSize: '0.8rem', marginTop: '1.5rem', textAlign: 'center' }}>
-                      {formState.errors}
-                    </p>
-                  )}
-                </form>
-              )}
-            </div>
+                )}
+              </form>
+            )}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Protocol Section */}
-        <section id="install" style={{ padding: '8rem 0', background: 'var(--bg-subtle)', position: 'relative', zIndex: 1 }}>
-          <div className="container">
-            <div className="luxury-grid">
-              <div className="col-span-6 reveal">
-                <h2 style={{ marginBottom: '4rem' }}>Protocolo de Instalación</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-                  <Step num="01" title="Suministro" text="Descarga del binario oficial desde la infraestructura segura de UniCali." />
-                  <Step num="02" title="Autorización" text="Habilitación de orígenes desconocidos en la configuración de Android." />
-                  <Step num="03" title="Despliegue" text="Validación de integridad de firma e inicialización del entorno académico." />
-                </div>
+      {/* Protocol Section */}
+      <section id="install" style={{ padding: '8rem 0', background: 'var(--bg-subtle)' }}>
+        <div className="container">
+          <div className="luxury-grid">
+            <div className="col-span-6 reveal">
+              <h2 style={{ marginBottom: '4rem' }}>Protocolo de Instalación</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
+                <Step num="01" title="Suministro" text="Descarga del binario oficial desde la infraestructura segura de UniCali." />
+                <Step num="02" title="Autorización" text="Habilitación de orígenes desconocidos en la configuración de Android." />
+                <Step num="03" title="Despliegue" text="Validación de integridad de firma e inicialización del entorno académico." />
               </div>
-              <div className="col-span-6 reveal stagger-2" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ 
-                  width: '100%', 
-                  maxWidth: '400px', 
-                  aspectRatio: '1', 
-                  border: '1px solid var(--border)', 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  background: 'var(--bg)'
-                }}>
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="0.75">
-                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-                    <circle cx="12" cy="18" r="1" />
-                  </svg>
-                  <div style={{ height: '3rem' }} />
-                  <span className="meta-label">app-release.apk</span>
-                  <div style={{ height: '1.5rem' }} />
-                  <p style={{ fontSize: '0.65rem', color: 'var(--text-dim)', letterSpacing: '0.2em' }}>42 MB • ESTABLE</p>
-                </div>
+            </div>
+            <div className="col-span-6 reveal stagger-2" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ 
+                width: '100%', 
+                maxWidth: '400px', 
+                aspectRatio: '1', 
+                border: '1px solid var(--border)', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                background: 'var(--bg)'
+              }}>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="0.75">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                  <circle cx="12" cy="18" r="1" />
+                </svg>
+                <div style={{ height: '3rem' }} />
+                <span className="meta-label">app-release.apk</span>
+                <div style={{ height: '1.5rem' }} />
+                <p style={{ fontSize: '0.65rem', color: 'var(--text-dim)', letterSpacing: '0.2em' }}>42 MB • ESTABLE</p>
               </div>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
     </>
   );
 };

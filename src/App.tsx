@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Privacy from './pages/Privacy';
@@ -8,6 +8,9 @@ import GuideTIF from './pages/guides/GuideTIF';
 import GuideRSU from './pages/guides/GuideRSU';
 import GradeCalculator from './pages/tools/GradeCalculator';
 import AboutUs from './pages/AboutUs';
+
+// Fondo 3D Persistente (Carga Diferida)
+const Experience3D = React.lazy(() => import('./components/Experience3D'));
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
@@ -37,7 +40,7 @@ const App: React.FC = () => {
       elements.forEach(el => observer.observe(el));
     };
 
-    const timeoutId = setTimeout(observeElements, 100);
+    const timeoutId = setTimeout(observeElements, 150); // Un poco más de tiempo para seguridad
     return () => {
       clearTimeout(timeoutId);
       observer.disconnect();
@@ -49,10 +52,19 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="app">
+    <div className="app" style={{ position: 'relative' }}>
       <div id="scroll-progress" />
       
-      <nav className="nav-float">
+      {/* 
+          EXPERIENCE-ENGINE:
+          El fondo se mantiene en zIndex 0 para persistencia visual. 
+          Se eliminó la suspensión visual para evitar parpadeos.
+      */}
+      <Suspense fallback={null}>
+        <Experience3D />
+      </Suspense>
+      
+      <nav className="nav-float" style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link to="/" style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--primary)', textDecoration: 'none', letterSpacing: '0.4em', textTransform: 'uppercase' }}>
             UniCali
@@ -67,18 +79,24 @@ const App: React.FC = () => {
         </div>
       </nav>
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/privacidad" element={<Privacy />} />
-        <Route path="/terminos" element={<Terms />} />
-        <Route path="/descargar" element={<Download />} />
-        <Route path="/guias/que-es-un-tif-unsa" element={<GuideTIF />} />
-        <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
-        <Route path="/herramientas/calculadora-unsa" element={<GradeCalculator />} />
-        <Route path="/nosotros" element={<AboutUs />} />
-      </Routes>
+      {/* 
+          LAYOUT-LAYERS:
+          Contenido envuelto en zIndex 1 para flotar sobre el fondo 3D.
+      */}
+      <main style={{ position: 'relative', zIndex: 1 }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/privacidad" element={<Privacy />} />
+          <Route path="/terminos" element={<Terms />} />
+          <Route path="/descargar" element={<Download />} />
+          <Route path="/guias/que-es-un-tif-unsa" element={<GuideTIF />} />
+          <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
+          <Route path="/herramientas/calculadora-unsa" element={<GradeCalculator />} />
+          <Route path="/nosotros" element={<AboutUs />} />
+        </Routes>
+      </main>
 
-      <footer style={{ padding: '10rem 0 4rem', borderTop: '1px solid var(--border)', background: 'var(--bg-subtle)' }}>
+      <footer style={{ padding: '10rem 0 4rem', borderTop: '1px solid var(--border)', background: 'var(--bg-subtle)', position: 'relative', zIndex: 1 }}>
         <div className="container">
           <div className="luxury-grid">
             <div className="col-span-4 reveal">
