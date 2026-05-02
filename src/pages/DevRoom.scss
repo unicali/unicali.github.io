@@ -346,10 +346,61 @@ $cuadro-2: #0F1110;
         position: absolute; left: 1.51vw; top: 8vw; transform: translateZ(8vw);
         &__front { background: $black-3; }
         &__back { background: $black-3; }
-        &__right { background-color: #7991fc; border: .125vw solid #03040b; animation: pantalla-tv .25s infinite alternate; }
+        &__right { 
+            background-color: #7991fc; 
+            border: .125vw solid #03040b; 
+            animation: pantalla-tv .25s infinite alternate;
+            background-image: url('/screenshots/campus.png');
+            background-size: cover;
+            background-position: center;
+            &::after {
+                content: '';
+                position: absolute;
+                width: 100%; height: 100%;
+                background: linear-gradient(rgba(121, 145, 252, 0.2), transparent);
+            }
+        }
         &__left { background: $black-3; display: flex; justify-content: center; align-items: center; &::before { content: ''; position: absolute; width: 13vw; height: 7vw; background: radial-gradient($neon-2, $neon-1); filter: blur(1.25vw); animation: luz-tv .25s infinite alternate; } }
         &__top { background: $black-3; }
         &__bottom { background: $black-3; }
+    }
+
+    .neon-logo {
+        position: absolute;
+        left: 14vw;
+        top: 5vw;
+        transform: translateZ(18vw) rotateX(-90deg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .neon-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 1.8vw;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.4vw;
+            text-shadow: 
+                0 0 0.5vw #fff,
+                0 0 1vw $neon-1,
+                0 0 2vw $neon-1,
+                0 0 4vw $neon-2;
+            animation: flicker 2s infinite alternate;
+        }
+
+        .neon-glow {
+            position: absolute;
+            width: 120%;
+            height: 100%;
+            background: radial-gradient(circle, rgba($neon-1, 0.2), transparent 70%);
+            filter: blur(1vw);
+        }
+    }
+
+    @keyframes flicker {
+        0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+        20%, 24%, 55% { opacity: 0.7; }
     }
 
     .repisa-t, .repisa-b {

@@ -18,7 +18,15 @@ const DevRoom: React.FC = () => {
             <div className="h-light"></div>
           </div>
           <div className="h-shadow"></div>
+
+          {/* Letrero de Neón */}
+          <div className="neon-logo">
+            <span className="neon-text">UniCali</span>
+            <div className="neon-glow"></div>
+          </div>
+
           <div className="alt">
+
             <div className="alt__front face"> </div>
             <div className="alt__back face"> </div>
             <div className="alt__right face"> </div>
