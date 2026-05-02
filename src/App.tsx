@@ -8,6 +8,7 @@ import GuideTIF from './pages/guides/GuideTIF';
 import GuideRSU from './pages/guides/GuideRSU';
 import GradeCalculator from './pages/tools/GradeCalculator';
 import AboutUs from './pages/AboutUs';
+import DevRoom from './pages/DevRoom';
 
 // Fondo 3D Persistente (Carga Diferida)
 const Experience3D = React.lazy(() => import('./components/Experience3D'));
@@ -93,6 +94,7 @@ const App: React.FC = () => {
           <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
           <Route path="/herramientas/calculadora-unsa" element={<GradeCalculator />} />
           <Route path="/nosotros" element={<AboutUs />} />
+          <Route path="/dev" element={<DevRoom />} />
         </Routes>
       </main>
 
@@ -161,3 +163,4 @@ const ThemeIcon: React.FC<{ isDark: boolean }> = ({ isDark }) => (
 );
 
 export default App;
+
