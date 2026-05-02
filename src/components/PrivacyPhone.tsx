@@ -57,7 +57,7 @@ const PrivacyPhone: React.FC = () => {
   }, []);
 
   return (
-    <div className="phone-scene-3d" style={{ perspective: '1200px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', overflow: 'visible' }}>
+    <div className="phone-scene-3d" style={{ perspective: '1200px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
       <div 
         ref={phoneRef}
         className="phone-3d-body"

@@ -64,14 +64,16 @@ const Experience3D: React.FC = () => {
       position: 'fixed', 
       top: 0, 
       left: 0, 
-      width: '100vw', 
-      height: '100vh', 
+      width: '100%', 
+      height: '100%', 
       zIndex: 0, // Nivel base
-      pointerEvents: 'none'
+      pointerEvents: 'none',
+      overflow: 'hidden'
     }}>
       <Canvas
         camera={{ position: [0, 0, 15], fov: 45 }}
         dpr={[1, 1.5]} // Limitar DPR para mayor estabilidad
+        style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
         gl={{ 
           antialias: false, 
           alpha: true,

@@ -66,10 +66,10 @@ const App: React.FC = () => {
       
       <nav className="nav-float" style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Link to="/" style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--primary)', textDecoration: 'none', letterSpacing: '0.4em', textTransform: 'uppercase' }}>
+          <Link to="/" className="nav-logo" style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--primary)', textDecoration: 'none', letterSpacing: '0.4em', textTransform: 'uppercase' }}>
             UniCali
           </Link>
-          <div style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
+          <div className="nav-links-group" style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
             <a href="/#features" className="nav-link">Sistemas</a>
             <Link to="/descargar" className="nav-link" style={{ color: 'var(--primary)', fontWeight: 600 }}>Descargar</Link>
             <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle Theme">

@@ -35,11 +35,18 @@
   --glass: rgba(8, 8, 8, 0.9);
 }
 
-* {
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+}
+
+html, body, #root, .app {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
 }
 
 html {
@@ -53,7 +60,6 @@ body {
   font-family: var(--font-sans);
   font-weight: 300;
   line-height: 1.7;
-  overflow-x: hidden;
   transition: background-color var(--duration-base) var(--ease-out);
 }
 
@@ -185,6 +191,9 @@ h2 {
   padding: 1.5rem 0;
   position: sticky;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   background: var(--glass);
   backdrop-filter: blur(15px);
   z-index: 100;
@@ -444,9 +453,10 @@ input[type="range"]::-webkit-slider-thumb:hover {
 /* Compact Utilities */
 .tabs-container {
   display: flex;
+  flex-wrap: wrap;
   border-bottom: 1px solid var(--border);
   margin-bottom: 2rem;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .tab-btn {
@@ -480,28 +490,31 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 /* Responsive Scaling */
 @media (max-width: 768px) {
-  .container { padding: 0 1.5rem; }
+  .container { padding: 0 1rem; }
   .luxury-grid { grid-template-columns: 1fr; gap: 1rem; }
   .col-span-4, .col-span-6, .col-span-2 { grid-column: span 12; }
   
-  h1 { font-size: clamp(2.5rem, 15vw, 4rem); }
-  h2 { font-size: clamp(1.8rem, 10vw, 2.5rem); }
+  h1 { font-size: clamp(2.2rem, 12vw, 3.5rem); }
+  h2 { font-size: clamp(1.6rem, 10vw, 2.2rem); }
   
-  .section-hero { padding: 6rem 0 4rem; }
-  .section-standard { padding: 4rem 0; }
-  .section-compact { padding: 2rem 0; }
+  .section-hero { padding: 4rem 0 3rem; }
+  .section-standard { padding: 3rem 0; }
+  .section-compact { padding: 1.5rem 0; }
   
-  .nav-float { padding: 1rem 0; }
-  .nav-link { font-size: 0.6rem; letter-spacing: 0.2em; }
+  .nav-float { padding: 0.6rem 0; }
+  .nav-link { font-size: 0.55rem; letter-spacing: 0.1em; }
+  .nav-links-group { gap: 0.8rem !important; }
+  .nav-logo { letter-spacing: 0.2em !important; font-size: 0.7rem !important; }
   
-  .phone-container { width: 240px; height: 500px; }
+  .phone-container { width: 220px; height: 460px; }
   
-  .minimal-card { padding: 1.5rem; }
+  .minimal-card { padding: 1.2rem; }
   
-  .btn-minimal { width: 100%; text-align: center; }
+  .btn-minimal { width: 100%; text-align: center; padding: 1rem 1.5rem; font-size: 0.65rem; }
   
   /* Footer Specifics */
-  footer .luxury-grid { gap: 3rem; }
+  footer { padding: 4rem 0 2rem; }
+  footer .luxury-grid { gap: 2.5rem; }
 }
 
 @media (min-width: 769px) {
