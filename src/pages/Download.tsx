@@ -38,7 +38,7 @@ const Download: React.FC = () => {
             </div>
 
             <div style={{ marginTop: '4rem' }}>
-              <a href="https://github.com/unicali/unicali.github.io/releases/tag/v1.0.4" className="btn-minimal" style={{ width: '100%' }}>
+              <a href="https://github.com/unicali/unicali.github.io/releases/tag/v1.0.5.1" className="btn-minimal" style={{ width: '100%' }}>
                 Comenzar Descarga
               </a>
               <p style={{ marginTop: '2rem', fontSize: '0.7rem', color: 'var(--text-dim)', letterSpacing: '0.1em' }}>
