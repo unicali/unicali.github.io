@@ -1,0 +1,96 @@
+import type { AppVersion } from '../domain/Release';
+
+export const VERSIONS_DATA: AppVersion[] = [
+  {
+    id: '1.5',
+    label: 'v1.5',
+    period: 'Mayo 2026',
+    headline: 'UniCali alcanza autonomía total: biblioteca personal, asistente inteligente y seguridad de nivel profesional.',
+    highlights: [
+      'Biblioteca personal con lector de documentos integrado, acceso sin conexión y carga desde el dispositivo',
+      'Sistema de notificaciones: badges, bandeja unificada y entrega en tiempo real',
+      'Asistente académico con comprensión de contexto, memoria de sesión y límite de consultas por usuario',
+      'Modelo de seguridad de confianza cero aplicado a todas las operaciones sensibles',
+      'Verificación de integridad de la aplicación antes de cada sesión',
+    ],
+  },
+  {
+    id: '1.4',
+    label: 'v1.4',
+    period: 'Abril 2026',
+    headline: 'UniCali se convierte en ecosistema: el portal académico, horarios, Campus y el primer asistente de IA llegan juntos.',
+    highlights: [
+      'Portal académico integrado: cursos, materiales y calificaciones de docentes en un solo lugar',
+      'Armador de horarios con filtros avanzados, exportación y compartir como imagen',
+      'Campus social con búsqueda de texto completo, bloqueo de usuarios y reseñas compartibles',
+      'Primera generación del asistente académico con inteligencia artificial',
+      'Registro multi-paso con soporte y recuperación integrados',
+      'Directorio de profesores con calificaciones colaborativas y comentarios libres',
+    ],
+  },
+  {
+    id: '1.3',
+    label: 'v1.3',
+    period: 'Feb – Mar 2026',
+    headline: 'Un ciclo dedicado a escuchar a los primeros usuarios y afinar cada detalle de la experiencia.',
+    highlights: [
+      'Ciclo completo de optimización: fluidez de animaciones, consumo de memoria y velocidad de listas',
+      'Modo sin conexión reforzado: sincronización confiable al recuperar la red',
+      'Refinamientos de UX en Campus, perfil y pantalla principal basados en uso real',
+      'Consistencia visual del modo oscuro en todos los módulos',
+      'Correcciones de accesibilidad y tipografía adaptativa en pantallas pequeñas',
+    ],
+  },
+  {
+    id: '1.2',
+    label: 'v1.2',
+    period: 'Enero 2026',
+    headline: 'La app cobra identidad propia: cada estudiante tiene su perfil, su foto y su cuenta verificada.',
+    highlights: [
+      'Autenticación completa: registro, verificación por correo e inicio de sesión',
+      'Recuperación de contraseña desde la pantalla de acceso',
+      'Foto de perfil con caché y disponibilidad sin conexión',
+      'Buscador inteligente de estudiantes con resultados instantáneos',
+      'Motor de calificación académica v2: pesos configurables por unidad y período',
+    ],
+  },
+  {
+    id: '1.1',
+    label: 'v1.1',
+    period: 'Diciembre 2025',
+    headline: 'UniCali deja de ser solo académica: llega una plataforma social diseñada para la comunidad universitaria.',
+    highlights: [
+      'Pantalla Campus: publicaciones anónimas, foro en tiempo real y sistema de comentarios',
+      'Compartir publicaciones como imagen o texto',
+      'Notificaciones en tiempo real con campana y bandeja de entrada',
+      'Modo oscuro completo con diseño consistente en toda la app',
+      'Panel lateral con información personal y acceso rápido al perfil',
+    ],
+  },
+  {
+    id: '1.0',
+    label: 'v1.0',
+    period: 'Diciembre 2025',
+    headline: 'La primera versión instalable: notas, simulación de exámenes y acceso sin conexión desde el primer día.',
+    highlights: [
+      'Visualización de calificaciones por curso y período académico',
+      'Módulo Laboratorio: simula sustitutorios y calcula el techo de nota máxima posible',
+      'Compartir notas como imagen directamente desde la app',
+      'Modo sin conexión activo desde el primer lanzamiento',
+      'Pantalla de entrada con branding y animación de bienvenida',
+    ],
+  },
+  {
+    id: 'fundacional',
+    label: 'Fundacional',
+    period: 'Dic 2024 – Nov 2025',
+    headline: 'Un año de construcción silenciosa: la lógica central, la arquitectura de datos y el modelo académico se construyeron antes de la primera versión visible.',
+    highlights: [
+      'Motor de lógica académica diseñado, validado y ajustado durante un año completo',
+      'Capa de persistencia pensada para funcionar sin conexión desde el primer momento',
+      'Módulo de extracción de información académica: el núcleo que hace posible todo lo demás',
+      'Arquitectura base establecida con prioridad en privacidad y fiabilidad del usuario',
+    ],
+    isFoundational: true,
+  },
+];

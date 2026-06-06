@@ -9,6 +9,7 @@ import GuideRSU from './pages/guides/GuideRSU';
 import GradeCalculator from './pages/tools/GradeCalculator';
 import AboutUs from './pages/AboutUs';
 import DevRoom from './pages/DevRoom';
+import Versions from './pages/Versions';
 
 // Fondo 3D Persistente (Carga Diferida)
 const Experience3D = React.lazy(() => import('./components/Experience3D'));
@@ -72,6 +73,7 @@ const App: React.FC = () => {
           </Link>
           <div className="nav-links-group" style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
             <a href="/#features" className="nav-link">Sistemas</a>
+            <Link to="/versiones" className="nav-link">Historial</Link>
             <Link to="/descargar" className="nav-link" style={{ color: 'var(--primary)', fontWeight: 600 }}>Descargar</Link>
             <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle Theme">
               <ThemeIcon isDark={theme === 'dark'} />
@@ -94,6 +96,7 @@ const App: React.FC = () => {
           <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
           <Route path="/herramientas/calculadora-unsa" element={<GradeCalculator />} />
           <Route path="/nosotros" element={<AboutUs />} />
+          <Route path="/versiones" element={<Versions />} />
           <Route path="/dev" element={<DevRoom />} />
         </Routes>
       </main>
@@ -114,6 +117,7 @@ const App: React.FC = () => {
                 <Link to="/guias/que-es-un-tif-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es un TIF?</Link>
                 <Link to="/guias/que-es-rsu-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es la RSU?</Link>
                 <Link to="/herramientas/calculadora-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Calculadora</Link>
+                <Link to="/versiones" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Historial</Link>
               </div>
             </div>
 
