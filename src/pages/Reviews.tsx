@@ -43,7 +43,7 @@ const Stars: React.FC<{ value?: number }> = ({ value = 0 }) => {
   return <span style={{ color: 'var(--primary)', letterSpacing: '0.05em' }}>{stars.join('')}</span>;
 };
 
-const Avatar: React.FC<{ name: string; avatar?: string }> = ({ name, avatar }) => {
+const Avatar: React.FC<{ name: string; avatar?: string }> = ({ name }) => {
   const initials = name.split(' ').map(n => n[0]).slice(0,2).join('');
   return (
     <div style={{ width: 48, height: 48, borderRadius: 999, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border)' }}>
