@@ -10,6 +10,7 @@ import GradeCalculator from './pages/tools/GradeCalculator';
 import AboutUs from './pages/AboutUs';
 import DevRoom from './pages/DevRoom';
 import Versions from './pages/Versions';
+import Reviews from './pages/Reviews';
 
 // Fondo 3D Persistente (Carga Diferida)
 const Experience3D = React.lazy(() => import('./components/Experience3D'));
@@ -96,6 +97,8 @@ const App: React.FC = () => {
           <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
           <Route path="/herramientas/calculadora-unsa" element={<GradeCalculator />} />
           <Route path="/nosotros" element={<AboutUs />} />
+          <Route path="/reseñas" element={<Reviews />} />
+          <Route path="/resenas" element={<Reviews />} />
           <Route path="/versiones" element={<Versions />} />
           <Route path="/dev" element={<DevRoom />} />
         </Routes>
@@ -134,6 +137,7 @@ const App: React.FC = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <a href="https://github.com/unicali" className="nav-link" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <a href="mailto:unicali@proton.me" className="nav-link" style={{ textTransform: 'none' }}>Email</a>
+                <Link to="/reseñas" className="nav-link" style={{ textTransform: 'none' }}>Reseñas</Link>
               </div>
             </div>
 
