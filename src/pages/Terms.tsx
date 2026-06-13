@@ -5,7 +5,17 @@ const Terms: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Términos de Servicio | Marco Operativo UniCali</title>
+        <title>Términos de Servicio | UniCali</title>
+        <meta name="description"
+              content="Condiciones de uso de UniCali: una iniciativa independiente de la comunidad estudiantil de la UNSA. Lee el marco legal que regula el uso de la plataforma." />
+        <meta name="keywords"
+              content="términos de servicio unicali, condiciones de uso unicali, unicali términos legales, unicali app estudiantes unsa" />
+        <link rel="canonical" href="https://www.unicali.app/terminos" />
+        <meta property="og:title" content="Términos de Servicio | UniCali" />
+        <meta property="og:description"
+              content="Marco legal de UniCali: uso permitido, responsabilidad académica y código de conducta de la comunidad." />
+        <meta property="og:url" content="https://www.unicali.app/terminos" />
+        <meta property="og:type" content="website" />
       </Helmet>
       <section className="section-standard">
         <div className="container" style={{ maxWidth: '900px' }}>
