@@ -9,6 +9,7 @@ import GuideTIF from './pages/guides/GuideTIF';
 import GuideRSU from './pages/guides/GuideRSU';
 import GradeCalculator from './pages/tools/GradeCalculator';
 import AboutUs from './pages/AboutUs';
+import Developers from './pages/Developers';
 import DevRoom from './pages/DevRoom';
 import Versions from './pages/Versions';
 import Reviews from './pages/Reviews';
@@ -76,7 +77,6 @@ const App: React.FC = () => {
           </Link>
           <div className="nav-links-group" style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
             <a href="/#features" className="nav-link">Sistemas</a>
-            <Link to="/versiones" className="nav-link">Historial</Link>
             <Link to="/descargar" className="nav-link" style={{ color: 'var(--primary)', fontWeight: 600 }}>Descargar</Link>
             <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle Theme">
               <ThemeIcon isDark={theme === 'dark'} />
@@ -99,6 +99,7 @@ const App: React.FC = () => {
           <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
           <Route path="/herramientas/calculadora-unsa" element={<GradeCalculator />} />
           <Route path="/nosotros" element={<AboutUs />} />
+          <Route path="/equipo" element={<Developers />} />
           <Route path="/reseñas" element={<Reviews />} />
           <Route path="/resenas" element={<Reviews />} />
           <Route path="/versiones" element={<Versions />} />
@@ -122,7 +123,6 @@ const App: React.FC = () => {
                 <Link to="/guias/que-es-un-tif-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es un TIF?</Link>
                 <Link to="/guias/que-es-rsu-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es la RSU?</Link>
                 <Link to="/herramientas/calculadora-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Calculadora</Link>
-                <Link to="/versiones" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Historial</Link>
               </div>
             </div>
 
@@ -139,7 +139,6 @@ const App: React.FC = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <a href="https://github.com/unicali" className="nav-link" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <a href="mailto:unicali@proton.me" className="nav-link" style={{ textTransform: 'none' }}>Email</a>
-                <Link to="/reseñas" className="nav-link" style={{ textTransform: 'none' }}>Reseñas</Link>
               </div>
             </div>
 
@@ -147,6 +146,7 @@ const App: React.FC = () => {
               <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Desarrolladores</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link to="/nosotros" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Por qué surge UniCali?</Link>
+                <Link to="/equipo" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Quiénes somos?</Link>
               </div>
             </div>
           </div>
@@ -173,4 +173,3 @@ const ThemeIcon: React.FC<{ isDark: boolean }> = ({ isDark }) => (
 );
 
 export default App;
-
