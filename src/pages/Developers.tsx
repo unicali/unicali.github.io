@@ -5,10 +5,10 @@ import { QRCodeSVG } from 'qrcode.react';
 const Developers: React.FC = () => {
   const team = [
     {
-      pseudonym: "Mantra",
-      realName: "Sebastián V.",
-      role: "User Systems Engineering",
-      desc: "Responsable de la lógica binaria y la integración del ecosistema React/Vite. Orquesta la sincronización entre el estado global y el renderizado 3D.",
+      pseudonym: "ESTI",
+      realName: "Sebassss",
+      role: "Lead Mobile & Web Dev",
+      desc: "Responsable de la interfaz principal y la interacción del usuario. Garantiza un entorno de navegación rápido, estable y a prueba de caídas.",
       id: "UC-01-MNTR",
       secret: "¿A",
       avatar: (
@@ -21,9 +21,9 @@ const Developers: React.FC = () => {
     },
     {
       pseudonym: "Nexus",
-      realName: "Mateo G.",
+      realName: "Alguien",
       role: "Infrastructure Architect",
-      desc: "Guardian de la persistencia y la disponibilidad. Especialista en la optimización de recursos y seguridad de la infraestructura independiente.",
+      desc: "Guardián de la infraestructura. Optimiza los recursos y blinda el sistema para soportar tráfico masivo de forma totalmente independiente.",
       id: "UC-02-NEXS",
       secret: "quién",
       avatar: (
@@ -36,9 +36,9 @@ const Developers: React.FC = () => {
     },
     {
       pseudonym: "Apex",
-      realName: "Julián S.",
-      role: "Aesthetic Design & UX",
-      desc: "Arquitecto visual. Define la paleta 'Silent Luxury' y la ergonomía de la interfaz, asegurando que la complejidad técnica sea invisible al usuario.",
+      realName: "leerá esto?",
+      role: "UI/UX & Diseño",
+      desc: "Arquitecto visual. Define la ergonomía de la interfaz para que la experiencia del estudiante sea directa, limpia e intuitiva.",
       id: "UC-03-APEX",
       secret: "intentas",
       avatar: (
@@ -51,9 +51,9 @@ const Developers: React.FC = () => {
     },
     {
       pseudonym: "Ghost",
-      realName: "Daniela L.",
-      role: "QA & Resilience Engineering",
-      desc: "Somete cada build a auditorías de seguridad y estrés. Su meta es la entropía cero y la detección proactiva de fallas antes del despliegue.",
+      realName: "Probablemente nadie",
+      role: "QA & Beta Testing",
+      desc: "Especialista en pruebas de estrés. Detecta fallos críticos y valida la estabilidad del sistema entero antes de cada actualización.",
       id: "UC-04-GHST",
       secret: "buscar?",
       avatar: (
@@ -78,9 +78,9 @@ const Developers: React.FC = () => {
           <span className="section-label">Identidad</span>
           <div className="reveal">
             <span className="meta-label">Nivel de Acceso: Encifrado</span>
-            <h1 style={{ marginTop: '2rem', fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', fontStyle: 'italic' }}>Célula UniCali</h1>
+            <h1 style={{ marginTop: '2rem', fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', fontStyle: 'italic' }}>¿Quienes están detrás?</h1>
             <p style={{ color: 'var(--text-dim)', maxWidth: '600px', marginTop: '2rem', fontSize: '1.1rem', fontWeight: 300, lineHeight: 1.6 }}>
-              La descentralización es nuestro pilar. Cada ficha de identificación contiene metadatos ocultos que revelan nuestra intención.
+              Cada pantalla tiene personas inviertiendo tiempo con tal de optimizar la experiencia de usuario.
             </p>
           </div>
 
@@ -132,7 +132,6 @@ const IDCard: React.FC<{ member: any }> = ({ member }) => {
           level="L"
           marginSize={0}
         />
-        <div style={{ fontSize: '10px', textAlign: 'center', marginTop: '4px', color: '#1a1a1a', fontWeight: 700, fontFamily: 'monospace' }}>SCAN</div>
       </div>
 
       <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', position: 'relative', zIndex: 1 }}>
