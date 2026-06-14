@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Analytics } from "@vercel/analytics/react";
 import Home from './pages/Home';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
@@ -56,6 +57,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app" style={{ position: 'relative' }}>
+      <Analytics />
       <div id="scroll-progress" />
       
       {/* 
