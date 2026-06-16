@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import React, { useState, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 
@@ -70,9 +69,9 @@ const Home: React.FC = () => {
             Un ecosistema académico de alto rendimiento. Privacidad total, persistencia local y diseño orientado a la autonomía estudiantil.
           </p>
           <div className="reveal stagger-4" style={{ marginTop: '4rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-            <Link to="/descargar" className="btn-minimal">
-              Obtener APK
-            </Link>
+            <a href="https://play.google.com/store/apps/details?id=com.mantra.unsap" className="btn-minimal" target="_blank" rel="noopener noreferrer">
+              Instalar App
+            </a>
             <a href="#early-access" className="btn-minimal" style={{ background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)' }}>
               Acceso Anticipado
             </a>
@@ -175,39 +174,47 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Protocol Section */}
+      {/* Install Section */}
       <section id="install" className="section-standard" style={{ background: 'var(--bg-subtle)' }}>
         <div className="container">
           <div className="luxury-grid">
             <div className="col-span-6 reveal">
-              <h2 style={{ marginBottom: '4rem' }}>Protocolo de Instalación</h2>
+              <h2 style={{ marginBottom: '4rem' }}>Tres pasos para empezar</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-                <Step num="01" title="Suministro" text="Descarga del binario oficial desde la infraestructura segura de UniCali." />
-                <Step num="02" title="Autorización" text="Habilitación de orígenes desconocidos en la configuración de Android." />
-                <Step num="03" title="Despliegue" text="Validación de integridad de firma e inicialización del entorno académico." />
+                <Step num="01" title="Instalar" text="Abre Google Play, busca UniCali e instala la app de forma segura." />
+                <Step num="02" title="Registrarse" text="Crea tu cuenta con tu correo institucional y tu código de estudiante." />
+                <Step num="03" title="Explorar" text="Accede a tus notas, horarios, comunidad y todas las funciones académicas." />
               </div>
             </div>
             <div className="col-span-6 reveal stagger-2" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ 
-                width: '100%', 
-                maxWidth: '400px', 
-                aspectRatio: '1', 
-                border: '1px solid var(--border)', 
-                display: 'flex', 
-                flexDirection: 'column', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                background: 'var(--bg)'
-              }}>
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="0.75">
-                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-                  <circle cx="12" cy="18" r="1" />
+              <a
+                href="https://play.google.com/store/apps/details?id=com.mantra.unsap"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  width: '100%',
+                  maxWidth: '400px',
+                  aspectRatio: '1',
+                  border: '1px solid var(--border)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'var(--bg)',
+                  textDecoration: 'none',
+                  transition: 'background var(--duration-fast) var(--ease-out)',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'var(--bg)')}
+              >
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="var(--primary)" aria-hidden="true">
+                  <path d="M3 20.5v-17c0-.83 1-.83 1.5-.5l16 8.5-16 8.5c-.5.33-1.5.33-1.5-.5z" />
                 </svg>
-                <div style={{ height: '3rem' }} />
-                <span className="meta-label">app-release.apk</span>
-                <div style={{ height: '1.5rem' }} />
-                <p style={{ fontSize: '0.65rem', color: 'var(--text-dim)', letterSpacing: '0.2em' }}>42 MB • ESTABLE</p>
-              </div>
+                <div style={{ height: '2rem' }} />
+                <span className="meta-label">Google Play</span>
+                <div style={{ height: '1rem' }} />
+                <p style={{ fontSize: '0.65rem', color: 'var(--text-dim)', letterSpacing: '0.2em' }}>PRUEBA ABIERTA · GRATIS</p>
+              </a>
             </div>
           </div>
         </div>

@@ -77,7 +77,7 @@ const App: React.FC = () => {
           </Link>
           <div className="nav-links-group" style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
             <a href="/#features" className="nav-link">Sistemas</a>
-            <Link to="/descargar" className="nav-link" style={{ color: 'var(--primary)', fontWeight: 600 }}>Descargar</Link>
+            <Link to="/descargar" className="nav-link" style={{ color: 'var(--primary)', fontWeight: 600 }}>Instalar</Link>
             <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle Theme">
               <ThemeIcon isDark={theme === 'dark'} />
             </button>
