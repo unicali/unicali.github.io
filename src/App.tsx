@@ -36,22 +36,37 @@ const App: React.FC = () => {
   }, [pathname]);
 
   useEffect(() => {
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('is-visible');
-      });
-    }, observerOptions);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('is-visible');
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
 
-    const observeElements = () => {
-      const elements = document.querySelectorAll('.reveal');
-      elements.forEach(el => observer.observe(el));
-    };
+    const observeAll = () =>
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    const timeoutId = setTimeout(observeElements, 150); // Un poco más de tiempo para seguridad
+    // Pass inicial — elementos ya en el DOM (carga eagerly o caché)
+    observeAll();
+
+    // MutationObserver — detecta elementos .reveal que agregan los chunks lazy
+    // después de que Suspense resuelve el import dinámico
+    let rafId = 0;
+    const mo = new MutationObserver(() => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(observeAll);
+    });
+    mo.observe(document.getElementById('root') ?? document.body, {
+      childList: true,
+      subtree: true,
+    });
+
     return () => {
-      clearTimeout(timeoutId);
-      observer.disconnect();
+      io.disconnect();
+      mo.disconnect();
+      cancelAnimationFrame(rafId);
     };
   }, [pathname]);
 
