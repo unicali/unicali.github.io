@@ -302,6 +302,7 @@ const CampusSocialCard: React.FC = () => (
     padding: '4rem 3rem',
     marginBottom: '2rem',
     display: 'flex',
+    flexWrap: 'wrap',
     alignItems: 'center',
     gap: '2rem',
     overflow: 'hidden',
@@ -350,7 +351,7 @@ const Step: React.FC<{ num: string; title: string; text: string }> = ({ num, tit
       lineHeight: 1
     }}>{num}</span>
     <div>
-      <h4 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{title}</h4>
+      <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'var(--font-sans)', fontWeight: 400 }}>{title}</h3>
       <p style={{ fontSize: '0.95rem', color: 'var(--text-dim)', fontWeight: 300 }}>{text}</p>
     </div>
   </div>

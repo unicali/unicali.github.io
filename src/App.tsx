@@ -1,21 +1,24 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Analytics } from "@vercel/analytics/react";
-import Home from './pages/Home';
-import Privacy from './pages/Privacy';
-import Terms from './pages/Terms';
-import Download from './pages/Download';
-import GuideTIF from './pages/guides/GuideTIF';
-import GuideRSU from './pages/guides/GuideRSU';
-import GradeCalculator from './pages/tools/GradeCalculator';
-import AboutUs from './pages/AboutUs';
-import Developers from './pages/Developers';
-import DevRoom from './pages/DevRoom';
-import Versions from './pages/Versions';
-import Reviews from './pages/Reviews';
 
-// Fondo 3D Persistente (Carga Diferida)
-const Experience3D = React.lazy(() => import('./components/Experience3D'));
+// Route-level code splitting — each page lands in its own chunk
+const Home            = React.lazy(() => import('./pages/Home'));
+const Privacy         = React.lazy(() => import('./pages/Privacy'));
+const Terms           = React.lazy(() => import('./pages/Terms'));
+const Download        = React.lazy(() => import('./pages/Download'));
+const GuideTIF        = React.lazy(() => import('./pages/guides/GuideTIF'));
+const GuideRSU        = React.lazy(() => import('./pages/guides/GuideRSU'));
+const GradeCalculator = React.lazy(() => import('./pages/tools/GradeCalculator'));
+const AboutUs         = React.lazy(() => import('./pages/AboutUs'));
+const Developers      = React.lazy(() => import('./pages/Developers'));
+const DevRoom         = React.lazy(() => import('./pages/DevRoom'));
+const Versions        = React.lazy(() => import('./pages/Versions'));
+const Reviews         = React.lazy(() => import('./pages/Reviews'));
+
+// Respect prefers-reduced-motion: skip Three.js entirely for accessibility + perf
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const Experience3D  = reducedMotion ? null : React.lazy(() => import('./components/Experience3D'));
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
@@ -61,14 +64,11 @@ const App: React.FC = () => {
       <Analytics />
       <div id="scroll-progress" />
       
-      {/* 
-          EXPERIENCE-ENGINE:
-          El fondo se mantiene en zIndex 0 para persistencia visual. 
-          Se eliminó la suspensión visual para evitar parpadeos.
-      */}
-      <Suspense fallback={null}>
-        <Experience3D />
-      </Suspense>
+      {Experience3D && (
+        <Suspense fallback={null}>
+          <Experience3D />
+        </Suspense>
+      )}
       
       <nav className="nav-float" style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -90,21 +90,23 @@ const App: React.FC = () => {
           Contenido envuelto en zIndex 1 para flotar sobre el fondo 3D.
       */}
       <main style={{ position: 'relative', zIndex: 1 }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/privacidad" element={<Privacy />} />
-          <Route path="/terminos" element={<Terms />} />
-          <Route path="/descargar" element={<Download />} />
-          <Route path="/guias/que-es-un-tif-unsa" element={<GuideTIF />} />
-          <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
-          <Route path="/herramientas/calculadora-unsa" element={<GradeCalculator />} />
-          <Route path="/nosotros" element={<AboutUs />} />
-          <Route path="/equipo" element={<Developers />} />
-          <Route path="/reseñas" element={<Reviews />} />
-          <Route path="/resenas" element={<Reviews />} />
-          <Route path="/versiones" element={<Versions />} />
-          <Route path="/dev" element={<DevRoom />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/privacidad" element={<Privacy />} />
+            <Route path="/terminos" element={<Terms />} />
+            <Route path="/descargar" element={<Download />} />
+            <Route path="/guias/que-es-un-tif-unsa" element={<GuideTIF />} />
+            <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
+            <Route path="/herramientas/calculadora-unsa" element={<GradeCalculator />} />
+            <Route path="/nosotros" element={<AboutUs />} />
+            <Route path="/equipo" element={<Developers />} />
+            <Route path="/reseñas" element={<Reviews />} />
+            <Route path="/resenas" element={<Reviews />} />
+            <Route path="/versiones" element={<Versions />} />
+            <Route path="/dev" element={<DevRoom />} />
+          </Routes>
+        </Suspense>
       </main>
 
       <footer style={{ padding: '10rem 0 4rem', borderTop: '1px solid var(--border)', background: 'var(--bg-subtle)', position: 'relative', zIndex: 1 }}>
