@@ -141,10 +141,13 @@ const Home: React.FC = () => {
           <div className="luxury-grid">
             <FeatureItem icon={<AIIcon />} title="IA para Consultas"
               desc="Asistente académico con comprensión de contexto y memoria de sesión para resolver tus dudas al instante."
-              stagger="stagger-1" beta span={6} />
+              stagger="stagger-1" beta />
+            <FeatureItem icon={<ScheduleIcon />} title="Horarios"
+              desc="Arma y exporta tu horario universitario con filtros por docente, sección y créditos. Compártelo como imagen en un toque."
+              stagger="stagger-2" beta />
             <FeatureItem icon={<GroupCalIcon />} title="Planificación Grupal"
               desc="Coordina tareas y proyectos con tu equipo universitario desde un espacio compartido dentro de la app."
-              stagger="stagger-2" beta span={6} />
+              stagger="stagger-3" beta />
           </div>
 
         </div>
@@ -269,6 +272,7 @@ const ReviewIcon: React.FC = () => <Ico><polygon points="12 2 15.09 8.26 22 9.27
 const CommunityIcon: React.FC = () => <Ico><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></Ico>;
 const AIIcon: React.FC = () => <Ico><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></Ico>;
 const GroupCalIcon: React.FC = () => <Ico><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="8" y1="19" x2="12" y2="19"/></Ico>;
+const ScheduleIcon: React.FC = () => <Ico><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><circle cx="12" cy="15" r="3"/><line x1="12" y1="13" x2="12" y2="15"/><line x1="12" y1="15" x2="13.5" y2="15"/></Ico>;
 
 /* ── Feature Card ───────────────────────────────────────────── */
 const FeatureItem: React.FC<{
