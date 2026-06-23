@@ -48,52 +48,53 @@ const Home: React.FC = () => {
         <title>UniCali | Arquitectura Académica Minimalista</title>
       </Helmet>
 
-      {/* Hero Section */}
+      {/* Hero Section — copy left, phone right */}
       <section className="section-hero">
         <div className="container">
-          <div className="reveal stagger-1" style={{ marginBottom: '1.5rem' }}>
-            <span className="meta-label">Versión 1.5.0</span>
-          </div>
-          <h1 className="reveal stagger-2" style={{ marginBottom: '2rem' }}>
-            UniCali
-          </h1>
-          <p className="reveal stagger-3" style={{ 
-            maxWidth: '500px', 
-            fontSize: '1.25rem', 
-            color: 'var(--text-dim)',
-            lineHeight: 1.6,
-            fontWeight: 200,
-            fontFamily: 'var(--font-serif)',
-            fontStyle: 'italic'
-          }}>
-            Un ecosistema académico de alto rendimiento. Privacidad total, persistencia local y diseño orientado a la autonomía estudiantil.
-          </p>
-          <div className="reveal stagger-4" style={{ marginTop: '4rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-            <a href="https://play.google.com/store/apps/details?id=com.mantra.unsap" className="btn-minimal" target="_blank" rel="noopener noreferrer">
-              Instalar App
-            </a>
-            <a href="#early-access" className="btn-minimal" style={{ background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)' }}>
-              Acceso Anticipado
-            </a>
-          </div>
-        </div>
-      </section>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5rem', flexWrap: 'wrap' }}>
 
-      {/* Gallery Section - Interactive 3D Phone */}
-      <section className="gallery-section">
-        <div className="container" style={{ textAlign: 'center' }}>
-          <div className="reveal" style={{ marginBottom: '4rem' }}>
-            <span className="meta-label">Privacidad por Diseño</span>
-            <h2 style={{ marginTop: '0.5rem' }}>Ecosistema Visual 3D</h2>
-            <p style={{ color: 'var(--text-dim)', maxWidth: '500px', margin: '2rem auto', fontWeight: 300 }}>
-              Mueve tu cursor para interactuar con la arquitectura UniCali. Observa cómo el filtro de privacidad protege tus datos desde ángulos laterales.
-            </p>
-          </div>
-          
-          <div className="reveal stagger-2">
-            <Suspense fallback={<div style={{ height: '500px' }} />}>
-              <PrivacyPhone />
-            </Suspense>
+            {/* Copy — izquierda en desktop, arriba en móvil */}
+            <div style={{ flex: '1 1 320px' }}>
+              <div className="reveal stagger-1" style={{ marginBottom: '1.5rem' }}>
+                <span className="meta-label">Versión 1.5.0</span>
+              </div>
+              <h1 className="reveal stagger-2" style={{ marginBottom: '2rem' }}>
+                UniCali
+              </h1>
+              <p className="reveal stagger-3" style={{
+                maxWidth: '500px',
+                fontSize: '1.25rem',
+                color: 'var(--text-dim)',
+                lineHeight: 1.6,
+                fontWeight: 200,
+                fontFamily: 'var(--font-serif)',
+                fontStyle: 'italic'
+              }}>
+                Un ecosistema académico de alto rendimiento. Privacidad total, persistencia local y diseño orientado a la autonomía estudiantil.
+              </p>
+              <div className="reveal stagger-4" style={{ marginTop: '4rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+                <a href="https://play.google.com/store/apps/details?id=com.mantra.unsap" className="btn-minimal" target="_blank" rel="noopener noreferrer">
+                  Instalar App
+                </a>
+                <a href="#early-access" className="btn-minimal" style={{ background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)' }}>
+                  Acceso Anticipado
+                </a>
+              </div>
+            </div>
+
+            {/* Teléfono — derecha en desktop, abajo en móvil */}
+            <div className="reveal stagger-2" style={{ flex: '0 0 auto', textAlign: 'center' }}>
+              <div style={{ marginBottom: '1rem' }}>
+                <span className="meta-label">Privacidad por Diseño</span>
+              </div>
+              <Suspense fallback={<div style={{ height: '500px', width: '280px' }} />}>
+                <PrivacyPhone />
+              </Suspense>
+              <p style={{ marginTop: '1rem', fontSize: '0.65rem', color: 'var(--text-dim)', letterSpacing: '0.15em', fontWeight: 300 }}>
+                ARQUITECTURA VISUAL · INTERACTIVO
+              </p>
+            </div>
+
           </div>
         </div>
       </section>

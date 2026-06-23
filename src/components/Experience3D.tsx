@@ -3,12 +3,16 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
+// Detecta si el dispositivo no tiene puntero fino (mouse) — usado para la animación
+const isTouchOnly = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
 const mouse = { x: 0, y: 0 };
 
 const ParticleField = () => {
   const pointsRef = useRef<THREE.Points>(null);
 
   useEffect(() => {
+    if (isTouchOnly) return;
     const onMove = (e: MouseEvent) => {
       mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
       mouse.y = -(e.clientY / window.innerHeight - 0.5) * 2;
@@ -26,13 +30,12 @@ const ParticleField = () => {
     const cSecondary = new THREE.Color('#c29958');
 
     for (let i = 0; i < count; i++) {
-      // Distribución esférica — mejor sensación de profundidad 3D
       const phi    = Math.acos(2 * Math.random() - 1);
       const theta  = Math.random() * Math.PI * 2;
       const radius = 5 + Math.random() * 13;
 
       pos[i * 3]     = radius * Math.sin(phi) * Math.cos(theta);
-      pos[i * 3 + 1] = radius * Math.cos(phi) * 3.5; // Estirar eje Y para pantallas altas
+      pos[i * 3 + 1] = radius * Math.cos(phi) * 3.5;
       pos[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
 
       const c = Math.random() > 0.55 ? cPrimary : cSecondary;
@@ -48,22 +51,37 @@ const ParticleField = () => {
     if (!pointsRef.current) return;
     const t = state.clock.getElapsedTime();
 
-    // Rotación base lenta
+    // Rotación base — igual en todos los dispositivos
     pointsRef.current.rotation.y = t * 0.015;
 
-    // Parallax suave siguiendo el cursor (tilt en X y Z)
-    pointsRef.current.rotation.x = THREE.MathUtils.lerp(
-      pointsRef.current.rotation.x,
-      mouse.y * 0.09,
-      0.025
-    );
-    pointsRef.current.rotation.z = THREE.MathUtils.lerp(
-      pointsRef.current.rotation.z,
-      -mouse.x * 0.045,
-      0.025
-    );
+    if (isTouchOnly) {
+      // Móvil / touch: ondulación automática lenta en dos ejes
+      // Crea sensación de profundidad sin necesitar interacción del usuario
+      pointsRef.current.rotation.x = THREE.MathUtils.lerp(
+        pointsRef.current.rotation.x,
+        Math.sin(t * 0.25) * 0.07,
+        0.03
+      );
+      pointsRef.current.rotation.z = THREE.MathUtils.lerp(
+        pointsRef.current.rotation.z,
+        Math.cos(t * 0.18) * 0.035,
+        0.03
+      );
+    } else {
+      // Desktop: el campo sigue el cursor suavemente
+      pointsRef.current.rotation.x = THREE.MathUtils.lerp(
+        pointsRef.current.rotation.x,
+        mouse.y * 0.09,
+        0.025
+      );
+      pointsRef.current.rotation.z = THREE.MathUtils.lerp(
+        pointsRef.current.rotation.z,
+        -mouse.x * 0.045,
+        0.025
+      );
+    }
 
-    // Parallax de scroll vertical
+    // Parallax de scroll — igual en todos los dispositivos
     pointsRef.current.position.y = THREE.MathUtils.lerp(
       pointsRef.current.position.y,
       window.scrollY * 0.0003,
