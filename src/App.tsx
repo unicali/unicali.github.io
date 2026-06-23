@@ -16,9 +16,7 @@ const DevRoom         = React.lazy(() => import('./pages/DevRoom'));
 const Versions        = React.lazy(() => import('./pages/Versions'));
 const Reviews         = React.lazy(() => import('./pages/Reviews'));
 
-// Respect prefers-reduced-motion: skip Three.js entirely for accessibility + perf
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const Experience3D  = reducedMotion ? null : React.lazy(() => import('./components/Experience3D'));
+const Experience3D = React.lazy(() => import('./components/Experience3D'));
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
@@ -79,11 +77,9 @@ const App: React.FC = () => {
       <Analytics />
       <div id="scroll-progress" />
       
-      {Experience3D && (
-        <Suspense fallback={null}>
-          <Experience3D />
-        </Suspense>
-      )}
+      <Suspense fallback={null}>
+        <Experience3D />
+      </Suspense>
       
       <nav className="nav-float" style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
