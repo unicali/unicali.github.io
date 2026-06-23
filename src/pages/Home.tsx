@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet-async';
 
 const PrivacyPhone = React.lazy(() => import('../components/PrivacyPhone'));
 
+const isTouch = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
 const Home: React.FC = () => {
   const [formState, setFormState] = useState<{
     submitting: boolean;
@@ -91,7 +93,7 @@ const Home: React.FC = () => {
                 <PrivacyPhone />
               </Suspense>
               <p style={{ marginTop: '1rem', fontSize: '0.65rem', color: 'var(--text-dim)', letterSpacing: '0.15em', fontWeight: 300 }}>
-                ARQUITECTURA VISUAL · INTERACTIVO
+                {isTouch ? 'DESLIZA LA PANTALLA · INTERACTIVO' : 'ARQUITECTURA VISUAL · INTERACTIVO'}
               </p>
             </div>
 

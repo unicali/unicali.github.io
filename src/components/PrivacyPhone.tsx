@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 const screenshots = [
-  '/screenshots/login.png',
-  '/screenshots/campus.png',
-  '/screenshots/notas.png',
-  '/screenshots/estadisticas.png',
-  '/screenshots/perfil.png',
-  '/screenshots/lab.png',
+  { src: '/screenshots/login.png',        alt: 'UniCali — inicio de sesión con cuenta universitaria UNSA' },
+  { src: '/screenshots/campus.png',       alt: 'UniCali — Campus Social: foro y comunidad universitaria' },
+  { src: '/screenshots/notas.png',        alt: 'UniCali — visualización de notas y calificaciones UNSA' },
+  { src: '/screenshots/estadisticas.png', alt: 'UniCali — estadísticas y promedio ponderado académico' },
+  { src: '/screenshots/perfil.png',       alt: 'UniCali — perfil del estudiante universitario' },
+  { src: '/screenshots/lab.png',          alt: 'UniCali — Laboratorio: simulación de notas y sustitutorios' },
 ];
 
 const PrivacyPhone: React.FC = () => {
@@ -23,29 +23,41 @@ const PrivacyPhone: React.FC = () => {
       else if (width < 768) setScale(0.9);
       else setScale(1);
     };
-
     handleResize();
     window.addEventListener('resize', handleResize);
 
+    // Desktop: tilt siguiendo el cursor
     const handleMouseMove = (e: MouseEvent) => {
-      const { innerWidth, innerHeight } = window;
-      const x = (e.clientX - innerWidth / 2) / (innerWidth / 2);
-      const y = (e.clientY - innerHeight / 2) / (innerHeight / 2);
-
-      const targetRy = x * 25; 
-      const targetRx = -y * 20;
-
-      setRotation({ x: targetRx, y: targetRy });
-
-      const angle = Math.abs(targetRy);
-      const priv = Math.max(0, (angle - 10) / 15);
-      setPrivOpacity(priv);
+      const x = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      const y = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+      const ry = x * 25;
+      setRotation({ x: -y * 20, y: ry });
+      setPrivOpacity(Math.max(0, (Math.abs(ry) - 10) / 15));
     };
-
     window.addEventListener('mousemove', handleMouseMove);
+
+    // Móvil: tilt siguiendo el toque — misma experiencia sin cursor
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!e.touches.length) return;
+      const t = e.touches[0];
+      const x = (t.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      const y = (t.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+      const ry = x * 25;
+      setRotation({ x: -y * 20, y: ry });
+      setPrivOpacity(Math.max(0, (Math.abs(ry) - 10) / 15));
+    };
+    const handleTouchEnd = () => {
+      setRotation({ x: 0, y: 0 });
+      setPrivOpacity(0);
+    };
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd);
+
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, []);
 
@@ -93,16 +105,17 @@ const PrivacyPhone: React.FC = () => {
             transition: 'opacity 0.2s ease'
           }} />
 
-          {screenshots.map((src, index) => (
-            <img 
+          {screenshots.map(({ src, alt }, index) => (
+            <img
               key={src}
-              src={src} 
-              alt="UniCali Interface"
-              style={{ 
+              src={src}
+              alt={alt}
+              loading={index === 0 ? 'eager' : 'lazy'}
+              style={{
                 position: 'absolute',
                 inset: 0,
-                width: '100%', 
-                height: '100%', 
+                width: '100%',
+                height: '100%',
                 objectFit: 'cover',
                 opacity: currentIndex === index ? 1 : 0,
                 transition: 'opacity 0.8s ease-in-out'

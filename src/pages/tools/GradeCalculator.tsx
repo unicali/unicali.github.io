@@ -6,6 +6,50 @@ import { Link } from 'react-router-dom';
 import type { GradeUnit } from '../../domain/GradeUnit';
 import { GradeCalculatorUseCase } from '../../usecases/GradeCalculatorUseCase';
 
+/* ── Structured Data — module level (no re-crea en re-renders) ─── */
+const SCHEMA_APP = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Calculadora de Notas UNSA',
+  alternateName: 'Calculadora UNSA UniCali',
+  url: 'https://www.unicali.app/herramientas/calculadora-unsa',
+  applicationCategory: 'EducationalApplication',
+  applicationSubCategory: 'Calculator',
+  operatingSystem: 'Web',
+  browserRequirements: 'Requiere JavaScript',
+  inLanguage: 'es-PE',
+  description: 'Calcula el promedio ponderado de la Universidad Nacional de San Agustín (UNSA) con evaluación continua y examen parcial por unidad. Resultado exacto en tiempo real.',
+  featureList: [
+    'Cálculo de promedio ponderado por unidad académica',
+    'Evaluación continua y examen parcial configurables',
+    'Resultado en tiempo real sin recargar la página',
+    'Compatible con el sistema de calificación de la UNSA (aprobado: 10.5)',
+    'Gratuito y sin registro requerido',
+  ],
+  audience: {
+    '@type': 'Audience',
+    audienceType: 'Estudiantes universitarios de la UNSA — Arequipa, Perú',
+  },
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'PEN',
+    availability: 'https://schema.org/InStock',
+  },
+  author: { '@type': 'Organization', name: 'UniCali', url: 'https://www.unicali.app' },
+  provider: { '@type': 'Organization', name: 'UniCali', url: 'https://www.unicali.app' },
+});
+
+const SCHEMA_BREADCRUMB = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'UniCali', item: 'https://www.unicali.app' },
+    { '@type': 'ListItem', position: 2, name: 'Herramientas', item: 'https://www.unicali.app/herramientas' },
+    { '@type': 'ListItem', position: 3, name: 'Calculadora de Notas UNSA', item: 'https://www.unicali.app/herramientas/calculadora-unsa' },
+  ],
+});
+
 const GradeCalculator: React.FC = () => {
   const [expandedUnit, setExpandedUnit] = useState<number | null>(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -85,41 +129,36 @@ const GradeCalculator: React.FC = () => {
     setUnits(prev => prev.map(u => u.id === id ? { ...u, [field]: num } : u));
   };
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Calculadora Notas UNSA",
-    "applicationCategory": "EducationalApplication",
-    "operatingSystem": "Web, Android",
-    "author": {
-      "@type": "Organization",
-      "name": "UniCali"
-    },
-    "description": "Herramienta gratuita para calcular el promedio ponderado de la Universidad Nacional de San Agustín (UNSA) en tiempo real.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "COP"
-    }
-  };
-
   return (
     <>
       <Helmet>
-        <title>Calculadora de Notas UNSA 2026 | Promedio Exacto al Instante</title>
-        <meta name="description" content="Calcula tu promedio ponderado de la UNSA en segundos. Herramienta gratuita, sin lag y sin necesidad de escribir porcentajes. Descubre cuánto necesitas para aprobar." />
-        
-        {/* Open Graph / Social Viral Card */}
-        <meta property="og:title" content="Calculadora de Notas UNSA 2026 | Promedio Exacto" />
-        <meta property="og:description" content="¿Cuánto necesitas para aprobar? Calcula tu promedio de la UNSA en tiempo real con nuestra herramienta optimizada." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://unicali.github.io/herramientas/calculadora-unsa" />
-        <meta property="og:image" content="https://unicali.github.io/og-calculadora.jpg" />
+        {/* ── Primary SEO ─────────────────────────────── */}
+        <title>Calculadora de Notas UNSA — Promedio Ponderado al Instante | UniCali</title>
+        <meta name="description"
+              content="¿Cuánto necesitas para aprobar en la UNSA? Calcula tu promedio ponderado con evaluación continua y parcial por unidad. Resultado exacto en tiempo real. Gratis y sin registro." />
+        <meta name="keywords"
+              content="calculadora de notas UNSA, calculadora UNSA, promedio ponderado UNSA, calcular promedio UNSA, herramientas UNSA, calculadora unicali, notas UNSA 2026, calculadora notas universitarias arequipa, calcular nota UNSA" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://www.unicali.app/herramientas/calculadora-unsa" />
 
-        {/* JSON-LD Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify(jsonLd)}
-        </script>
+        {/* ── Open Graph ──────────────────────────────── */}
+        <meta property="og:title" content="Calculadora de Notas UNSA | Promedio Ponderado al Instante" />
+        <meta property="og:description" content="¿Cuánto necesitas para aprobar en la UNSA? Calcula tu promedio ponderado en tiempo real. Gratis y sin registro." />
+        <meta property="og:url" content="https://www.unicali.app/herramientas/calculadora-unsa" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="UniCali" />
+        <meta property="og:image" content="https://www.unicali.app/og-image.png" />
+        <meta property="og:locale" content="es_PE" />
+
+        {/* ── Twitter / X Card ────────────────────────── */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Calculadora de Notas UNSA | UniCali" />
+        <meta name="twitter:description" content="Calcula tu promedio ponderado UNSA al instante. Gratis y sin registro." />
+        <meta name="twitter:image" content="https://www.unicali.app/og-image.png" />
+
+        {/* ── Structured Data ─────────────────────────── */}
+        <script type="application/ld+json">{SCHEMA_APP}</script>
+        <script type="application/ld+json">{SCHEMA_BREADCRUMB}</script>
       </Helmet>
 
       {/* Canvas para la celebración */}
