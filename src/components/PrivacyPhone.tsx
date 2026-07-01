@@ -1,19 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 const screenshots = [
-  { src: '/screenshots/login.png',        alt: 'UniCali — inicio de sesión con cuenta universitaria UNSA' },
-  { src: '/screenshots/campus.png',       alt: 'UniCali — Campus Social: foro y comunidad universitaria' },
-  { src: '/screenshots/notas.png',        alt: 'UniCali — visualización de notas y calificaciones UNSA' },
-  { src: '/screenshots/estadisticas.png', alt: 'UniCali — estadísticas y promedio ponderado académico' },
-  { src: '/screenshots/perfil.png',       alt: 'UniCali — perfil del estudiante universitario' },
-  { src: '/screenshots/lab.png',          alt: 'UniCali — Laboratorio: simulación de notas y sustitutorios' },
+  { src: '/screenshots/login.jpg', alt: 'UniCali - inicio de sesion' },
+  { src: '/screenshots/campus.png', alt: 'UniCali - campus universitario' },
+  { src: '/screenshots/campus-gente.png', alt: 'UniCali - comunidad universitaria' },
+  { src: '/screenshots/notas.png', alt: 'UniCali - notas academicas' },
+  { src: '/screenshots/estadisticas.png', alt: 'UniCali - estadisticas academicas' },
+  { src: '/screenshots/perfil.png', alt: 'UniCali - perfil de estudiante' },
+  { src: '/screenshots/lab.png', alt: 'UniCali - laboratorio de simulacion' },
+  { src: '/screenshots/calculadora.png', alt: 'UniCali - calculadora academica' },
+  { src: '/screenshots/rese%C3%B1as-docente.png', alt: 'UniCali - resenas de docente' },
 ];
 
 const PrivacyPhone: React.FC = () => {
   const phoneRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [privacyOpacity, setPrivOpacity] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [swipeOffset, setSwipeOffset] = useState(0);
   const [scale, setScale] = useState(1);
 
   useEffect(() => {
@@ -64,9 +69,40 @@ const PrivacyPhone: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % screenshots.length);
+      setSwipeOffset(0);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  const goToIndex = (index: number) => {
+    setCurrentIndex((index + screenshots.length) % screenshots.length);
+    setSwipeOffset(0);
+  };
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    touchStartX.current = e.clientX;
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null) return;
+    const delta = e.clientX - touchStartX.current;
+    setSwipeOffset(Math.max(-48, Math.min(48, delta)));
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null) return;
+    const delta = e.clientX - touchStartX.current;
+    touchStartX.current = null;
+    e.currentTarget.releasePointerCapture(e.pointerId);
+
+    if (Math.abs(delta) > 42) {
+      goToIndex(currentIndex + (delta < 0 ? 1 : -1));
+      return;
+    }
+
+    setSwipeOffset(0);
+  };
 
   return (
     <div className="phone-scene-3d" style={{ perspective: '1200px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
@@ -81,7 +117,8 @@ const PrivacyPhone: React.FC = () => {
           transform: `scale(${scale}) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
           transition: 'transform 0.1s ease-out',
           borderRadius: '30px',
-          boxShadow: '0 30px 80px rgba(0,0,0,0.2)'
+          boxShadow: '0 30px 80px rgba(0,0,0,0.2)',
+          userSelect: 'none'
         }}
       >
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, #c29958, #8b004a)', borderRadius: '30px', transform: 'translateZ(-12px)' }} />
@@ -94,7 +131,15 @@ const PrivacyPhone: React.FC = () => {
           overflow: 'hidden',
           transform: 'translateZ(1px)',
           border: '2px solid rgba(255,255,255,0.05)'
-        }}>
+        }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={() => {
+            touchStartX.current = null;
+            setSwipeOffset(0);
+          }}
+        >
           <div style={{
             position: 'absolute',
             inset: 0,
@@ -105,23 +150,34 @@ const PrivacyPhone: React.FC = () => {
             transition: 'opacity 0.2s ease'
           }} />
 
-          {screenshots.map(({ src, alt }, index) => (
-            <img
-              key={src}
-              src={src}
-              alt={alt}
-              loading={index === 0 ? 'eager' : 'lazy'}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                opacity: currentIndex === index ? 1 : 0,
-                transition: 'opacity 0.8s ease-in-out'
-              }}
-            />
-          ))}
+          <div
+            style={{
+              display: 'flex',
+              width: `${screenshots.length * 100}%`,
+              height: '100%',
+              transform: `translate3d(calc(${-currentIndex * (100 / screenshots.length)}% + ${swipeOffset}px), 0, 0)`,
+              transition: swipeOffset === 0 ? 'transform 850ms cubic-bezier(0.22, 1, 0.36, 1)' : 'none',
+              willChange: 'transform'
+            }}
+          >
+            {screenshots.map(({ src, alt }, index) => (
+              <img
+                key={src}
+                src={src}
+                alt={alt}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                draggable={false}
+                style={{
+                  width: `${100 / screenshots.length}%`,
+                  height: '100%',
+                  flex: '0 0 auto',
+                  objectFit: 'cover',
+                  transform: currentIndex === index ? 'scale(1)' : 'scale(1.015)',
+                  transition: 'transform 850ms cubic-bezier(0.22, 1, 0.36, 1)'
+                }}
+              />
+            ))}
+          </div>
 
           <div style={{
             position: 'absolute',
@@ -134,6 +190,39 @@ const PrivacyPhone: React.FC = () => {
             borderRadius: '10px',
             zIndex: 20
           }} />
+
+          <div style={{
+            position: 'absolute',
+            left: '50%',
+            bottom: '14px',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            gap: '5px',
+            zIndex: 20,
+            padding: '6px 8px',
+            borderRadius: '999px',
+            background: 'rgba(0,0,0,0.34)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            {screenshots.map(({ src }, index) => (
+              <button
+                key={`${src}-indicator`}
+                type="button"
+                aria-label={`Ver captura ${index + 1}`}
+                onClick={() => goToIndex(index)}
+                style={{
+                  width: currentIndex === index ? '16px' : '5px',
+                  height: '5px',
+                  border: 0,
+                  borderRadius: '999px',
+                  padding: 0,
+                  background: currentIndex === index ? '#f2efe7' : 'rgba(242,239,231,0.45)',
+                  transition: 'width 300ms ease, background 300ms ease',
+                  cursor: 'pointer'
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
