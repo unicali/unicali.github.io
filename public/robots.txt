@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /elements/
 
-Sitemap: https://unicali.github.io/sitemap.xml
+Sitemap: https://www.unicali.app/sitemap.xml

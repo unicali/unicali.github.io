@@ -5,6 +5,9 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import type { GradeUnit } from '../../domain/GradeUnit';
 import { GradeCalculatorUseCase } from '../../usecases/GradeCalculatorUseCase';
+import { useInstallPrompt } from '../../hooks/useInstallPrompt';
+
+const INSTALL_DISMISSED_KEY = 'calc-unsa-install-dismissed';
 
 /* ── Structured Data — module level (no re-crea en re-renders) ─── */
 const SCHEMA_APP = JSON.stringify({
@@ -55,6 +58,15 @@ const GradeCalculator: React.FC = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const hasCelebrated = useRef(false);
+  const { canInstall, promptInstall } = useInstallPrompt();
+  const [installDismissed, setInstallDismissed] = useState(
+    () => localStorage.getItem(INSTALL_DISMISSED_KEY) === '1'
+  );
+
+  const dismissInstall = () => {
+    localStorage.setItem(INSTALL_DISMISSED_KEY, '1');
+    setInstallDismissed(true);
+  };
 
   const [units, setUnits] = useState<GradeUnit[]>([
     { id: 0, name: 'Unidad 1', continua: '', parcial: '', wContinua: 20, wParcial: 13 },
@@ -175,9 +187,40 @@ const GradeCalculator: React.FC = () => {
             <span className="meta-label">Playground Digital</span>
             <h1 style={{ marginTop: '1.5rem', fontSize: 'clamp(2.5rem, 10vw, 5rem)', fontStyle: 'italic' }}>Calculadora de Notas UNSA</h1>
             <p style={{ color: 'var(--text-dim)', fontWeight: 300, marginTop: '1.5rem', maxWidth: '650px', lineHeight: 1.6 }}>
-              Utiliza nuestra calculadora para obtener tu promedio ponderado final de forma instantánea. 
+              Utiliza nuestra calculadora para obtener tu promedio ponderado final de forma instantánea.
               Ideal para estudiantes de la Universidad Nacional de San Agustín que buscan precisión y rapidez sin configuraciones complejas.
             </p>
+
+            {canInstall && !installDismissed && (
+              <div style={{
+                marginTop: '2rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '1rem',
+                flexWrap: 'wrap',
+                padding: '1rem 1.5rem',
+                border: '1px solid var(--border)',
+                background: 'var(--bg-subtle)',
+                maxWidth: '650px',
+              }}>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', margin: 0 }}>
+                  Agrega la calculadora a tu pantalla de inicio y úsala sin conexión, cada ciclo.
+                </p>
+                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexShrink: 0 }}>
+                  <button onClick={promptInstall} className="btn-minimal" style={{ fontSize: '0.65rem', padding: '0.6rem 1.2rem' }}>
+                    Instalar
+                  </button>
+                  <button
+                    onClick={dismissInstall}
+                    aria-label="Cerrar"
+                    style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="reveal stagger-1">
