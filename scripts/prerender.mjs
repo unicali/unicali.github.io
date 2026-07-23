@@ -3,10 +3,48 @@
 // route. Without this, every route serves the same dist/index.html, so
 // crawlers that don't execute JS (Bing, most social-share bots) always see
 // the homepage's meta tags — see the canonical-duplication bug this fixes.
+import { existsSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 import { preview } from 'vite';
+
+// El build de Vercel corre en un contenedor Linux minimalista al que le
+// faltan librerías del sistema que Chrome necesita para arrancar
+// (ej. libnspr4.so) — el Chromium normal de `puppeteer` no levanta ahí
+// ("error while loading shared libraries"). @sparticuz/chromium es un build
+// de Chromium empaquetado específicamente para correr en ese tipo de
+// entornos serverless (Vercel/Lambda), así que solo se usa cuando el build
+// corre en Vercel; en local se reutiliza el Chrome/Edge ya instalado.
+async function resolveBrowserOptions() {
+  if (process.env.VERCEL) {
+    const { default: chromium } = await import('@sparticuz/chromium');
+    return {
+      args: chromium.args,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+    };
+  }
+
+  const candidates = [
+    process.env.CHROME_PATH,
+    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+    'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+    'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/chromium',
+  ].filter(Boolean);
+  const executablePath = candidates.find((p) => existsSync(p));
+  if (!executablePath) {
+    throw new Error(
+      'No se encontró Chrome/Edge instalado localmente para el prerender. Define CHROME_PATH.'
+    );
+  }
+  return { headless: true, executablePath };
+}
 
 const ROUTES = [
   '/',
@@ -43,7 +81,7 @@ async function main() {
   });
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch(await resolveBrowserOptions());
     const page = await browser.newPage();
 
     // Evita contaminar GA/GTM con visitas fantasma del build
