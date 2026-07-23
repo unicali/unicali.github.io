@@ -21,13 +21,19 @@
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Título/descripción/keywords/canonical/OG/Twitter son intencionalmente
+      omitidos aquí: cada página los define vía <Helmet> (src/pages/**) y el
+      build los "hornea" por ruta en scripts/prerender.mjs. Duplicar un
+      valor genérico aquí causaba <link rel="canonical"> repetido en el DOM
+      (uno estático + uno de Helmet), lo que Bing interpretaba como
+      contenido duplicado y rechazaba indexar. Este fallback solo se ve en
+      `npm run dev` o si una ruta no está en la lista de prerender.
+    -->
     <title>UniCali | La herramienta definitiva para tu vida universitaria</title>
-    <meta name="description" content="UniCali es la plataforma independiente diseñada por y para estudiantes. Gestiona tus notas, conecta con la comunidad y optimiza tu rendimiento académico con seguridad y privacidad." />
-    <meta name="keywords" content="UniCali, estudiantes, universidad, gestión académica, Cali, notas, promedios, productividad, plataforma independiente, Android, educación, éxito académico" />
     <meta name="author" content="UniCali Team" />
     <meta name="google-site-verification" content="MpW8x6soGlqt0cXrHezUPHG6qOikFacCk176McwNdb8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any" />
-    <link rel="canonical" href="https://www.unicali.app/" />
 
     <!-- PWA / Add to Home Screen (identidad: Calculadora UNSA, ver /herramientas/calculadora-unsa) -->
     <meta name="theme-color" content="#8b004a" />
@@ -39,21 +45,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@100;200;300;400;500&display=swap" />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.unicali.app/" />
-    <meta property="og:title" content="UniCali | La herramienta definitiva para tu vida universitaria" />
-    <meta property="og:description" content="Gestiona tus notas, conecta con la comunidad y optimiza tu rendimiento académico con seguridad y privacidad." />
-    <meta property="og:image" content="https://www.unicali.app/og-image.png" />
 
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://www.unicali.app/" />
-    <meta property="twitter:title" content="UniCali | La herramienta definitiva para tu vida universitaria" />
-    <meta property="twitter:description" content="Gestiona tus notas, conecta con la comunidad y optimiza tu rendimiento académico con seguridad y privacidad." />
-    <meta property="twitter:image" content="https://www.unicali.app/og-image.png" />
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
+    <!-- JSON-LD Structured Data (sitewide — no la toca el prerender cleanup) -->
+    <script id="schema-site" type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",

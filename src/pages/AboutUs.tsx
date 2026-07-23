@@ -7,6 +7,19 @@ const AboutUs: React.FC = () => {
       <Helmet>
         <title>Manifiesto | La Génesis de UniCali</title>
         <meta name="description" content="UniCali surge de una contradicción sistémica. Una historia de resistencia técnica, honestidad brutal y la búsqueda de la asimetría cero de información." />
+        <link rel="canonical" href="https://www.unicali.app/nosotros" />
+
+        <meta property="og:title" content="Manifiesto | La Génesis de UniCali" />
+        <meta property="og:description" content="UniCali surge de una contradicción sistémica. Una historia de resistencia técnica y honestidad brutal." />
+        <meta property="og:url" content="https://www.unicali.app/nosotros" />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="UniCali" />
+        <meta property="og:image" content="https://www.unicali.app/og-image.png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Manifiesto | La Génesis de UniCali" />
+        <meta name="twitter:description" content="UniCali surge de una contradicción sistémica. Una historia de resistencia técnica y honestidad brutal." />
+        <meta name="twitter:image" content="https://www.unicali.app/og-image.png" />
       </Helmet>
 
       <article className="section-hero">

@@ -31,6 +31,20 @@ const GuideTIF: React.FC = () => {
       <Helmet>
         <title>¿Qué es un TIF UNSA? | Guía Académica UniCali</title>
         <meta name="description" content="Descubre qué es el Trabajo de Investigación Formativa (TIF) en la UNSA, su importancia y cómo organizarlo con éxito." />
+        <link rel="canonical" href="https://www.unicali.app/guias/que-es-un-tif-unsa" />
+
+        <meta property="og:title" content="¿Qué es un TIF UNSA? | Guía Académica UniCali" />
+        <meta property="og:description" content="Descubre qué es el Trabajo de Investigación Formativa (TIF) en la UNSA, su importancia y cómo organizarlo con éxito." />
+        <meta property="og:url" content="https://www.unicali.app/guias/que-es-un-tif-unsa" />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="UniCali" />
+        <meta property="og:image" content="https://www.unicali.app/og-image.png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="¿Qué es un TIF UNSA? | Guía Académica UniCali" />
+        <meta name="twitter:description" content="Descubre qué es el TIF en la UNSA y cómo organizarlo con éxito." />
+        <meta name="twitter:image" content="https://www.unicali.app/og-image.png" />
+
         <script type="application/ld+json">
           {JSON.stringify(schemaMarkup)}
         </script>

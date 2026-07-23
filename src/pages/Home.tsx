@@ -48,6 +48,20 @@ const Home: React.FC = () => {
     <>
       <Helmet>
         <title>UniCali | Arquitectura Académica Minimalista</title>
+        <meta name="description" content="UniCali es la plataforma independiente diseñada por y para estudiantes. Gestiona tus notas, conecta con la comunidad y optimiza tu rendimiento académico con seguridad y privacidad." />
+        <link rel="canonical" href="https://www.unicali.app/" />
+
+        <meta property="og:title" content="UniCali | La herramienta definitiva para tu vida universitaria" />
+        <meta property="og:description" content="Gestiona tus notas, conecta con la comunidad y optimiza tu rendimiento académico con seguridad y privacidad." />
+        <meta property="og:url" content="https://www.unicali.app/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="UniCali" />
+        <meta property="og:image" content="https://www.unicali.app/og-image.png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="UniCali | La herramienta definitiva para tu vida universitaria" />
+        <meta name="twitter:description" content="Gestiona tus notas, conecta con la comunidad y optimiza tu rendimiento académico con seguridad y privacidad." />
+        <meta name="twitter:image" content="https://www.unicali.app/og-image.png" />
       </Helmet>
 
       {/* Hero Section — copy left, phone right */}

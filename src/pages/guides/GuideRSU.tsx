@@ -14,7 +14,7 @@ const GuideRSU: React.FC = () => {
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://unicali.github.io/guias/que-es-rsu-unsa"
+      "@id": "https://www.unicali.app/guias/que-es-rsu-unsa"
     }
   };
 
@@ -46,6 +46,20 @@ const GuideRSU: React.FC = () => {
       <Helmet>
         <title>¿Qué es RSU UNSA? | Guía de Responsabilidad Social</title>
         <meta name="description" content="Domina tus proyectos de RSU. Entiende los requisitos, el impacto social y cómo UniCali te ayuda a gestionar tus tiempos académicos." />
+        <link rel="canonical" href="https://www.unicali.app/guias/que-es-rsu-unsa" />
+
+        <meta property="og:title" content="¿Qué es RSU UNSA? | Guía de Responsabilidad Social" />
+        <meta property="og:description" content="Domina tus proyectos de RSU. Entiende los requisitos, el impacto social y cómo UniCali te ayuda a gestionar tus tiempos académicos." />
+        <meta property="og:url" content="https://www.unicali.app/guias/que-es-rsu-unsa" />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="UniCali" />
+        <meta property="og:image" content="https://www.unicali.app/og-image.png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="¿Qué es RSU UNSA? | Guía de Responsabilidad Social" />
+        <meta name="twitter:description" content="Domina tus proyectos de RSU y cómo UniCali te ayuda a gestionar tus tiempos académicos." />
+        <meta name="twitter:image" content="https://www.unicali.app/og-image.png" />
+
         <script type="application/ld+json">{JSON.stringify(schemaMarkup)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>

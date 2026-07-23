@@ -118,6 +118,19 @@ const Versions: React.FC = () => {
         <title>Versiones | UniCali</title>
         <meta name="description"
               content="Historial de versiones de UniCali — cada mejora documentada desde el primer día." />
+        <link rel="canonical" href="https://www.unicali.app/versiones" />
+
+        <meta property="og:title" content="Versiones | UniCali" />
+        <meta property="og:description" content="Historial de versiones de UniCali — cada mejora documentada desde el primer día." />
+        <meta property="og:url" content="https://www.unicali.app/versiones" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="UniCali" />
+        <meta property="og:image" content="https://www.unicali.app/og-image.png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Versiones | UniCali" />
+        <meta name="twitter:description" content="Historial de versiones de UniCali — cada mejora documentada desde el primer día." />
+        <meta name="twitter:image" content="https://www.unicali.app/og-image.png" />
       </Helmet>
 
       {/* ── Hero ──────────────────────────────────────── */}

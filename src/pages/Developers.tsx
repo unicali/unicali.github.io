@@ -71,6 +71,19 @@ const Developers: React.FC = () => {
       <Helmet>
         <title>Equipo de Desarrollo | El Genoma de UniCali</title>
         <meta name="description" content="Conoce a las mentes detrás de UniCali. Células de desarrollo independientes operando bajo anonimato estratégico." />
+        <link rel="canonical" href="https://www.unicali.app/equipo" />
+
+        <meta property="og:title" content="Equipo de Desarrollo | El Genoma de UniCali" />
+        <meta property="og:description" content="Conoce a las mentes detrás de UniCali. Células de desarrollo independientes operando bajo anonimato estratégico." />
+        <meta property="og:url" content="https://www.unicali.app/equipo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="UniCali" />
+        <meta property="og:image" content="https://www.unicali.app/og-image.png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Equipo de Desarrollo | El Genoma de UniCali" />
+        <meta name="twitter:description" content="Conoce a las mentes detrás de UniCali." />
+        <meta name="twitter:image" content="https://www.unicali.app/og-image.png" />
       </Helmet>
 
       <section className="section-hero">

@@ -5,6 +5,11 @@
       "has": [{ "type": "host", "value": "unicali.app" }],
       "destination": "https://www.unicali.app/$1",
       "permanent": true
+    },
+    {
+      "source": "/resenas",
+      "destination": "/reseñas",
+      "permanent": true
     }
   ],
   "rewrites": [

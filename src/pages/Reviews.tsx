@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 type Review = {
   id: number;
@@ -54,6 +55,25 @@ const Avatar: React.FC<{ name: string; avatar?: string }> = ({ name }) => {
 
 const Reviews: React.FC = () => {
   return (
+    <>
+      <Helmet>
+        <title>Reseñas | Lo que dice la comunidad de UniCali</title>
+        <meta name="description" content="Descubre lo que estudiantes y docentes opinan de UniCali: diseño minimalista, rendimiento y facilidad de uso." />
+        <link rel="canonical" href="https://www.unicali.app/reseñas" />
+
+        <meta property="og:title" content="Reseñas | Lo que dice la comunidad de UniCali" />
+        <meta property="og:description" content="Descubre lo que estudiantes y docentes opinan de UniCali." />
+        <meta property="og:url" content="https://www.unicali.app/reseñas" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="UniCali" />
+        <meta property="og:image" content="https://www.unicali.app/og-image.png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Reseñas | Lo que dice la comunidad de UniCali" />
+        <meta name="twitter:description" content="Descubre lo que estudiantes y docentes opinan de UniCali." />
+        <meta name="twitter:image" content="https://www.unicali.app/og-image.png" />
+      </Helmet>
+
     <div className="container section-standard">
       <div className="reveal">
         <h1 style={{ fontSize: '2.4rem', marginBottom: '0.5rem' }}>Reseñas</h1>
@@ -85,6 +105,7 @@ const Reviews: React.FC = () => {
         <a href="/descargar" className="btn-minimal">Probar UniCali</a>
       </div>
     </div>
+    </>
   );
 };
 
