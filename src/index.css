@@ -149,7 +149,10 @@ h2 {
 }
 
 /* Section Spacing Classes */
-.section-hero { padding: 12rem 0 8rem; }
+/* El hero escala con la altura del viewport, no con la tipografía: en laptops
+   bajas el aire colapsa para que el CTA quede sobre el pliegue, y en monitores
+   altos se conserva la amplitud original. */
+.section-hero { padding: clamp(3rem, 7vh, 8rem) 0 clamp(3rem, 6vh, 6rem); }
 .section-standard { padding: 10rem 0; }
 .section-compact { padding: 6rem 0; }
 
