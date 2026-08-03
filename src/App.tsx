@@ -120,7 +120,7 @@ const App: React.FC = () => {
         </Suspense>
       </main>
 
-      <footer style={{ padding: '10rem 0 4rem', borderTop: '1px solid var(--border)', background: 'var(--bg-subtle)', position: 'relative', zIndex: 1 }}>
+      <footer style={{ padding: '5rem 0 4rem', borderTop: '1px solid var(--border)', background: 'var(--bg-subtle)', position: 'relative', zIndex: 1 }}>
         <div className="container">
           <div className="luxury-grid">
             <div className="col-span-4 reveal">
@@ -148,26 +148,39 @@ const App: React.FC = () => {
             </div>
 
             <div className="col-span-2 reveal stagger-3">
-              <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Social</span>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <a href="https://github.com/unicali" className="nav-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="mailto:unicali@proton.me" className="nav-link" style={{ textTransform: 'none' }}>Email</a>
-              </div>
-            </div>
-
-            <div className="col-span-2 reveal stagger-4">
               <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Desarrolladores</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link to="/nosotros" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Por qué surge UniCali?</Link>
                 <Link to="/equipo" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Quiénes somos?</Link>
+                <a href="https://github.com/unicali" className="nav-link" target="_blank" rel="noopener noreferrer" style={{ textTransform: 'none', letterSpacing: 'normal' }}>GitHub</a>
               </div>
             </div>
           </div>
           
-          <div style={{ marginTop: '8rem', paddingTop: '2rem', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
-            <p style={{ fontSize: '0.6rem', color: 'var(--text-dim)', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
-              © 2026 UniCali • Ingeniería Académica Independiente
-            </p>
+          <div className="luxury-grid" style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)', alignItems: 'center' }}>
+            <div className="col-span-6">
+              <p style={{ fontSize: '0.6rem', color: 'var(--text-dim)', letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>
+                © 2026 UniCali • Ingeniería Académica Independiente
+              </p>
+            </div>
+            <div className="col-span-4 footer-social-block">
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)', fontWeight: 300, marginRight: '0.2rem' }}>Síguenos en:</span>
+              <a href="https://www.facebook.com/profile.php?id=61592454906217" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-dim)', transition: 'all 0.3s ease', display: 'flex' }} onMouseEnter={e => { e.currentTarget.style.color = '#1877F2'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-dim)'; e.currentTarget.style.transform = 'translateY(0)'; }} aria-label="Facebook">
+                <FacebookIcon />
+              </a>
+              <a href="https://www.instagram.com/unicali.app" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-dim)', transition: 'all 0.3s ease', display: 'flex' }} onMouseEnter={e => { e.currentTarget.style.color = '#E1306C'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-dim)'; e.currentTarget.style.transform = 'translateY(0)'; }} aria-label="Instagram">
+                <InstagramIcon />
+              </a>
+              <a href="https://www.tiktok.com/@unicali.app" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-dim)', transition: 'all 0.3s ease', display: 'flex' }} onMouseEnter={e => { e.currentTarget.style.color = '#ff0050'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-dim)'; e.currentTarget.style.transform = 'translateY(0)'; }} aria-label="TikTok">
+                <TikTokIcon />
+              </a>
+              <a href="https://www.linkedin.com/in/unicali-inc-75b859405/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-dim)', transition: 'all 0.3s ease', display: 'flex' }} onMouseEnter={e => { e.currentTarget.style.color = '#0A66C2'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-dim)'; e.currentTarget.style.transform = 'translateY(0)'; }} aria-label="LinkedIn">
+                <LinkedInIcon />
+              </a>
+              <a href="mailto:soporte@unicali.app" style={{ color: 'var(--text-dim)', transition: 'all 0.3s ease', display: 'flex' }} onMouseEnter={e => { e.currentTarget.style.color = '#EA4335'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-dim)'; e.currentTarget.style.transform = 'translateY(0)'; }} aria-label="Email">
+                <EmailIcon />
+              </a>
+            </div>
           </div>
         </div>
       </footer>
@@ -182,6 +195,41 @@ const ThemeIcon: React.FC<{ isDark: boolean }> = ({ isDark }) => (
     ) : (
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
     )}
+  </svg>
+);
+
+const FacebookIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+  </svg>
+);
+
+const InstagramIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
+
+const TikTokIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+  </svg>
+);
+
+const LinkedInIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+  </svg>
+);
+
+const EmailIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+    <polyline points="22,6 12,13 2,6"></polyline>
   </svg>
 );
 

@@ -453,6 +453,14 @@ input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.2);
 }
 
+.footer-social-block {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
 /* Compact Utilities */
 .tabs-container {
   display: flex;
@@ -518,6 +526,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   /* Footer Specifics */
   footer { padding: 4rem 0 2rem; }
   footer .luxury-grid { gap: 2.5rem; }
+  .footer-social-block { justify-content: flex-start !important; margin-top: -1rem; }
 }
 
 @media (min-width: 769px) {
