@@ -206,10 +206,11 @@ const Home: React.FC = () => {
                   <button type="submit" className="btn-minimal" disabled={formState.submitting} style={{ border: 'none', cursor: 'pointer' }}>
                     {formState.submitting ? 'Registrando...' : 'Solicitar Acceso'}
                   </button>
-                  <div style={{ marginTop: '2.5rem' }}>
+                  <div style={{ marginTop: '2.5rem', display: 'flex', flexDirection: 'column', gap: '0.8rem', alignItems: 'center' }}>
                     <a href="https://play.google.com/apps/testing/com.mantra.unsap" className="secondary-link" target="_blank" rel="noopener noreferrer">
                       ¿Ya eres verificador? Acceso Directo
                     </a>
+                    <WhatsAppLink />
                   </div>
                 </div>
                 {formState.errors && (
@@ -377,5 +378,107 @@ const Step: React.FC<{ num: string; title: string; text: string }> = ({ num, tit
     </div>
   </div>
 );
+
+/* ── WhatsApp Link ─────────────────────────────────────────── */
+const WhatsAppLink: React.FC = () => {
+  const [copied, setCopied] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const url = "https://whatsapp.com/channel/0029Vb8gjmI4inohiYR8iI33";
+
+  const handleCopy = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy', err);
+    }
+  };
+
+  return (
+    <div 
+      style={{ textAlign: 'center', position: 'relative' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '0.4rem',
+        position: 'relative'
+      }}>
+        <a 
+          href={url}
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{
+            fontSize: '0.8rem',
+            color: 'var(--text-dim)',
+            textDecoration: 'none',
+            opacity: 0.7,
+            transition: 'color 0.2s, opacity 0.2s',
+            cursor: 'pointer',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.color = 'var(--primary)';
+            e.currentTarget.style.opacity = '1';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.color = 'var(--text-dim)';
+            e.currentTarget.style.opacity = '0.7';
+          }}
+        >
+          <span style={{ transition: 'opacity 0.2s', opacity: copied ? 0 : 1 }}>
+            O únete a nuestro <span style={{ textDecoration: 'underline' }}>Canal de WhatsApp</span>
+          </span>
+        </a>
+        
+        {!isTouch && (
+          <button 
+            onClick={handleCopy}
+            title="Copiar enlace"
+            style={{ 
+              background: 'transparent',
+              border: 'none',
+              padding: '0.2rem',
+              cursor: 'pointer',
+              color: 'var(--text-dim)',
+              opacity: (hovered && !copied) ? 0.8 : 0, 
+              transition: 'opacity 0.2s, color 0.2s',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--primary)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-dim)'}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            </svg>
+          </button>
+        )}
+      </div>
+
+      {copied && (
+        <span style={{ 
+          position: 'absolute', 
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          color: 'var(--primary)',
+          fontWeight: 400,
+          fontSize: '0.8rem',
+          pointerEvents: 'none',
+          whiteSpace: 'nowrap'
+        }}>
+          ¡Copiado!
+        </span>
+      )}
+    </div>
+  );
+};
 
 export default Home;
