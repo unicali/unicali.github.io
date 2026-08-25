@@ -58,6 +58,7 @@ const ROUTES = [
   '/equipo',
   '/reseñas',
   '/versiones',
+  '/status',
 ];
 
 const PORT = 4321;

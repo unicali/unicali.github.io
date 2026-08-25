@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 
 // Route-level code splitting — each page lands in its own chunk
 const Home            = React.lazy(() => import('./pages/Home'));
+const Status          = React.lazy(() => import('./pages/Status'));
 const Privacy         = React.lazy(() => import('./pages/Privacy'));
 const Terms           = React.lazy(() => import('./pages/Terms'));
 const Download        = React.lazy(() => import('./pages/Download'));
@@ -116,6 +117,7 @@ const App: React.FC = () => {
             <Route path="/resenas" element={<Reviews />} />
             <Route path="/versiones" element={<Versions />} />
             <Route path="/dev" element={<DevRoom />} />
+            <Route path="/status" element={<Status />} />
           </Routes>
         </Suspense>
       </main>
@@ -136,6 +138,7 @@ const App: React.FC = () => {
                 <Link to="/guias/que-es-un-tif-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es un TIF?</Link>
                 <Link to="/guias/que-es-rsu-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es la RSU?</Link>
                 <Link to="/herramientas/calculadora-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Calculadora</Link>
+                <Link to="/status" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Estado del Sistema</Link>
               </div>
             </div>
 
