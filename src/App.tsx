@@ -151,10 +151,10 @@ const App: React.FC = () => {
             </div>
 
             <div className="col-span-2 reveal stagger-3">
-              <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Desarrolladores</span>
+              <span className="meta-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Desarrollo</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link to="/nosotros" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Por qué surge UniCali?</Link>
-                <Link to="/equipo" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Quiénes somos?</Link>
+                <a href="https://www.unicali.app/versiones" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Versiones</a>
                 <a href="https://github.com/unicali" className="nav-link" target="_blank" rel="noopener noreferrer" style={{ textTransform: 'none', letterSpacing: 'normal' }}>GitHub</a>
               </div>
             </div>
