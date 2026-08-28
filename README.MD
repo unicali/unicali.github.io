@@ -34,3 +34,10 @@ Para proceder con la instalación del paquete alojado en la sección de *Assets*
 <div align="right">
 <b>Proyecto UNIRANK</b><br>
 </div>
+
+## SEO programático
+
+Las páginas de `/calculadora/[escuela]` se generan desde los planes de estudio
+oficiales de la UNSA. El pipeline, las fuentes de datos y las trampas que tiene
+están documentados en [`docs/seo-programatico.md`](docs/seo-programatico.md);
+los scripts, en [`scripts/seo/`](scripts/seo/README.md).

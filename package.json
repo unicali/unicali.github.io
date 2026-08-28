@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "seo:ingest": "node --env-file=.env.local scripts/seo/ingest-plans.mjs",
     "seo:pages": "node --env-file=.env.local scripts/seo/generate-pages.mjs",
-    "seo:publish": "node --env-file=.env.local scripts/seo/publish-pages.mjs"
+    "seo:publish": "node --env-file=.env.local scripts/seo/publish-pages.mjs",
+    "seo:links": "node --env-file=.env.local scripts/seo/build-links.mjs",
+    "seo:analyze": "node scripts/seo/analyze-plans.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
