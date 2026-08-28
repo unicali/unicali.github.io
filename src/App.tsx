@@ -18,11 +18,13 @@ const Versions        = React.lazy(() => import('./pages/Versions'));
 const Reviews         = React.lazy(() => import('./pages/Reviews'));
 const NotFound        = React.lazy(() => import('./pages/NotFound'));
 const ProgramCalculator = React.lazy(() => import('./pages/tools/ProgramCalculator'));
+const CalculatorHub   = React.lazy(() => import('./pages/tools/CalculatorHub'));
 
 const Experience3D = React.lazy(() => import('./components/Experience3D'));
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
+  const isProgrammaticRoute = pathname.startsWith('/calculadora');
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
   });
@@ -80,9 +82,17 @@ const App: React.FC = () => {
       <Analytics />
       <div id="scroll-progress" />
       
-      <Suspense fallback={null}>
-        <Experience3D />
-      </Suspense>
+      {/*
+          El fondo 3D son ~885 KB de JavaScript. En las paginas programaticas
+          —que es donde llega trafico de busqueda, mayoritariamente movil— ese
+          coste castiga LCP e INP, y Core Web Vitals es senal de posicionamiento.
+          El fondo es decorativo, asi que ahi simplemente no se carga.
+      */}
+      {!isProgrammaticRoute && (
+        <Suspense fallback={null}>
+          <Experience3D />
+        </Suspense>
+      )}
       
       <nav className="nav-float" style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -124,6 +134,7 @@ const App: React.FC = () => {
                 status 404 real. El comodín cubre la navegación cliente dentro del SPA. */}
             {/* Rutas programaticas: el HTML lo sirve api/seo.ts desde Supabase;
                 esta ruta cubre la navegacion cliente dentro del SPA. */}
+            <Route path="/calculadora" element={<CalculatorHub />} />
             <Route path="/calculadora/:escuela" element={<ProgramCalculator />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
@@ -147,6 +158,7 @@ const App: React.FC = () => {
                 <Link to="/guias/que-es-un-tif-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es un TIF?</Link>
                 <Link to="/guias/que-es-rsu-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es la RSU?</Link>
                 <Link to="/herramientas/calculadora-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Calculadora</Link>
+                <Link to="/calculadora" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Calculadora por carrera</Link>
                 <Link to="/status" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Estado del Sistema</Link>
               </div>
             </div>

@@ -17,29 +17,39 @@ const YEAR_LABELS = [
   'Séptimo año',
 ];
 
+// El semestre 0 significa asignatura anual: existe en Medicina, cuyas clínicas
+// duran todo el año. Etiquetarla como "primer semestre" sería sencillamente falso.
 const semesterLabel = (key: string) => {
   const [year, semester] = key.split('-');
-  return `${YEAR_LABELS[Number(year)]} · ${semester === '1' ? 'primer' : 'segundo'} semestre`;
+  const label = YEAR_LABELS[Number(year)];
+  if (semester === '0') return `${label} · asignaturas anuales`;
+  return `${label} · ${semester === '1' ? 'primer' : 'segundo'} semestre`;
 };
+
+const dim = { color: 'var(--text-dim)' };
 
 /**
  * Página programática por escuela profesional: /calculadora/[escuela].
  *
- * Lo sustantivo de la página son datos oficiales verificables (créditos,
- * prerrequisitos, estructura del plan) más una herramienta que funciona, no
- * prosa generada. Esa es la diferencia entre SEO programático útil y el
- * contenido masivo de relleno que penaliza Google.
+ * Lo sustantivo son datos oficiales verificables (créditos, prerrequisitos,
+ * estructura del plan) más una herramienta que funciona, no prosa generada.
  *
- * Los pesos de evaluación de cada asignatura NO se publican aquí a propósito:
- * viven en el sílabo, cambian por docente y por semestre, y no existe fuente
- * pública fiable. Lo que sí es oficial son los créditos, que son exactamente el
- * peso con el que se calcula el promedio ponderado del semestre.
+ * Dos decisiones que parecen detalles y no lo son:
+ *
+ * 1. La cifra que se muestra son los créditos OBLIGATORIOS. Los planes publican
+ *    toda la oferta electiva —en Música son 200 de 259 asignaturas, el catálogo
+ *    entero de instrumentos— así que el total codificado no lo cursa nadie.
+ *
+ * 2. Los pesos de evaluación de cada asignatura no se publican: viven en el
+ *    sílabo, cambian por docente y semestre, y no hay fuente pública fiable. Los
+ *    créditos sí son oficiales, y son el peso del promedio ponderado.
  */
 export default function ProgramCalculator() {
   const { escuela } = useParams<{ escuela: string }>();
   const [data, setData] = useState<ProgramPageData | null>(() => readEmbeddedProgram());
   const [notFound, setNotFound] = useState(false);
   const [semester, setSemester] = useState('1-1');
+  const [showElectives, setShowElectives] = useState(false);
   const [grades, setGrades] = useState<Record<string, number | ''>>({});
 
   // Solo se consulta la base al navegar dentro del SPA: en la primera carga el
@@ -76,7 +86,7 @@ export default function ProgramCalculator() {
         <div className="container" style={{ maxWidth: '800px' }}>
           <h1>No encontramos esa escuela</h1>
           <p style={{ marginTop: '2rem' }}>
-            <Link to="/herramientas/calculadora-unsa">Ir a la calculadora general de la UNSA</Link>
+            <Link to="/calculadora">Ver todas las escuelas profesionales de la UNSA</Link>
           </p>
         </div>
       </article>
@@ -85,19 +95,24 @@ export default function ProgramCalculator() {
 
   if (!data) return null;
 
-  const { program, courses } = data;
+  const { program, courses, faq, links, jsonLd } = data;
   const { passingGrade, gradingMax, shortName } = program.university;
+
+  const requiredCourses = courses.filter((course) => !course.isElective);
+  const electiveCourses = courses.filter((course) => course.isElective);
 
   const canonical = `${SITE_URL}/calculadora/${program.slug}`;
   const title = `Calculadora de notas ${program.name} ${shortName} | UniCali`;
   const description =
     `Calcula tu promedio ponderado de ${program.name} en la ${shortName} con los créditos ` +
-    `oficiales del plan ${program.planYear}: ${courses.length} asignaturas y ` +
-    `${program.totalCredits} créditos.`;
+    `oficiales del plan ${program.planYear}: ${requiredCourses.length} asignaturas ` +
+    `obligatorias y ${program.requiredCredits} créditos.`;
 
   const semesterKeys = [...bySemester.keys()].sort();
-  const current = bySemester.get(semester) ?? [];
-  const currentGrades: CourseGrade[] = current.map((course) => ({
+  const inSemester = bySemester.get(semester) ?? [];
+  const visible = showElectives ? inSemester : inSemester.filter((course) => !course.isElective);
+
+  const currentGrades: CourseGrade[] = visible.map((course) => ({
     code: course.code,
     credits: course.credits,
     grade: grades[course.code] ?? '',
@@ -121,10 +136,19 @@ export default function ProgramCalculator() {
         <meta property="og:locale" content="es_PE" />
         <meta property="og:image" content={`${SITE_URL}/og-image.png`} />
         <meta name="twitter:card" content="summary_large_image" />
+        {jsonLd ? <script type="application/ld+json">{JSON.stringify(jsonLd)}</script> : null}
       </Helmet>
 
       <article className="section-hero">
         <div className="container" style={{ maxWidth: '900px' }}>
+          {/* Migas visibles, no solo en JSON-LD: dan contexto al lector y reparten
+              autoridad hacia la calculadora general y el índice del clúster. */}
+          <nav aria-label="Migas de pan" style={{ fontSize: '0.78rem', ...dim, marginBottom: '2rem' }}>
+            <Link to="/">Inicio</Link> <span aria-hidden="true">/</span>{' '}
+            <Link to="/calculadora">Calculadoras UNSA</Link> <span aria-hidden="true">/</span>{' '}
+            <span>{program.name}</span>
+          </nav>
+
           <div className="reveal">
             <span className="meta-label">
               {shortName} · Plan {program.planYear}
@@ -142,12 +166,7 @@ export default function ProgramCalculator() {
 
           <div
             className="reveal stagger-1"
-            style={{
-              marginTop: '3rem',
-              color: 'var(--text-dim)',
-              fontWeight: 300,
-              lineHeight: 1.9,
-            }}
+            style={{ marginTop: '3rem', ...dim, fontWeight: 300, lineHeight: 1.9 }}
           >
             <p
               style={{
@@ -157,43 +176,103 @@ export default function ProgramCalculator() {
                 fontStyle: 'italic',
               }}
             >
-              El plan {program.planYear} de {program.name} tiene {courses.length} asignaturas y{' '}
-              {program.totalCredits} créditos. Esta calculadora usa esos créditos oficiales como
-              peso, que es exactamente como se obtiene el promedio ponderado del semestre.
+              El plan {program.planYear} de {program.name} tiene {requiredCourses.length}{' '}
+              asignaturas obligatorias y {program.requiredCredits} créditos. Esta calculadora usa
+              esos créditos oficiales como peso, que es exactamente como se obtiene el promedio
+              ponderado del semestre.
             </p>
+
+            <dl
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                gap: '1.5rem',
+                margin: '3rem 0 0',
+                padding: '1.75rem 0',
+                borderTop: '1px solid var(--border)',
+                borderBottom: '1px solid var(--border)',
+              }}
+            >
+              <div>
+                <dt style={{ fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                  Créditos obligatorios
+                </dt>
+                <dd style={{ margin: 0, fontSize: '1.8rem', color: 'var(--text)', fontFamily: 'var(--font-serif)' }}>
+                  {program.requiredCredits}
+                </dd>
+              </div>
+              <div>
+                <dt style={{ fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                  Asignaturas
+                </dt>
+                <dd style={{ margin: 0, fontSize: '1.8rem', color: 'var(--text)', fontFamily: 'var(--font-serif)' }}>
+                  {requiredCourses.length}
+                </dd>
+              </div>
+              <div>
+                <dt style={{ fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                  Electivas ofertadas
+                </dt>
+                <dd style={{ margin: 0, fontSize: '1.8rem', color: 'var(--text)', fontFamily: 'var(--font-serif)' }}>
+                  {electiveCourses.length}
+                </dd>
+              </div>
+              <div>
+                <dt style={{ fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                  Nota aprobatoria
+                </dt>
+                <dd style={{ margin: 0, fontSize: '1.8rem', color: 'var(--text)', fontFamily: 'var(--font-serif)' }}>
+                  {passingGrade}
+                </dd>
+              </div>
+            </dl>
 
             <section style={{ marginTop: '4rem' }}>
               <h2 style={{ fontSize: '1.8rem', color: 'var(--primary)', marginBottom: '1.5rem' }}>
                 Tu promedio ponderado
               </h2>
 
-              <label
-                htmlFor="semestre"
-                style={{ display: 'block', marginBottom: '0.75rem', fontSize: '0.9rem' }}
-              >
-                Semestre
-              </label>
-              <select
-                id="semestre"
-                value={semester}
-                onChange={(event) => setSemester(event.target.value)}
-                style={{
-                  padding: '0.75rem 1rem',
-                  fontFamily: 'inherit',
-                  fontSize: '1rem',
-                  width: '100%',
-                  maxWidth: '360px',
-                  background: 'var(--bg)',
-                  color: 'var(--text)',
-                  border: '1px solid var(--border)',
-                }}
-              >
-                {semesterKeys.map((key) => (
-                  <option key={key} value={key}>
-                    {semesterLabel(key)}
-                  </option>
-                ))}
-              </select>
+              <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+                <div>
+                  <label
+                    htmlFor="semestre"
+                    style={{ display: 'block', marginBottom: '0.75rem', fontSize: '0.9rem' }}
+                  >
+                    Semestre
+                  </label>
+                  <select
+                    id="semestre"
+                    value={semester}
+                    onChange={(event) => setSemester(event.target.value)}
+                    style={{
+                      padding: '0.75rem 1rem',
+                      fontFamily: 'inherit',
+                      fontSize: '1rem',
+                      minWidth: '320px',
+                      background: 'var(--bg)',
+                      color: 'var(--text)',
+                      border: '1px solid var(--border)',
+                    }}
+                  >
+                    {semesterKeys.map((key) => (
+                      <option key={key} value={key}>
+                        {semesterLabel(key)}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {electiveCourses.length > 0 && (
+                  <label style={{ fontSize: '0.85rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                    <input
+                      type="checkbox"
+                      checked={showElectives}
+                      onChange={(event) => setShowElectives(event.target.checked)}
+                    />
+                    Mostrar electivas
+                  </label>
+                )}
+              </div>
 
               <table
                 style={{
@@ -221,12 +300,13 @@ export default function ProgramCalculator() {
                   </tr>
                 </thead>
                 <tbody>
-                  {current.map((course) => (
+                  {visible.map((course) => (
                     <tr key={course.code} style={{ borderBottom: '1px solid var(--border)' }}>
                       <td style={{ padding: '0.6rem 0' }}>
                         {course.name}
                         <span style={{ display: 'block', fontSize: '0.75rem', opacity: 0.6 }}>
                           {course.code}
+                          {course.isElective && ' · electiva'}
                         </span>
                       </td>
                       <td style={{ padding: '0.6rem 0' }}>{course.credits}</td>
@@ -282,9 +362,7 @@ export default function ProgramCalculator() {
                 <p style={{ margin: '0.5rem 0 0', fontSize: '0.9rem' }}>
                   Promedio ponderado del semestre · {approvedCredits} créditos aprobados
                   {average !== null &&
-                    (average >= passingGrade
-                      ? ' · aprobado'
-                      : ` · por debajo de ${passingGrade}`)}
+                    (average >= passingGrade ? ' · aprobado' : ` · por debajo de ${passingGrade}`)}
                 </p>
                 {needed && (
                   <p style={{ margin: '0.75rem 0 0', fontSize: '0.9rem' }}>
@@ -298,10 +376,11 @@ export default function ProgramCalculator() {
 
             <section style={{ marginTop: '5rem' }}>
               <h2 style={{ fontSize: '1.8rem', color: 'var(--primary)', marginBottom: '1.5rem' }}>
-                Malla curricular completa
+                Malla curricular de {program.name}
               </h2>
               {semesterKeys.map((key) => {
-                const group = bySemester.get(key) ?? [];
+                const group = (bySemester.get(key) ?? []).filter((course) => !course.isElective);
+                if (!group.length) return null;
                 const credits = group.reduce((total, course) => total + course.credits, 0);
                 return (
                   <div key={key} style={{ marginBottom: '2.5rem' }}>
@@ -334,7 +413,54 @@ export default function ProgramCalculator() {
                   </div>
                 );
               })}
+              {electiveCourses.length > 0 && (
+                <p style={{ fontSize: '0.85rem', opacity: 0.75 }}>
+                  El plan oferta además {electiveCourses.length} asignaturas electivas, de las que
+                  cada estudiante cursa solo una parte. Actívalas en la calculadora con «Mostrar
+                  electivas».
+                </p>
+              )}
             </section>
+
+            {faq.length > 0 && (
+              <section style={{ marginTop: '5rem' }}>
+                <h2 style={{ fontSize: '1.8rem', color: 'var(--primary)', marginBottom: '1.5rem' }}>
+                  Preguntas frecuentes
+                </h2>
+                {faq.map((item) => (
+                  <div key={item.question} style={{ marginBottom: '2rem' }}>
+                    <h3 style={{ fontSize: '1.05rem', marginBottom: '0.5rem' }}>{item.question}</h3>
+                    <p style={{ margin: 0 }}>{item.answer}</p>
+                  </div>
+                ))}
+              </section>
+            )}
+
+            {links.length > 0 && (
+              <nav aria-label="Otras escuelas profesionales" style={{ marginTop: '5rem' }}>
+                <h2 style={{ fontSize: '1.4rem', color: 'var(--primary)', marginBottom: '1.5rem' }}>
+                  Calculadoras de otras escuelas
+                </h2>
+                <ul
+                  style={{
+                    listStyle: 'none',
+                    padding: 0,
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
+                    gap: '0.6rem',
+                  }}
+                >
+                  {links.map((link) => (
+                    <li key={link.path} style={{ fontSize: '0.88rem' }}>
+                      <Link to={link.path}>{link.anchor}</Link>
+                    </li>
+                  ))}
+                </ul>
+                <p style={{ marginTop: '1.5rem', fontSize: '0.85rem' }}>
+                  <Link to="/calculadora">Ver todas las escuelas profesionales de la UNSA</Link>
+                </p>
+              </nav>
+            )}
 
             <section style={{ marginTop: '4rem', fontSize: '0.85rem', opacity: 0.75 }}>
               <h2 style={{ fontSize: '1.2rem', color: 'var(--primary)', marginBottom: '1rem' }}>
