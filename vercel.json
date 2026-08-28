@@ -4,13 +4,37 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "unicali.app" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "unicali.app"
+        }
+      ],
       "destination": "https://www.unicali.app/$1",
       "permanent": true
     },
-    { "source": "/resenas", "destination": "/reseñas", "permanent": true }
+    {
+      "source": "/resenas",
+      "destination": "/reseñas",
+      "permanent": true
+    }
   ],
   "rewrites": [
-    { "source": "/dev", "destination": "/index.html" }
+    {
+      "source": "/calculadora/:escuela",
+      "destination": "/api/seo"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    {
+      "source": "/sitemap-calculadora.xml",
+      "destination": "/api/sitemap?chunk=calculadora"
+    },
+    {
+      "source": "/dev",
+      "destination": "/index.html"
+    }
   ]
 }
