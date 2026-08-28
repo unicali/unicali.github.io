@@ -20,6 +20,15 @@
       }
     },
     {
+      "path": "/calculadora",
+      "source": "src/pages/tools/CalculatorHub.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.9,
+        "changefreq": "weekly"
+      }
+    },
+    {
       "path": "/descargar",
       "source": "src/pages/Download.tsx",
       "prerender": true,

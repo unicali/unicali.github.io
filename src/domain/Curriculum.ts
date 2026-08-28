@@ -9,6 +9,8 @@ export interface Course {
   /** Componente formativo del plan (A..G en la leyenda del PDF de la UNSA). */
   component: string | null;
   dept: string | null;
+  /** Los planes listan toda la oferta electiva; un estudiante cursa solo una parte. */
+  isElective: boolean;
   prerequisites: string[];
 }
 
@@ -18,7 +20,10 @@ export interface Program {
   depeCode: string;
   specialtyName: string | null;
   planYear: number;
-  totalCredits: number;
+  /** Créditos de asignaturas obligatorias: el recorrido que hace todo estudiante. */
+  requiredCredits: number;
+  /** Todo lo codificado en el plan, incluida la oferta electiva completa. */
+  codedCredits: number;
   sourceUrl: string;
   university: {
     slug: string;

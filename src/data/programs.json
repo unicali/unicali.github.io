@@ -3,23 +3,357 @@
   "programs": [
     {
       "path": "/calculadora/administracion",
-      "name": "Administración"
+      "name": "Administración",
+      "requiredCredits": 199,
+      "requiredCourses": 61
+    },
+    {
+      "path": "/calculadora/antropologia",
+      "name": "Antropología",
+      "requiredCredits": 200,
+      "requiredCourses": 59
+    },
+    {
+      "path": "/calculadora/arquitectura",
+      "name": "Arquitectura",
+      "requiredCredits": 200,
+      "requiredCourses": 54
+    },
+    {
+      "path": "/calculadora/artes-musica",
+      "name": "Artes - Música",
+      "requiredCredits": 174,
+      "requiredCourses": 59
+    },
+    {
+      "path": "/calculadora/artes-plasticas",
+      "name": "Artes - Plásticas",
+      "requiredCredits": 188,
+      "requiredCourses": 55
+    },
+    {
+      "path": "/calculadora/banca-y-seguros",
+      "name": "Banca y Seguros",
+      "requiredCredits": 196,
+      "requiredCourses": 58
+    },
+    {
+      "path": "/calculadora/biologia",
+      "name": "Biología",
+      "requiredCredits": 187,
+      "requiredCourses": 48
+    },
+    {
+      "path": "/calculadora/ciencia-de-la-computacion",
+      "name": "Ciencia de la Computación",
+      "requiredCredits": 207,
+      "requiredCourses": 55
+    },
+    {
+      "path": "/calculadora/ciencias-de-la-comunicacion-periodismo",
+      "name": "Ciencias de la Comunicación - Periodismo",
+      "requiredCredits": 199,
+      "requiredCourses": 52
+    },
+    {
+      "path": "/calculadora/ciencias-de-la-comunicacion-relaciones-publicas",
+      "name": "Ciencias de la Comunicación - Relaciones Públicas",
+      "requiredCredits": 184,
+      "requiredCourses": 54
+    },
+    {
+      "path": "/calculadora/ciencias-de-la-nutricion",
+      "name": "Ciencias de la Nutrición",
+      "requiredCredits": 206,
+      "requiredCourses": 52
+    },
+    {
+      "path": "/calculadora/contabilidad",
+      "name": "Contabilidad",
+      "requiredCredits": 197,
+      "requiredCourses": 59
     },
     {
       "path": "/calculadora/derecho",
-      "name": "Derecho"
+      "name": "Derecho",
+      "requiredCredits": 216,
+      "requiredCourses": 81
     },
     {
       "path": "/calculadora/economia",
-      "name": "Economía"
+      "name": "Economía",
+      "requiredCredits": 188,
+      "requiredCourses": 53
+    },
+    {
+      "path": "/calculadora/educacion-ciencias-naturales",
+      "name": "Educación - Ciencias Naturales",
+      "requiredCredits": 180,
+      "requiredCourses": 54
+    },
+    {
+      "path": "/calculadora/educacion-ciencias-sociales",
+      "name": "Educación - Ciencias Sociales",
+      "requiredCredits": 177,
+      "requiredCourses": 53
+    },
+    {
+      "path": "/calculadora/educacion-fisica",
+      "name": "Educación - Educación Física",
+      "requiredCredits": 179,
+      "requiredCourses": 54
+    },
+    {
+      "path": "/calculadora/educacion-fisico-matematica",
+      "name": "Educación - Físico Matemática",
+      "requiredCredits": 175,
+      "requiredCourses": 51
+    },
+    {
+      "path": "/calculadora/educacion-idiomas-ingles-frances",
+      "name": "Educación - Idiomas (Inglés-Francés)",
+      "requiredCredits": 180,
+      "requiredCourses": 59
+    },
+    {
+      "path": "/calculadora/educacion-informatica-educativa",
+      "name": "Educación - Informática Educativa",
+      "requiredCredits": 175,
+      "requiredCourses": 51
+    },
+    {
+      "path": "/calculadora/educacion-inicial",
+      "name": "Educación - Educación Inicial",
+      "requiredCredits": 176,
+      "requiredCourses": 53
+    },
+    {
+      "path": "/calculadora/educacion-lengua-literatura-filosofia-y-psicologia",
+      "name": "Educación - Lengua, Literatura, Filosofía y Psicología",
+      "requiredCredits": 179,
+      "requiredCourses": 52
+    },
+    {
+      "path": "/calculadora/educacion-primaria",
+      "name": "Educación - Educación Primaria",
+      "requiredCredits": 179,
+      "requiredCourses": 51
+    },
+    {
+      "path": "/calculadora/enfermeria",
+      "name": "Enfermería",
+      "requiredCredits": 185,
+      "requiredCourses": 42
+    },
+    {
+      "path": "/calculadora/filosofia",
+      "name": "Filosofía",
+      "requiredCredits": 196,
+      "requiredCourses": 67
+    },
+    {
+      "path": "/calculadora/finanzas",
+      "name": "Finanzas",
+      "requiredCredits": 188,
+      "requiredCourses": 56
+    },
+    {
+      "path": "/calculadora/fisica",
+      "name": "Física",
+      "requiredCredits": 201,
+      "requiredCourses": 51
+    },
+    {
+      "path": "/calculadora/gestion-de-empresas",
+      "name": "Gestión - Gestión de Empresas",
+      "requiredCredits": 196,
+      "requiredCourses": 61
+    },
+    {
+      "path": "/calculadora/gestion-de-proyectos",
+      "name": "Gestión - Gestión de Proyectos",
+      "requiredCredits": 196,
+      "requiredCourses": 58
+    },
+    {
+      "path": "/calculadora/gestion-publica",
+      "name": "Gestión - Gestión Pública",
+      "requiredCredits": 198,
+      "requiredCourses": 61
+    },
+    {
+      "path": "/calculadora/historia",
+      "name": "Historia",
+      "requiredCredits": 205,
+      "requiredCourses": 59
+    },
+    {
+      "path": "/calculadora/ingenieria-agronomica",
+      "name": "Ingeniería Agronómica",
+      "requiredCredits": 196,
+      "requiredCourses": 54
+    },
+    {
+      "path": "/calculadora/ingenieria-ambiental",
+      "name": "Ingeniería Ambiental",
+      "requiredCredits": 180,
+      "requiredCourses": 55
+    },
+    {
+      "path": "/calculadora/ingenieria-civil",
+      "name": "Ingeniería Civil",
+      "requiredCredits": 206,
+      "requiredCourses": 64
+    },
+    {
+      "path": "/calculadora/ingenieria-de-industrias-alimentarias",
+      "name": "Ingeniería de Industrias Alimentarias",
+      "requiredCredits": 202,
+      "requiredCourses": 59
+    },
+    {
+      "path": "/calculadora/ingenieria-de-materiales",
+      "name": "Ingeniería de Materiales",
+      "requiredCredits": 197,
+      "requiredCourses": 50
+    },
+    {
+      "path": "/calculadora/ingenieria-de-minas",
+      "name": "Ingeniería de Minas",
+      "requiredCredits": 203,
+      "requiredCourses": 84
     },
     {
       "path": "/calculadora/ingenieria-de-sistemas",
-      "name": "Ingeniería de Sistemas"
+      "name": "Ingeniería de Sistemas",
+      "requiredCredits": 206,
+      "requiredCourses": 63
+    },
+    {
+      "path": "/calculadora/ingenieria-electrica",
+      "name": "Ingeniería Eléctrica",
+      "requiredCredits": 196,
+      "requiredCourses": 53
+    },
+    {
+      "path": "/calculadora/ingenieria-electronica",
+      "name": "Ingeniería Electrónica",
+      "requiredCredits": 203,
+      "requiredCourses": 94
+    },
+    {
+      "path": "/calculadora/ingenieria-en-telecomunicaciones",
+      "name": "Ingeniería en Telecomunicaciones",
+      "requiredCredits": 198,
+      "requiredCourses": 72
+    },
+    {
+      "path": "/calculadora/ingenieria-geofisica",
+      "name": "Ingeniería Geofísica",
+      "requiredCredits": 211,
+      "requiredCourses": 63
+    },
+    {
+      "path": "/calculadora/ingenieria-geologica",
+      "name": "Ingeniería Geológica",
+      "requiredCredits": 214,
+      "requiredCourses": 61
+    },
+    {
+      "path": "/calculadora/ingenieria-industrial",
+      "name": "Ingeniería Industrial",
+      "requiredCredits": 200,
+      "requiredCourses": 59
+    },
+    {
+      "path": "/calculadora/ingenieria-mecanica",
+      "name": "Ingeniería Mecánica",
+      "requiredCredits": 198,
+      "requiredCourses": 61
+    },
+    {
+      "path": "/calculadora/ingenieria-metalurgica",
+      "name": "Ingeniería Metalúrgica",
+      "requiredCredits": 194,
+      "requiredCourses": 58
+    },
+    {
+      "path": "/calculadora/ingenieria-pesquera",
+      "name": "Ingeniería Pesquera",
+      "requiredCredits": 206,
+      "requiredCourses": 60
+    },
+    {
+      "path": "/calculadora/ingenieria-quimica",
+      "name": "Ingeniería Química",
+      "requiredCredits": 187,
+      "requiredCourses": 52
+    },
+    {
+      "path": "/calculadora/ingenieria-sanitaria",
+      "name": "Ingeniería Sanitaria",
+      "requiredCredits": 175,
+      "requiredCourses": 55
+    },
+    {
+      "path": "/calculadora/literatura-y-linguistica",
+      "name": "Literatura y Lingüística",
+      "requiredCredits": 213,
+      "requiredCourses": 77
+    },
+    {
+      "path": "/calculadora/marketing",
+      "name": "Marketing",
+      "requiredCredits": 192,
+      "requiredCourses": 67
+    },
+    {
+      "path": "/calculadora/matematicas",
+      "name": "Matemáticas",
+      "requiredCredits": 183,
+      "requiredCourses": 46
+    },
+    {
+      "path": "/calculadora/medicina",
+      "name": "Medicina",
+      "requiredCredits": 286,
+      "requiredCourses": 52
     },
     {
       "path": "/calculadora/psicologia",
-      "name": "Psicología"
+      "name": "Psicología",
+      "requiredCredits": 223,
+      "requiredCourses": 57
+    },
+    {
+      "path": "/calculadora/quimica",
+      "name": "Química",
+      "requiredCredits": 167,
+      "requiredCourses": 40
+    },
+    {
+      "path": "/calculadora/relaciones-industriales",
+      "name": "Relaciones Industriales",
+      "requiredCredits": 198,
+      "requiredCourses": 60
+    },
+    {
+      "path": "/calculadora/sociologia",
+      "name": "Sociología",
+      "requiredCredits": 194,
+      "requiredCourses": 55
+    },
+    {
+      "path": "/calculadora/trabajo-social",
+      "name": "Trabajo Social",
+      "requiredCredits": 200,
+      "requiredCourses": 56
+    },
+    {
+      "path": "/calculadora/turismo-y-hoteleria",
+      "name": "Turismo y Hotelería",
+      "requiredCredits": 197,
+      "requiredCourses": 70
     }
   ]
 }
