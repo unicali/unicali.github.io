@@ -11,7 +11,7 @@ import { mkdirSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parsePlanPdf, assertPlanIntegrity } from './lib/parse-plan.mjs';
 import { createServiceClient } from './lib/supabase.mjs';
-import { specialtySlug, slugify, programShortName } from './lib/slug.mjs';
+import { specialtySlug, slugify, programShortName, titleCase } from './lib/slug.mjs';
 
 const UNIVERSITY_SLUG = 'unsa';
 const PLAN_YEAR = 2025;
@@ -70,10 +70,11 @@ async function ingestProgram(db, universityId, depe) {
         {
           university_id: universityId,
           slug,
-          name: name ? `${short} - ${name}` : short,
+          // Se guarda ya capitalizado: es el texto que acaba en el <title> y el <h1>.
+          name: titleCase(name ? `${short} - ${name}` : short),
           depe_code: depe,
           specialty_index: specialty.index,
-          specialty_name: name,
+          specialty_name: name ? titleCase(name) : null,
           plan_year: plan.planYear,
           total_credits: specialty.credits,
           source_url: planUrl(depe),

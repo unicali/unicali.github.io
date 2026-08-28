@@ -1,4 +1,4 @@
-// Genera dist/sitemap.xml desde el manifiesto de rutas (src/data/routes.json),
+// Genera dist/sitemap-core.xml desde el manifiesto de rutas (src/data/routes.json),
 // que es la misma fuente que consumen src/App.tsx y scripts/prerender.mjs.
 //
 // Sustituye al public/sitemap.xml escrito a mano, que tenía tres defectos:
@@ -60,5 +60,8 @@ const xml = [
   '',
 ].join('\n');
 
-writeFileSync(path.join(DIST, 'sitemap.xml'), xml, 'utf-8');
-console.log(`[sitemap] listo — ${entries.length} URLs`);
+// Es un trozo del indice: /sitemap.xml lo sirve api/sitemap.ts, que ademas lista
+// el trozo de las paginas programaticas leyendolas de la base. Asi publicar
+// contenido nuevo no exige un redeploy para que aparezca en el sitemap.
+writeFileSync(path.join(DIST, 'sitemap-core.xml'), xml, 'utf-8');
+console.log(`[sitemap] listo — dist/sitemap-core.xml con ${entries.length} URLs`);
