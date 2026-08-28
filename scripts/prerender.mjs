@@ -3,63 +3,19 @@
 // route. Without this, every route serves the same dist/index.html, so
 // crawlers that don't execute JS (Bing, most social-share bots) always see
 // the homepage's meta tags — see the canonical-duplication bug this fixes.
-import { existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import puppeteer from 'puppeteer-core';
 import { preview } from 'vite';
+import { resolveBrowserOptions } from './lib/browser.mjs';
 
-// El build de Vercel corre en un contenedor Linux minimalista al que le
-// faltan librerías del sistema que Chrome necesita para arrancar
-// (ej. libnspr4.so) — el Chromium normal de `puppeteer` no levanta ahí
-// ("error while loading shared libraries"). @sparticuz/chromium es un build
-// de Chromium empaquetado específicamente para correr en ese tipo de
-// entornos serverless (Vercel/Lambda), así que solo se usa cuando el build
-// corre en Vercel; en local se reutiliza el Chrome/Edge ya instalado.
-async function resolveBrowserOptions() {
-  if (process.env.VERCEL) {
-    const { default: chromium } = await import('@sparticuz/chromium');
-    return {
-      args: chromium.args,
-      executablePath: await chromium.executablePath(),
-      headless: chromium.headless,
-    };
-  }
 
-  const candidates = [
-    process.env.CHROME_PATH,
-    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
-    'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
-    'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
-    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-    '/usr/bin/google-chrome',
-    '/usr/bin/chromium-browser',
-    '/usr/bin/chromium',
-  ].filter(Boolean);
-  const executablePath = candidates.find((p) => existsSync(p));
-  if (!executablePath) {
-    throw new Error(
-      'No se encontró Chrome/Edge instalado localmente para el prerender. Define CHROME_PATH.'
-    );
-  }
-  return { headless: true, executablePath };
-}
-
-const ROUTES = [
-  '/',
-  '/privacidad',
-  '/terminos',
-  '/descargar',
-  '/guias/que-es-un-tif-unsa',
-  '/guias/que-es-rsu-unsa',
-  '/herramientas/calculadora-unsa',
-  '/nosotros',
-  '/equipo',
-  '/reseñas',
-  '/versiones',
-  '/status',
-];
+// Fuente única de verdad compartida con src/App.tsx y scripts/generate-sitemap.mjs.
+// Antes esta lista estaba escrita a mano aquí y ya había derivado respecto al
+// sitemap (/status se prerenderizaba pero no se publicaba).
+const manifest = JSON.parse(readFileSync(new URL('../src/data/routes.json', import.meta.url), 'utf-8'));
+const ROUTES = manifest.routes.filter((r) => r.prerender).map((r) => r.path);
 
 const PORT = 4321;
 const HOST = `http://localhost:${PORT}`;
@@ -100,7 +56,7 @@ async function main() {
       console.log(`[prerender] renderizando ${route}`);
       await page.goto(HOST + route, { waitUntil: 'networkidle0', timeout: 30000 });
       await page
-        .waitForFunction(() => !!document.querySelector('link[rel="canonical"]'), { timeout: 5000 })
+        .waitForFunction(() => !!document.querySelector('link[rel="canonical"], meta[name="robots"]'), { timeout: 5000 })
         .catch(() => {});
 
       const html = await page.evaluate((fallbackTitle) => {
@@ -120,6 +76,7 @@ async function main() {
           ...document.querySelectorAll('link[rel="canonical"]'),
           ...document.querySelectorAll('meta[name="description"]'),
           ...document.querySelectorAll('meta[name="keywords"]'),
+          ...document.querySelectorAll('meta[name="robots"]'),
           ...document.querySelectorAll('meta[property^="og:"]'),
           ...document.querySelectorAll('meta[name^="twitter:"]'),
           ...document.querySelectorAll('script[type="application/ld+json"]:not(#schema-site)'),
@@ -135,9 +92,15 @@ async function main() {
         throw new Error(`${route}: se esperaba 1 <title>, se encontraron ${titleCount}`);
       }
 
-      const outDir = route === '/' ? DIST : path.join(DIST, route);
-      await mkdir(outDir, { recursive: true });
-      await writeFile(path.join(outDir, 'index.html'), html, 'utf-8');
+      // Vercel sirve dist/404.html con status 404 para todo lo que no acierte el
+      // sistema de ficheros; el resto de rutas van como <ruta>/index.html.
+      if (route === '/404') {
+        await writeFile(path.join(DIST, '404.html'), html, 'utf-8');
+      } else {
+        const outDir = route === '/' ? DIST : path.join(DIST, route);
+        await mkdir(outDir, { recursive: true });
+        await writeFile(path.join(outDir, 'index.html'), html, 'utf-8');
+      }
     }
 
     await browser.close();
