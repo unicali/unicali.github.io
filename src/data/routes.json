@@ -1,0 +1,125 @@
+{
+  "$comment": "Fuente única de verdad de las rutas estáticas del sitio. La consumen src/App.tsx (tabla de <Route>), scripts/prerender.mjs (qué hornear) y scripts/generate-sitemap.mjs (qué publicar). Antes esta lista vivía duplicada en los tres sitios y ya había derivado: /status estaba prerenderizado pero ausente del sitemap. Las rutas programáticas (/calculadora/*) NO viven aquí: salen de la base de datos vía api/sitemap.",
+  "routes": [
+    {
+      "path": "/",
+      "source": "src/pages/Home.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 1,
+        "changefreq": "weekly"
+      }
+    },
+    {
+      "path": "/herramientas/calculadora-unsa",
+      "source": "src/pages/tools/GradeCalculator.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.9,
+        "changefreq": "weekly"
+      }
+    },
+    {
+      "path": "/descargar",
+      "source": "src/pages/Download.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.8,
+        "changefreq": "weekly"
+      }
+    },
+    {
+      "path": "/guias/que-es-un-tif-unsa",
+      "source": "src/pages/guides/GuideTIF.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.7,
+        "changefreq": "monthly"
+      }
+    },
+    {
+      "path": "/guias/que-es-rsu-unsa",
+      "source": "src/pages/guides/GuideRSU.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.7,
+        "changefreq": "monthly"
+      }
+    },
+    {
+      "path": "/versiones",
+      "source": "src/pages/Versions.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.6,
+        "changefreq": "weekly"
+      }
+    },
+    {
+      "path": "/reseñas",
+      "source": "src/pages/Reviews.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.6,
+        "changefreq": "monthly"
+      }
+    },
+    {
+      "path": "/nosotros",
+      "source": "src/pages/AboutUs.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.5,
+        "changefreq": "monthly"
+      }
+    },
+    {
+      "path": "/status",
+      "source": "src/pages/Status.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.5,
+        "changefreq": "weekly"
+      }
+    },
+    {
+      "path": "/equipo",
+      "source": "src/pages/Developers.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.4,
+        "changefreq": "monthly"
+      }
+    },
+    {
+      "path": "/privacidad",
+      "source": "src/pages/Privacy.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.3,
+        "changefreq": "yearly"
+      }
+    },
+    {
+      "path": "/terminos",
+      "source": "src/pages/Terms.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.3,
+        "changefreq": "yearly"
+      }
+    },
+    {
+      "path": "/404",
+      "source": "src/pages/NotFound.tsx",
+      "prerender": true,
+      "sitemap": false
+    },
+    {
+      "path": "/dev",
+      "source": "src/pages/DevRoom.tsx",
+      "prerender": false,
+      "sitemap": false
+    }
+  ]
+}

@@ -16,6 +16,7 @@ const Developers      = React.lazy(() => import('./pages/Developers'));
 const DevRoom         = React.lazy(() => import('./pages/DevRoom'));
 const Versions        = React.lazy(() => import('./pages/Versions'));
 const Reviews         = React.lazy(() => import('./pages/Reviews'));
+const NotFound        = React.lazy(() => import('./pages/NotFound'));
 
 const Experience3D = React.lazy(() => import('./components/Experience3D'));
 
@@ -118,6 +119,10 @@ const App: React.FC = () => {
             <Route path="/versiones" element={<Versions />} />
             <Route path="/dev" element={<DevRoom />} />
             <Route path="/status" element={<Status />} />
+            {/* /404 se prerenderiza a dist/404.html, el fichero que Vercel sirve con
+                status 404 real. El comodín cubre la navegación cliente dentro del SPA. */}
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>
