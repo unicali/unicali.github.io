@@ -20,7 +20,9 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build
-      - run: cp dist/index.html dist/404.html
+      # El build ya emite dist/404.html desde src/pages/NotFound.tsx
+      # (scripts/prerender.mjs). Antes se copiaba el index aquí, lo que
+      # convertía cada URL inexistente en una copia del home.
       - uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'

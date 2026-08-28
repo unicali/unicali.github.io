@@ -1,4 +1,6 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "redirects": [
     {
       "source": "/(.*)",
@@ -6,13 +8,9 @@
       "destination": "https://www.unicali.app/$1",
       "permanent": true
     },
-    {
-      "source": "/resenas",
-      "destination": "/reseñas",
-      "permanent": true
-    }
+    { "source": "/resenas", "destination": "/reseñas", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/dev", "destination": "/index.html" }
   ]
 }

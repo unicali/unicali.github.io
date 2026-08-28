@@ -50,7 +50,7 @@ export default defineConfig({
         // beneficia a todas las rutas, no solo a la calculadora (mejora de
         // performance/Core Web Vitals general del sitio).
         navigateFallback: '/index.html',
-        navigateFallbackDenylist: [/^\/elements\//],
+        navigateFallbackDenylist: [/^\/elements\//, /^\/calculadora\//, /^\/api\//],
         globPatterns: ['**/*.{js,css,html,svg,woff2}'],
         runtimeCaching: [
           {
