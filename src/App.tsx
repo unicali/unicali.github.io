@@ -17,6 +17,7 @@ const DevRoom         = React.lazy(() => import('./pages/DevRoom'));
 const Versions        = React.lazy(() => import('./pages/Versions'));
 const Reviews         = React.lazy(() => import('./pages/Reviews'));
 const NotFound        = React.lazy(() => import('./pages/NotFound'));
+const ProgramCalculator = React.lazy(() => import('./pages/tools/ProgramCalculator'));
 
 const Experience3D = React.lazy(() => import('./components/Experience3D'));
 
@@ -121,6 +122,9 @@ const App: React.FC = () => {
             <Route path="/status" element={<Status />} />
             {/* /404 se prerenderiza a dist/404.html, el fichero que Vercel sirve con
                 status 404 real. El comodín cubre la navegación cliente dentro del SPA. */}
+            {/* Rutas programaticas: el HTML lo sirve api/seo.ts desde Supabase;
+                esta ruta cubre la navegacion cliente dentro del SPA. */}
+            <Route path="/calculadora/:escuela" element={<ProgramCalculator />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

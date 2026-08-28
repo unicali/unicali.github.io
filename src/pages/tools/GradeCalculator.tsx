@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import type { GradeUnit } from '../../domain/GradeUnit';
 import { GradeCalculatorUseCase } from '../../usecases/GradeCalculatorUseCase';
 import { useInstallPrompt } from '../../hooks/useInstallPrompt';
+import programIndex from '../../data/programs.json';
 
 const INSTALL_DISMISSED_KEY = 'calc-unsa-install-dismissed';
 
@@ -237,6 +238,38 @@ const GradeCalculator: React.FC = () => {
               ))}
             </div>
           </div>
+
+          {/*
+              PUERTA DE ENTRADA AL CLUSTER PROGRAMATICO:
+              Es el unico enlace desde el sitio existente hacia /calculadora/*.
+              Sin el, esas paginas solo serian alcanzables por el sitemap, y las
+              paginas huerfanas rara vez llegan a indexarse. El indice lo genera
+              scripts/seo/generate-pages.mjs desde las paginas publicadas.
+          */}
+          <nav className="reveal" aria-label="Calculadoras por escuela profesional" style={{ marginTop: '8rem' }}>
+            <h2 style={{ fontSize: '1.6rem', color: 'var(--primary)', marginBottom: '1rem' }}>
+              Calculadora por escuela profesional
+            </h2>
+            <p style={{ color: 'var(--text-dim)', fontWeight: 300, marginBottom: '2rem', maxWidth: '60ch' }}>
+              Cada escuela tiene su propia calculadora de promedio ponderado, con las asignaturas y
+              los créditos oficiales de su plan de estudios ya cargados.
+            </p>
+            <ul
+              style={{
+                listStyle: 'none',
+                padding: 0,
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                gap: '0.6rem',
+              }}
+            >
+              {programIndex.programs.map((program) => (
+                <li key={program.path} style={{ fontSize: '0.88rem' }}>
+                  <Link to={program.path}>{program.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </section>
 
