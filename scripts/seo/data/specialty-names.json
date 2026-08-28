@@ -1,0 +1,10 @@
+{
+  "$comment": "Nombres de especialidad corregidos a mano. El PDF de la UNSA pierde informacion: los bytes 0x81 (A acentuada) y 0x8D (I acentuada) no existen en CP1252, y el extractor los colapsa en el mismo caracter. La reconstruccion es deterministica (la ortografia espanola fija cual va en cada palabra), pero al no ser recuperable por decodificacion se deja explicita y revisable aqui. Clave: <depe>:<indiceEspecialidad>.",
+  "names": {
+    "461:4": "FÍSICO MATEMÁTICA",
+    "461:5": "LENGUA, LITERATURA, FILOSOFÍA Y PSICOLOGÍA",
+    "461:8": "INFORMÁTICA EDUCATIVA",
+    "461:9": "EDUCACIÓN FÍSICA",
+    "471:2": "PLÁSTICAS"
+  }
+}
