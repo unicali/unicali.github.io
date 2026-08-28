@@ -13,6 +13,7 @@
 // copias — el PDF que sirve extranet al vuelo no lo trae — así que no sirve de
 // checksum universal, pero se aprovecha cuando está.)
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { isElective } from './electives.mjs';
 
 // Fronteras de columna en unidades PDF, tomadas de las posiciones reales de la
 // cabecera. Cada entrada es [campo, xMáximo); el último campo recoge el resto.
@@ -237,8 +238,27 @@ export async function parsePlanPdf(buffer) {
     }
   }
 
+  // Cuando el nombre de una asignatura es largo, el generador del PDF emite el
+  // nombre y el codigo de departamento como un unico fragmento de texto, asi que
+  // el departamento acaba pegado al nombre ("...ALIMENTARIA (E) ME"). Se separa,
+  // pero solo si el sufijo es un codigo que ese mismo documento usa en su propia
+  // columna de departamento: asi un nombre que termine de verdad en dos
+  // mayusculas no se corta por error.
+  const knownDepts = new Set(courses.map((c) => c.dept).filter(Boolean));
+  for (const course of courses) {
+    if (course.dept) continue;
+    const match = course.name.match(/^(.*?)\s+([A-Z]{2,3})$/u);
+    if (match && knownDepts.has(match[2])) {
+      course.name = match[1].trim();
+      course.dept = match[2];
+    }
+  }
+
   const parsedCredits = courses.reduce((sum, c) => sum + c.credits, 0);
-  const clean = courses.map((c) => ({ ...c, name: c.name.replace(/\s+/g, ' ').trim() }));
+  const clean = courses.map((c) => {
+    const name = c.name.replace(/\s+/g, ' ').trim();
+    return { ...c, name, isElective: isElective(name) };
+  });
 
   // Una entrada por especialidad. Las escuelas de una sola especialidad producen
   // un único elemento sin nombre propio; las 4 multi-especialidad producen una
@@ -247,11 +267,20 @@ export async function parsePlanPdf(buffer) {
     .sort((a, b) => a - b)
     .map((index) => {
       const own = clean.filter((c) => c.specialtyIndex === index);
+      const required = own.filter((c) => !c.isElective);
+      const elective = own.filter((c) => c.isElective);
+      const sum = (list) => list.reduce((total, c) => total + c.credits, 0);
       return {
         index,
         name: own.find((c) => c.specialtyName)?.specialtyName ?? null,
         courseCount: own.length,
-        credits: own.reduce((sum, c) => sum + c.credits, 0),
+        requiredCourses: required.length,
+        electiveCourses: elective.length,
+        // La cifra honesta para mostrar: lo que un estudiante cursa de verdad.
+        requiredCredits: sum(required),
+        electiveCredits: sum(elective),
+        // Lo que declara el PDF: incluye toda la oferta electiva.
+        credits: sum(own),
       };
     });
 
@@ -287,10 +316,17 @@ export function assertPlanIntegrity(plan, { source } = {}) {
       problems.push(`${c.code}: código fuera del formato de 7 dígitos`);
       continue;
     }
-    if (Number(c.code[3]) !== c.sectionYear || Number(c.code[4]) !== c.sectionSemester) {
+    const codeYear = Number(c.code[3]);
+    const codeSemester = Number(c.code[4]);
+    if (codeYear !== c.sectionYear) {
+      problems.push(`${c.code}: el código dice año ${codeYear}, la tabla dice ${c.sectionYear}`);
+    }
+    // Semestre 0 significa asignatura ANUAL (aparece en Medicina). La tabla la
+    // coloca bajo la cabecera de un semestre concreto, así que ahí no hay
+    // discrepancia que corregir: el código es el que lleva razón.
+    if (codeSemester !== 0 && codeSemester !== c.sectionSemester) {
       problems.push(
-        `${c.code}: el código dice año ${c.code[3]} semestre ${c.code[4]}, ` +
-          `la tabla dice año ${c.sectionYear} semestre ${c.sectionSemester}`,
+        `${c.code}: el código dice semestre ${codeSemester}, la tabla dice ${c.sectionSemester}`,
       );
     }
     if (!c.name) problems.push(`${c.code}: sin nombre`);

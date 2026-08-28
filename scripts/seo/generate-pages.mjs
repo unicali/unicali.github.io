@@ -24,17 +24,19 @@ const REGULATION_SOURCE = {
   publisher: 'Universidad Nacional de San Agustín de Arequipa',
 };
 
-function buildPage(program, courses) {
+function buildPage(program, courses, breakdown) {
   const path = `/calculadora/${program.slug}`;
   const canonical = SITE_URL + path;
   const shortName = program.universities.short_name;
   const name = program.name;
   const years = Math.max(...courses.map((c) => c.year));
+  const { requiredCourses, requiredCredits, electiveCourses } = breakdown;
 
   const title = `Calculadora de notas ${name} ${shortName} | UniCali`;
   const description =
     `Calcula tu promedio ponderado de ${name} en la ${shortName} con los créditos oficiales ` +
-    `del plan ${program.plan_year}: ${courses.length} asignaturas y ${program.total_credits} créditos.`;
+    `del plan ${program.plan_year}: ${requiredCourses} asignaturas obligatorias y ` +
+    `${requiredCredits} créditos.`;
 
   const faq = [
     {
@@ -47,8 +49,11 @@ function buildPage(program, courses) {
     {
       question: `¿Cuántos créditos tiene la carrera de ${name} en la ${shortName}?`,
       answer:
-        `El plan ${program.plan_year} de ${name} tiene ${program.total_credits} créditos ` +
-        `repartidos en ${courses.length} asignaturas a lo largo de ${years} años.`,
+        `El plan ${program.plan_year} de ${name} tiene ${requiredCredits} créditos ` +
+        `obligatorios repartidos en ${requiredCourses} asignaturas a lo largo de ${years} años` +
+        (electiveCourses
+          ? `, más ${electiveCourses} asignaturas electivas de las que se cursa solo una parte.`
+          : '.'),
     },
     {
       question: '¿Con qué nota se aprueba una asignatura?',
@@ -56,6 +61,18 @@ function buildPage(program, courses) {
         `La ${shortName} usa la escala vigesimal de 0 a 20. Se aprueba a partir de ` +
         `${Number(program.universities.passing_grade)}, que se redondea a 11 en el acta.`,
     },
+    ...(electiveCourses
+      ? [
+          {
+            question: `¿Por qué el plan de ${name} lista más asignaturas de las que voy a llevar?`,
+            answer:
+              `El plan publica toda la oferta electiva: ${electiveCourses} asignaturas marcadas ` +
+              `con "(E)" de las que cada estudiante cursa solo una parte. Por eso la cifra que ` +
+              `mostramos, ${requiredCredits} créditos, cuenta las obligatorias: es el recorrido ` +
+              `que sí hace todo el mundo.`,
+          },
+        ]
+      : []),
     {
       question: '¿Esta calculadora usa los pesos de mi sílabo?',
       answer:
@@ -109,11 +126,11 @@ function buildPage(program, courses) {
     meta_description: description,
     h1: `Calculadora de notas de ${name}`,
     lede:
-      `El plan ${program.plan_year} de ${name} tiene ${courses.length} asignaturas y ` +
-      `${program.total_credits} créditos.`,
+      `El plan ${program.plan_year} de ${name} tiene ${requiredCourses} asignaturas ` +
+      `obligatorias y ${requiredCredits} créditos.`,
     blocks: [
       { type: 'calculator', mode: 'weighted-average' },
-      { type: 'curriculum', courses: courses.length, credits: program.total_credits },
+      { type: 'curriculum', courses: requiredCourses, credits: requiredCredits },
       { type: 'disclaimer', text: `UniCali no está afiliado a la ${shortName}.` },
     ],
     faq,
@@ -128,9 +145,9 @@ async function main() {
   const { data: programs, error } = await db
     .from('programs')
     .select(
-      `id, university_id, slug, name, plan_year, total_credits, source_url,
+      `id, university_id, slug, name, plan_year, required_credits, coded_credits, source_url,
        universities ( short_name, passing_grade ),
-       courses ( code, year, credits )`,
+       courses ( code, year, credits, is_elective )`,
     )
     .order('slug');
   if (error) throw error;
@@ -143,7 +160,13 @@ async function main() {
       continue;
     }
 
-    const page = buildPage(program, courses);
+    const required = courses.filter((c) => !c.is_elective);
+    const breakdown = {
+      requiredCourses: required.length,
+      requiredCredits: required.reduce((total, c) => total + Number(c.credits), 0),
+      electiveCourses: courses.length - required.length,
+    };
+    const page = buildPage(program, courses, breakdown);
     // Huella del contenido publicable. Si cambia en una pagina ya publicada, la
     // pagina vuelve a 'review': regenerar contenido no debe saltarse la revision
     // solo porque la pagina ya estuviera viva.
@@ -211,7 +234,7 @@ async function main() {
   // causa más común de que el SEO programático nunca llegue a indexarse.
   const { data: published } = await db
     .from('seo_pages')
-    .select('path, programs ( name )')
+    .select('path, programs ( name, required_credits, courses ( is_elective ) )')
     .eq('cluster', 'calculadora')
     .eq('status', 'published')
     .order('path');
@@ -226,6 +249,8 @@ async function main() {
         programs: (published ?? []).map((page) => ({
           path: page.path,
           name: page.programs.name,
+          requiredCredits: page.programs.required_credits,
+          requiredCourses: (page.programs.courses ?? []).filter((c) => !c.is_elective).length,
         })),
       },
       null,

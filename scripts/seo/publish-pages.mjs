@@ -9,19 +9,22 @@
 // burocracia: cada una corresponde a un fallo real que haría daño si se publica.
 import { createServiceClient } from './lib/supabase.mjs';
 
-// Un plan de pregrado peruano de 5 años ronda los 200-320 créditos. Fuera de ese
-// rango casi siempre significa que el PDF mezcla varios planes o especialidades
-// y que los totales no representan lo que un estudiante cursa de verdad. Es
-// preferible dejar esas páginas en borrador para revisión manual que publicar
-// una cifra que un estudiante usaría para planificar su carrera.
-const CREDITS_MIN = 150;
-const CREDITS_MAX = 400;
+// Se valida sobre créditos OBLIGATORIOS, no sobre el total codificado: los
+// codificados llegan a 974 porque incluyen toda la oferta electiva.
+//
+// Y se normaliza POR AÑO de carrera, no en absoluto. Las carreras de 5 años
+// rondan los 194 créditos y Medicina, que dura 7, llega a 286; un rango fijo
+// habría bloqueado Medicina por ser larga, no por estar mal. Por año, ambas caen
+// en la misma banda (~39 y ~41).
+const CREDITS_PER_YEAR_MIN = 28;
+const CREDITS_PER_YEAR_MAX = 52;
 const MIN_COURSES = 6;
 const MIN_SOURCES = 2;
 
 function evaluate(page, seen) {
   const failures = [];
-  const courses = page.programs?.courses ?? [];
+  const allCourses = page.programs?.courses ?? [];
+  const courses = allCourses.filter((course) => !course.is_elective);
   const credits = courses.reduce((total, course) => total + Number(course.credits), 0);
 
   if (courses.length < MIN_COURSES) {
@@ -30,13 +33,18 @@ function evaluate(page, seen) {
   if ((page.seo_sources ?? []).length < MIN_SOURCES) {
     failures.push(`solo ${(page.seo_sources ?? []).length} fuentes citadas (mínimo ${MIN_SOURCES})`);
   }
-  if (credits < CREDITS_MIN || credits > CREDITS_MAX) {
-    failures.push(`${credits} créditos fuera del rango razonable ${CREDITS_MIN}-${CREDITS_MAX}`);
-  }
-  if (Math.abs(credits - Number(page.programs?.total_credits ?? 0)) > 0.01) {
+  const years = Math.max(1, ...courses.map((course) => course.year ?? 1));
+  const perYear = credits / years;
+  if (perYear < CREDITS_PER_YEAR_MIN || perYear > CREDITS_PER_YEAR_MAX) {
     failures.push(
-      `los créditos de las asignaturas (${credits}) no cuadran con el total del programa ` +
-        `(${page.programs?.total_credits})`,
+      `${credits} créditos obligatorios en ${years} años = ${perYear.toFixed(1)}/año, ` +
+        `fuera de la banda ${CREDITS_PER_YEAR_MIN}-${CREDITS_PER_YEAR_MAX}`,
+    );
+  }
+  if (Math.abs(credits - Number(page.programs?.required_credits ?? 0)) > 0.01) {
+    failures.push(
+      `los créditos obligatorios de las asignaturas (${credits}) no cuadran con el ` +
+        `required_credits del programa (${page.programs?.required_credits})`,
     );
   }
   // Un título repetido convierte el clúster en contenido duplicado a ojos de Google.
@@ -63,7 +71,7 @@ async function main() {
     .select(
       `id, path, title, h1, blocks, faq, status,
        seo_sources ( id ),
-       programs ( slug, total_credits, courses ( credits ) )`,
+       programs ( slug, required_credits, courses ( credits, is_elective, year ) )`,
     )
     .eq('cluster', 'calculadora')
     .order('path');
