@@ -1,0 +1,25 @@
+{
+  "$comment": "Generado por scripts/seo/generate-pages.mjs. Es el indice que enlaza la calculadora general con el cluster programatico; no editar a mano.",
+  "programs": [
+    {
+      "path": "/calculadora/administracion",
+      "name": "Administración"
+    },
+    {
+      "path": "/calculadora/derecho",
+      "name": "Derecho"
+    },
+    {
+      "path": "/calculadora/economia",
+      "name": "Economía"
+    },
+    {
+      "path": "/calculadora/ingenieria-de-sistemas",
+      "name": "Ingeniería de Sistemas"
+    },
+    {
+      "path": "/calculadora/psicologia",
+      "name": "Psicología"
+    }
+  ]
+}
