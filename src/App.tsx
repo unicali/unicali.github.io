@@ -96,7 +96,8 @@ const App: React.FC = () => {
       
       <nav className="nav-float" style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Link to="/" className="nav-logo" style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--primary)', textDecoration: 'none', letterSpacing: '0.4em', textTransform: 'uppercase' }}>
+          <Link to="/" className="nav-logo" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: 500, color: 'var(--primary)', textDecoration: 'none', letterSpacing: '0.4em', textTransform: 'uppercase' }}>
+            <img src="/screenshots/logo-unicali.png" alt="Logo de UniCali" title="Logo Oficial de UniCali" width="24" height="24" style={{ borderRadius: '4px' }} />
             UniCali
           </Link>
           <div className="nav-links-group" style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
@@ -146,7 +147,10 @@ const App: React.FC = () => {
         <div className="container">
           <div className="luxury-grid">
             <div className="col-span-4 reveal">
-              <h3 style={{ fontSize: '1.2rem', marginBottom: '2rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>UniCali</h3>
+              <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.2rem', marginBottom: '2rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                <img src="/screenshots/logo-unicali.png" alt="Logo de UniCali" title="Logo Oficial de UniCali" width="28" height="28" style={{ borderRadius: '6px' }} />
+                UniCali
+              </h3>
               <p style={{ color: 'var(--text-dim)', maxWidth: '300px', fontSize: '0.9rem', lineHeight: '1.8' }}>
                 Infraestructura independiente diseñada para potenciar la vida académica. Hecho por estudiantes para la comunidad.
               </p>

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 const screenshots = [
-  { src: '/screenshots/login.jpg', alt: 'UniCali - inicio de sesion' },
+  { src: '/screenshots/login.jpeg', alt: 'UniCali - inicio de sesion' },
   { src: '/screenshots/campus.png', alt: 'UniCali - campus universitario' },
   { src: '/screenshots/campus-gente.png', alt: 'UniCali - comunidad universitaria' },
   { src: '/screenshots/notas.png', alt: 'UniCali - notas academicas' },

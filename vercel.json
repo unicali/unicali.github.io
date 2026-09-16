@@ -25,6 +25,10 @@
       "destination": "/api/seo"
     },
     {
+      "source": "/status",
+      "destination": "/api/status"
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
     },

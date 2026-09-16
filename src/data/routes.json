@@ -85,7 +85,8 @@
     {
       "path": "/status",
       "source": "src/pages/Status.tsx",
-      "prerender": true,
+      "$comment": "prerender:false es OBLIGATORIO. Los avisos viven en Supabase y api/status.ts sirve esta ruta. Vercel enruta redirects -> filesystem -> rewrites, asi que si el build generase dist/status/index.html el fichero estatico ganaria y el rewrite a /api/status no se disparia nunca.",
+      "prerender": false,
       "sitemap": {
         "priority": 0.5,
         "changefreq": "weekly"

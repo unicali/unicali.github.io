@@ -50,20 +50,29 @@
     <script id="schema-site" type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "UniCali",
-        "operatingSystem": "Android, Web",
-        "applicationCategory": "EducationApplication",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "ratingCount": "1200"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "PEN"
-        }
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "UniCali",
+            "operatingSystem": "Android, Web",
+            "applicationCategory": "EducationApplication",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "ratingCount": "1200"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "PEN"
+            }
+          },
+          {
+            "@type": "Organization",
+            "url": "https://www.unicali.app/",
+            "logo": "https://www.unicali.app/screenshots/logo-unicali.png"
+          }
+        ]
       }
     </script>
   </head>
