@@ -120,6 +120,15 @@
       }
     },
     {
+      "path": "/eliminar-cuenta",
+      "source": "src/pages/DeleteAccount.tsx",
+      "prerender": true,
+      "sitemap": {
+        "priority": 0.3,
+        "changefreq": "yearly"
+      }
+    },
+    {
       "path": "/404",
       "source": "src/pages/NotFound.tsx",
       "prerender": true,

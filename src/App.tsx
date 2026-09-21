@@ -7,6 +7,7 @@ const Home            = React.lazy(() => import('./pages/Home'));
 const Status          = React.lazy(() => import('./pages/Status'));
 const Privacy         = React.lazy(() => import('./pages/Privacy'));
 const Terms           = React.lazy(() => import('./pages/Terms'));
+const DeleteAccount   = React.lazy(() => import('./pages/DeleteAccount'));
 const Download        = React.lazy(() => import('./pages/Download'));
 const GuideTIF        = React.lazy(() => import('./pages/guides/GuideTIF'));
 const GuideRSU        = React.lazy(() => import('./pages/guides/GuideRSU'));
@@ -120,6 +121,7 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/privacidad" element={<Privacy />} />
             <Route path="/terminos" element={<Terms />} />
+            <Route path="/eliminar-cuenta" element={<DeleteAccount />} />
             <Route path="/descargar" element={<Download />} />
             <Route path="/guias/que-es-un-tif-unsa" element={<GuideTIF />} />
             <Route path="/guias/que-es-rsu-unsa" element={<GuideRSU />} />
@@ -172,6 +174,7 @@ const App: React.FC = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link to="/privacidad" className="nav-link">Privacidad</Link>
                 <Link to="/terminos" className="nav-link">Términos</Link>
+                <Link to="/eliminar-cuenta" className="nav-link">Eliminar cuenta</Link>
               </div>
             </div>
 
