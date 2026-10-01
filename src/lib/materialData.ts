@@ -27,6 +27,12 @@ export interface MaterialPageData {
     uploaderNickname: string | null;
   };
   jsonLd: object | null;
+  /** Ruta a los hubs (Inicio › Biblioteca › UNSA › Escuela › Curso). Enlaces internos = SEO. */
+  breadcrumbs: Array<{ name: string; path: string | null }>;
+  /** Hub del curso, si el material está vinculado a la malla. */
+  coursePath: string | null;
+  /** Otros materiales del mismo curso (enlazado lateral). */
+  related: Array<{ path: string; title: string; meta: string }>;
 }
 
 

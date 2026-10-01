@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { readEmbeddedMaterial, type MaterialPageData } from '../lib/materialData';
 
 const dim = { color: 'var(--text-dim)' };
@@ -76,8 +76,15 @@ export default function MaterialPermalink() {
       <div className="container" style={{ maxWidth: '760px' }}>
         {material ? (
           <>
+            {/* <a> y no <Link>: los hubs los renderiza una función; una navegación
+                completa trae su HTML con datos en vez de un SPA vacío. */}
             <nav aria-label="Migas de pan" style={dim}>
-              <Link to="/">Inicio</Link> / <span>Biblioteca</span>
+              {(page.breadcrumbs ?? []).map((crumb, i) => (
+                <span key={`${crumb.name}-${i}`}>
+                  {i > 0 ? ' / ' : ''}
+                  {crumb.path ? <a href={crumb.path}>{crumb.name}</a> : <span>{crumb.name}</span>}
+                </span>
+              ))}
             </nav>
             <span className="meta-label">
               {material.kindLabel}
@@ -127,6 +134,24 @@ export default function MaterialPermalink() {
             <p style={{ ...dim, marginTop: '1rem', fontSize: '0.9rem' }}>
               El archivo se abre dentro de la app, en la Biblioteca de UniCali.
             </p>
+            {page.related?.length ? (
+              <section style={{ marginTop: '2.5rem' }}>
+                <h2 style={{ fontSize: '1.2rem' }}>Más materiales de {material.courseName}</h2>
+                <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: '0.6rem' }}>
+                  {page.related.map((r) => (
+                    <li key={r.path}>
+                      <a href={r.path}>{r.title}</a>
+                      <span style={dim}> · {r.meta}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+            {page.coursePath ? (
+              <p style={{ marginTop: '1rem' }}>
+                <a href={page.coursePath}>Ver todos los materiales de {material.courseName} →</a>
+              </p>
+            ) : null}
           </>
         ) : (
           <>

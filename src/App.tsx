@@ -21,13 +21,15 @@ const NotFound        = React.lazy(() => import('./pages/NotFound'));
 const ProgramCalculator = React.lazy(() => import('./pages/tools/ProgramCalculator'));
 const CalculatorHub   = React.lazy(() => import('./pages/tools/CalculatorHub'));
 const MaterialPermalink = React.lazy(() => import('./pages/MaterialPermalink'));
+const LibraryHub = React.lazy(() => import('./pages/LibraryHub'));
 
 const Experience3D = React.lazy(() => import('./components/Experience3D'));
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
   // /d/ = fichas de materiales compartidas: llegan desde WhatsApp, casi siempre en móvil.
-  const isProgrammaticRoute = pathname.startsWith('/calculadora') || pathname.startsWith('/d/');
+  const isProgrammaticRoute =
+    pathname.startsWith('/calculadora') || pathname.startsWith('/d/') || pathname.startsWith('/biblioteca');
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
   });
@@ -141,6 +143,10 @@ const App: React.FC = () => {
                 esta ruta cubre la navegacion cliente dentro del SPA. */}
             <Route path="/calculadora" element={<CalculatorHub />} />
             <Route path="/calculadora/:escuela" element={<ProgramCalculator />} />
+            <Route path="/biblioteca" element={<LibraryHub />} />
+            <Route path="/biblioteca/:uni" element={<LibraryHub />} />
+            <Route path="/biblioteca/:uni/:program" element={<LibraryHub />} />
+            <Route path="/biblioteca/:uni/:program/:course" element={<LibraryHub />} />
             <Route path="/d/:pid" element={<MaterialPermalink />} />
             <Route path="/d/:pid/:slug" element={<MaterialPermalink />} />
             <Route path="/404" element={<NotFound />} />
@@ -169,6 +175,8 @@ const App: React.FC = () => {
                 <Link to="/guias/que-es-rsu-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>¿Qué es la RSU?</Link>
                 <Link to="/herramientas/calculadora-unsa" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Calculadora</Link>
                 <Link to="/calculadora" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Calculadora por carrera</Link>
+                {/* <a>: la Biblioteca la renderiza una función, no el SPA. */}
+                <a href="/biblioteca" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Biblioteca de exámenes</a>
                 <Link to="/status" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Estado del Sistema</Link>
               </div>
             </div>

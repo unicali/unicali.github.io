@@ -3,6 +3,13 @@ import { createClient } from '@supabase/supabase-js';
 import shell from './_shell.json' with { type: 'json' };
 // Solo tipos (se borran al compilar): el contrato vive junto a quien lo lee.
 import type { MaterialPageData } from '../src/lib/materialData.js';
+import {
+  displayCourseName,
+  escapeHtml,
+  escapeJson,
+  kindLabel as labelForKind,
+  truncate,
+} from '../src/lib/libraryText.js';
 
 /**
  * Ficha pública de un material de la Biblioteca: /d/[public_id] y /d/[public_id]/[slug].
@@ -44,21 +51,6 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   process.env.APP_SUPABASE_PUBLISHABLE_KEY ?? 'sb_publishable_gSkc2xjc3eddGvY23OvBrg_glbRRDAW';
 
-// Espejo de MaterialKind.label (unsap/lib/features/library/domain/entities/material_facets.dart).
-const KIND_LABELS: Record<string, string> = {
-  exam: 'Examen',
-  continuous_assessment: 'Evaluación continua',
-  lab: 'Laboratorio',
-  tif: 'TIF',
-  assignment: 'Trabajo',
-  notes: 'Apuntes',
-  summary: 'Resumen',
-  slides: 'Diapositivas',
-  syllabus: 'Sílabo',
-  reading: 'Lectura',
-  other: 'Material',
-};
-
 interface PublicMaterialRow {
   public_id: string;
   availability: 'active' | 'removed';
@@ -76,21 +68,22 @@ interface PublicMaterialRow {
   endorsement_count: number | null;
   created_at: string | null;
   uploader_nickname: string | null;
+  university_slug: string | null;
+  university_short_name: string | null;
+  program_slug: string | null;
+  course_code: string | null;
+  course_slug: string | null;
+  course_name_official: string | null;
 }
 
-const escapeHtml = (value: string) =>
-  value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-
-/** Ver api/seo.ts: neutraliza `</script>` dentro de los datos incrustados. */
-const escapeJson = (value: unknown) =>
-  JSON.stringify(value).replace(/</g, '\\u003c').replace(/-->/g, '--\\u003e');
-
-const truncate = (text: string, max: number) =>
-  text.length <= max ? text : `${text.slice(0, max - 1).trimEnd()}…`;
+interface RelatedRow {
+  public_id: string;
+  slug: string | null;
+  title: string;
+  kind: string | null;
+  academic_period: string | null;
+  has_solutions: boolean;
+}
 
 /**
  * Abre la app si está instalada aunque el App Link no esté verificado (Chrome
@@ -100,7 +93,11 @@ const intentUrl = (publicId: string) =>
   `intent://www.unicali.app/d/${publicId}#Intent;scheme=https;package=${ANDROID_PACKAGE};` +
   `S.browser_fallback_url=${encodeURIComponent(PLAY_STORE_URL)};end`;
 
-function buildPage(row: PublicMaterialRow | null, publicId: string | null): MaterialPageData {
+function buildPage(
+  row: PublicMaterialRow | null,
+  publicId: string | null,
+  relatedRows: RelatedRow[] = [],
+): MaterialPageData {
   if (!row || !publicId) {
     return {
       status: 'not_found',
@@ -115,6 +112,9 @@ function buildPage(row: PublicMaterialRow | null, publicId: string | null): Mate
       },
       material: null,
       jsonLd: null,
+      breadcrumbs: [],
+      coursePath: null,
+      related: [],
     };
   }
 
@@ -133,17 +133,34 @@ function buildPage(row: PublicMaterialRow | null, publicId: string | null): Mate
       },
       material: null,
       jsonLd: null,
+      breadcrumbs: [],
+      coursePath: null,
+      related: [],
     };
   }
 
-  const kindLabel = KIND_LABELS[row.kind ?? 'other'] ?? 'Material';
+  const kindLabel = labelForKind(row.kind);
   const title = row.title ?? kindLabel;
-  const courseName = row.course_name ?? '';
+  // El nombre de la malla oficial manda; el texto libre del autor es el respaldo.
+  const courseName = displayCourseName(row.course_name_official ?? row.course_name);
+  const uniPath = row.university_slug ? `/biblioteca/${row.university_slug}` : null;
+  const programPath = uniPath && row.program_slug ? `${uniPath}/${row.program_slug}` : null;
+  const coursePath = programPath && row.course_slug ? `${programPath}/${row.course_slug}` : null;
+  const breadcrumbs = [
+    { name: 'Inicio', path: '/' },
+    { name: 'Biblioteca', path: '/biblioteca' },
+    ...(uniPath ? [{ name: row.university_short_name ?? 'UNSA', path: uniPath }] : []),
+    ...(programPath && row.program_name ? [{ name: row.program_name, path: programPath }] : []),
+    ...(coursePath ? [{ name: courseName, path: coursePath }] : []),
+    { name: title, path: null },
+  ];
   const canonical = `${SITE_URL}/d/${publicId}${row.slug ? `/${row.slug}` : ''}`;
   const downloads = Number(row.download_count ?? 0);
   const endorsements = Number(row.endorsement_count ?? 0);
 
-  const pageTitle = truncate(`${title} · ${courseName}`, 60) + ' | UniCali';
+  const shortUni = row.university_short_name ?? '';
+  const pageTitle =
+    truncate(`${title} · ${courseName}${shortUni ? ` ${shortUni}` : ''}`, 60) + ' | UniCali';
   const description = truncate(
     [
       `${kindLabel} de ${courseName}` +
@@ -171,6 +188,9 @@ function buildPage(row: PublicMaterialRow | null, publicId: string | null): Mate
         educationalLevel: 'Universitario',
         inLanguage: 'es-PE',
         about: courseName ? { '@type': 'Thing', name: courseName } : undefined,
+        isPartOf: coursePath
+          ? { '@type': 'CollectionPage', url: SITE_URL + coursePath, name: courseName }
+          : undefined,
         teaches: row.topic ?? undefined,
         description: row.description ?? undefined,
         dateCreated: row.created_at ?? undefined,
@@ -186,11 +206,12 @@ function buildPage(row: PublicMaterialRow | null, publicId: string | null): Mate
       },
       {
         '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE_URL },
-          { '@type': 'ListItem', position: 2, name: 'Biblioteca' },
-          { '@type': 'ListItem', position: 3, name: title, item: canonical },
-        ],
+        itemListElement: breadcrumbs.map((crumb, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: crumb.name,
+          item: crumb.path ? SITE_URL + crumb.path : canonical,
+        })),
       },
     ],
   };
@@ -217,6 +238,18 @@ function buildPage(row: PublicMaterialRow | null, publicId: string | null): Mate
       uploaderNickname: row.uploader_nickname,
     },
     jsonLd,
+    breadcrumbs,
+    coursePath,
+    related: relatedRows
+      .filter((r) => r.public_id !== publicId)
+      .slice(0, 6)
+      .map((r) => ({
+        path: `/d/${r.public_id}${r.slug ? `/${r.slug}` : ''}`,
+        title: r.title,
+        meta: [labelForKind(r.kind), r.academic_period, r.has_solutions ? 'con solucionario' : null]
+          .filter(Boolean)
+          .join(' · '),
+      })),
   };
 }
 
@@ -271,7 +304,9 @@ function buildBody(page: MaterialPageData) {
   ].join('');
   return (
     `<article class="section-hero"><div class="container">` +
-    `<nav aria-label="Migas de pan"><a href="/">Inicio</a> / <span>Biblioteca</span></nav>` +
+    `<nav aria-label="Migas de pan">${page.breadcrumbs
+      .map((c) => (c.path ? `<a href="${escapeHtml(c.path)}">${escapeHtml(c.name)}</a>` : escapeHtml(c.name)))
+      .join(' / ')}</nav>` +
     `<span class="meta-label">${escapeHtml(m.kindLabel)}${m.hasSolutions ? ' · Con solucionario' : ''}</span>` +
     `<h1>${escapeHtml(m.title)}</h1>` +
     `<p>${escapeHtml(m.courseName)}</p>` +
@@ -279,6 +314,14 @@ function buildBody(page: MaterialPageData) {
     `<dl>${facts}</dl>` +
     `<p><a href="${escapeHtml(page.openInAppUrl ?? PLAY_STORE_URL)}">Abrir en UniCali</a> · ` +
     `<a href="${PLAY_STORE_URL}" rel="noopener">Descargar la app</a></p>` +
+    (page.related.length
+      ? `<h2>Más materiales de ${escapeHtml(m.courseName)}</h2><ul>${page.related
+          .map((r) => `<li><a href="${escapeHtml(r.path)}">${escapeHtml(r.title)}</a> · ${escapeHtml(r.meta)}</li>`)
+          .join('')}</ul>`
+      : '') +
+    (page.coursePath
+      ? `<p><a href="${escapeHtml(page.coursePath)}">Ver todos los materiales de ${escapeHtml(m.courseName)}</a></p>`
+      : '') +
     `</div></article>`
   );
 }
@@ -306,7 +349,22 @@ export default async function handler(request: VercelRequest, response: VercelRe
     row = ((data as PublicMaterialRow[] | null) ?? [])[0] ?? null;
   }
 
-  const page = buildPage(row, publicId);
+  // Enlazado lateral: otros materiales del mismo curso. Es un extra: si falla,
+  // la ficha sale igual (sin la lista), nunca con error.
+  let related: RelatedRow[] = [];
+  if (row?.availability === 'active' && row.university_slug && row.program_slug && row.course_code) {
+    const db = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
+    const { data } = await db.rpc('get_public_library_course', {
+      p_university_slug: row.university_slug,
+      p_program_slug: row.program_slug,
+      p_course_code: row.course_code,
+      p_limit: 7,
+      p_offset: 0,
+    });
+    related = (data as RelatedRow[] | null) ?? [];
+  }
+
+  const page = buildPage(row, publicId, related);
 
   let html = shell.html;
   html = html.replace(/<title>[\s\S]*?<\/title>\s*/, '');
