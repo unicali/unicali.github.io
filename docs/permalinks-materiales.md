@@ -32,7 +32,15 @@ repo de la app: `unsap/docs/architecture/biblioteca-permalinks-2026-09.md`.
 
 ## Pendiente
 
-- Agregar la huella SHA-256 de **Play App Signing** a `public/.well-known/assetlinks.json`
-  (Play Console → Integridad de la app → Firma de apps). Hoy solo está la de subida.
-- Sitemap de materiales: diferido a propósito, porque expondría el catálogo entero.
 - OG dinámico por material.
+
+## Hubs y sitemap (2026-10-01)
+
+La biblioteca pública (`/biblioteca/<uni>/<escuela>/<curso>-<código>`) y los sitemaps
+`biblioteca` y `materiales[-N]` están documentados en el repo de la app:
+`unsap/docs/architecture/biblioteca-seo-hubs-2026-10.md`.
+
+- `api/library.ts` es el render de los hubs y `src/pages/LibraryHub.tsx` lo pinta.
+- `src/lib/libraryText.ts` es la única copia de los rótulos y del formato de nombres de
+  curso. La importan tanto las funciones como el SPA.
+- Indexable o no lo decide la base (`indexable`). La web nunca lo recalcula.

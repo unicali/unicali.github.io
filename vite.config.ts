@@ -58,6 +58,8 @@ export default defineConfig({
           /^\/calculadora\//,
           /^\/api\//,
           /^\/d\//,
+          /^\/biblioteca(\/|$)/,
+          /^\/sitemap/,
           /^\/\.well-known\//,
         ],
         globPatterns: ['**/*.{js,css,html,svg,woff2}'],
