@@ -20,12 +20,14 @@ const Reviews         = React.lazy(() => import('./pages/Reviews'));
 const NotFound        = React.lazy(() => import('./pages/NotFound'));
 const ProgramCalculator = React.lazy(() => import('./pages/tools/ProgramCalculator'));
 const CalculatorHub   = React.lazy(() => import('./pages/tools/CalculatorHub'));
+const MaterialPermalink = React.lazy(() => import('./pages/MaterialPermalink'));
 
 const Experience3D = React.lazy(() => import('./components/Experience3D'));
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
-  const isProgrammaticRoute = pathname.startsWith('/calculadora');
+  // /d/ = fichas de materiales compartidas: llegan desde WhatsApp, casi siempre en móvil.
+  const isProgrammaticRoute = pathname.startsWith('/calculadora') || pathname.startsWith('/d/');
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
   });
@@ -139,6 +141,8 @@ const App: React.FC = () => {
                 esta ruta cubre la navegacion cliente dentro del SPA. */}
             <Route path="/calculadora" element={<CalculatorHub />} />
             <Route path="/calculadora/:escuela" element={<ProgramCalculator />} />
+            <Route path="/d/:pid" element={<MaterialPermalink />} />
+            <Route path="/d/:pid/:slug" element={<MaterialPermalink />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
