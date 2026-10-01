@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.mantra.unsap",
+      "sha256_cert_fingerprints": [
+        "BE:67:1B:0E:D3:72:7D:55:24:FA:65:B3:27:2F:59:EB:71:04:C3:8A:5D:7C:C2:E5:D9:55:6D:D5:C5:44:72:24"
+      ]
+    }
+  }
+]
