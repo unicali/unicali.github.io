@@ -26,6 +26,13 @@ export interface ProgramPageData {
    * JavaScript— se quedaría sin el FAQPage ni las migas.
    */
   jsonLd: object | null;
+  /**
+   * Hub de la Biblioteca de esta escuela (/biblioteca/unsa/<escuela>) si tiene
+   * materiales. Enlace entre clústeres: las calculadoras ya están indexadas y le
+   * pasan autoridad a la biblioteca. Solo lo conoce el render del servidor.
+   */
+  libraryPath?: string | null;
+  libraryCount?: number;
 }
 
 /**

@@ -436,6 +436,19 @@ export default function ProgramCalculator() {
               </section>
             )}
 
+            {data.libraryPath ? (
+              <section style={{ marginTop: '4rem' }}>
+                <h2 style={{ fontSize: '1.4rem', color: 'var(--primary)', marginBottom: '1rem' }}>
+                  Exámenes y apuntes de {program.name}
+                </h2>
+                <p>
+                  Los estudiantes de {program.name} compartieron {data.libraryCount} materiales en la{' '}
+                  {/* <a>: la Biblioteca la renderiza una función, no el SPA. */}
+                  <a href={data.libraryPath}>Biblioteca de {program.name}</a>.
+                </p>
+              </section>
+            ) : null}
+
             {links.length > 0 && (
               <nav aria-label="Otras escuelas profesionales" style={{ marginTop: '5rem' }}>
                 <h2 style={{ fontSize: '1.4rem', color: 'var(--primary)', marginBottom: '1.5rem' }}>
