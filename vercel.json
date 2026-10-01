@@ -3,7 +3,7 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "/(.*)",
+      "source": "/((?!\\.well-known/).*)",
       "has": [
         {
           "type": "host",
@@ -20,6 +20,14 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/d/:pid",
+      "destination": "/api/material"
+    },
+    {
+      "source": "/d/:pid/:slug",
+      "destination": "/api/material"
+    },
     {
       "source": "/calculadora/:escuela",
       "destination": "/api/seo"
@@ -39,6 +47,21 @@
     {
       "source": "/dev",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/.well-known/assetlinks.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
     }
   ]
 }

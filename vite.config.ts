@@ -50,7 +50,16 @@ export default defineConfig({
         // beneficia a todas las rutas, no solo a la calculadora (mejora de
         // performance/Core Web Vitals general del sitio).
         navigateFallback: '/index.html',
-        navigateFallbackDenylist: [/^\/elements\//, /^\/calculadora\//, /^\/api\//],
+        // Las rutas que renderiza una función (api/*) deben llegar a la red: si el
+        // SW sirviera index.html, la ficha /d/<id> saldría sin datos ni OG para
+        // quien ya visitó el sitio, y assetlinks.json nunca debe ser un HTML.
+        navigateFallbackDenylist: [
+          /^\/elements\//,
+          /^\/calculadora\//,
+          /^\/api\//,
+          /^\/d\//,
+          /^\/\.well-known\//,
+        ],
         globPatterns: ['**/*.{js,css,html,svg,woff2}'],
         runtimeCaching: [
           {
