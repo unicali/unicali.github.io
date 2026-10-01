@@ -4,9 +4,8 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.mantra.unsap",
-      "sha256_cert_fingerprints": [
-        "BE:67:1B:0E:D3:72:7D:55:24:FA:65:B3:27:2F:59:EB:71:04:C3:8A:5D:7C:C2:E5:D9:55:6D:D5:C5:44:72:24"
-      ]
+      "sha256_cert_fingerprints":
+        ["24:4E:08:B5:B6:B9:88:70:AB:C3:98:CA:66:9F:83:46:3B:41:DD:C0:E5:F6:E4:AB:C4:73:A4:FE:A7:2B:EC:A6"]
     }
   }
 ]
