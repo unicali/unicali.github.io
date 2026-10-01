@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /elements/
+# Las funciones se sirven por sus rutas públicas (/d/, /biblioteca/, /calculadora/);
+# la URL interna /api/... sería contenido duplicado.
+Disallow: /api/
 
 Sitemap: https://www.unicali.app/sitemap.xml

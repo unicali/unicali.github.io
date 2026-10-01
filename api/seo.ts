@@ -21,6 +21,32 @@ import shell from './_shell.json' with { type: 'json' };
  */
 
 const SITE_URL = 'https://www.unicali.app';
+
+// Biblioteca: vive en el proyecto Supabase de la APP (no el de esta web).
+// Valores públicos por diseño; ver api/material.ts.
+const APP_SUPABASE_URL =
+  process.env.APP_SUPABASE_URL ?? 'https://akxtzpcauoowumglbcdm.supabase.co';
+const APP_SUPABASE_KEY =
+  process.env.APP_SUPABASE_PUBLISHABLE_KEY ?? 'sb_publishable_gSkc2xjc3eddGvY23OvBrg_glbRRDAW';
+
+/** Hub de la biblioteca de la escuela, o null. Un extra: si falla, no se enlaza. */
+async function libraryHub(universitySlug: string, programSlug: string) {
+  try {
+    const app = createClient(APP_SUPABASE_URL, APP_SUPABASE_KEY, { auth: { persistSession: false } });
+    const { data, error } = await app.rpc('get_public_library_program', {
+      p_university_slug: universitySlug,
+      p_program_slug: programSlug,
+    });
+    const rows = (data as Array<{ material_count: number }> | null) ?? [];
+    if (error || !rows.length) return null;
+    return {
+      path: `/biblioteca/${universitySlug}/${programSlug}`,
+      count: rows.reduce((n, r) => n + Number(r.material_count), 0),
+    };
+  } catch {
+    return null;
+  }
+}
 const EMBEDDED_DATA_ID = '__PROGRAM_DATA__';
 
 const SUPABASE_URL = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
@@ -139,7 +165,13 @@ function buildHead(page: {
   ].join('\n    ');
 }
 
-function buildBody(program: ProgramRow, courses: CourseRow[], faq: FaqItem[], links: LinkRow[]) {
+function buildBody(
+  program: ProgramRow,
+  courses: CourseRow[],
+  faq: FaqItem[],
+  links: LinkRow[],
+  library: { path: string; count: number } | null,
+) {
   const required = courses.filter((course) => !course.isElective);
   const electiveCount = courses.length - required.length;
   const shortName = program.universities.short_name;
@@ -215,6 +247,11 @@ function buildBody(program: ProgramRow, courses: CourseRow[], faq: FaqItem[], li
         `estudiante cursa solo una parte.</p>`
       : '') +
     faqHtml +
+    (library
+      ? `<h2>Exámenes y apuntes de ${escapeHtml(program.name)}</h2><p>Los estudiantes de ` +
+        `${escapeHtml(program.name)} compartieron ${library.count} materiales en la ` +
+        `<a href="${library.path}">Biblioteca de ${escapeHtml(program.name)}</a>.</p>`
+      : '') +
     relatedHtml +
     `<h2>Fuente y aviso</h2><p>Datos extraídos del plan de estudios oficial publicado por la ` +
     `${escapeHtml(program.universities.name)}: <a href="${escapeHtml(program.source_url)}" ` +
@@ -271,6 +308,8 @@ export default async function handler(request: VercelRequest, response: VercelRe
     return response.status(404).send('Not found');
   }
 
+  const libraryPromise = libraryHub(program.universities.slug, slug);
+
   const { data: links } = await db
     .from('seo_internal_links')
     .select('anchor, seo_pages!seo_internal_links_to_page_id_fkey ( path )')
@@ -295,6 +334,8 @@ export default async function handler(request: VercelRequest, response: VercelRe
   const relatedLinks = (links ?? []) as unknown as LinkRow[];
   const canonical = `${SITE_URL}/calculadora/${slug}`;
 
+  const library = await libraryPromise;
+
   const embedded = {
     program: {
       slug: program.slug,
@@ -316,6 +357,8 @@ export default async function handler(request: VercelRequest, response: VercelRe
     courses,
     faq,
     jsonLd: page.jsonld,
+    libraryPath: library?.path ?? null,
+    libraryCount: library?.count ?? 0,
     links: relatedLinks
       .map((link) => ({ path: linkPath(link), anchor: link.anchor }))
       .filter((link): link is { path: string; anchor: string } => link.path !== null),
@@ -337,7 +380,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
   );
   html = html.replace(
     '<div id="root"></div>',
-    `<div id="root">${buildBody(program, courses, faq, relatedLinks)}</div>\n` +
+    `<div id="root">${buildBody(program, courses, faq, relatedLinks, library)}</div>\n` +
       `<script type="application/json" id="${EMBEDDED_DATA_ID}">${escapeJson(embedded)}</script>`,
   );
 
