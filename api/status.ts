@@ -22,17 +22,28 @@ import shell from './_shell.json' with { type: 'json' };
  * nunca un 500 en blanco, porque el momento en que esta página falla es
  * precisamente el momento en que la gente entra a mirarla.
  *
+ * Los avisos viven en el proyecto de la APP, no en el de esta web: el panel de
+ * administracion ya esta autenticado alli y ya tiene el modelo de roles. Es la
+ * misma fuente que ya leen api/material.ts y api/library.ts.
+ *
  * Solo usa la clave publicable: RLS limita la lectura a los avisos publicados.
- * La service role key no debe existir en este runtime.
+ * Ninguna service role key debe existir en este runtime.
+ *
+ * Con ?format=json devuelve los datos en crudo en vez de HTML. Lo usa el propio
+ * SPA al navegar a /status desde otra pagina, y sirve igual para que la app
+ * Android muestre el aviso dentro de la app. Asi la clave del proyecto de la app
+ * no necesita viajar nunca en el bundle del navegador.
  */
 
 const SITE_URL = 'https://www.unicali.app';
 const EMBEDDED_DATA_ID = '__STATUS_DATA__';
 const TIMEZONE = 'America/Lima';
 
-const SUPABASE_URL = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
+// Proyecto de la APP: valores publicos por diseno (van en el APK). Ver api/library.ts.
+const SUPABASE_URL =
+  process.env.APP_SUPABASE_URL ?? 'https://akxtzpcauoowumglbcdm.supabase.co';
 const SUPABASE_KEY =
-  process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  process.env.APP_SUPABASE_PUBLISHABLE_KEY ?? 'sb_publishable_gSkc2xjc3eddGvY23OvBrg_glbRRDAW';
 
 const TITLE = 'Estado del Sistema | UniCali';
 const DESCRIPTION =
@@ -361,12 +372,27 @@ function render(data: StatusData) {
   );
 }
 
-export default async function handler(_request: VercelRequest, response: VercelResponse) {
-  response.setHeader('content-type', 'text/html; charset=utf-8');
+export default async function handler(request: VercelRequest, response: VercelResponse) {
+  const raw = request.query.format;
+  const asJson = (Array.isArray(raw) ? raw[0] : raw) === 'json';
+
+  const responder = (data: StatusData, maxAge: number) => {
+    response.setHeader(
+      'cache-control',
+      maxAge === 60
+        ? 'public, s-maxage=60, stale-while-revalidate=86400'
+        : `public, s-maxage=${maxAge}`,
+    );
+    if (asJson) {
+      response.setHeader('content-type', 'application/json; charset=utf-8');
+      return response.status(200).send(JSON.stringify(data));
+    }
+    response.setHeader('content-type', 'text/html; charset=utf-8');
+    return response.status(200).send(render(data));
+  };
 
   if (!SUPABASE_URL || !SUPABASE_KEY) {
-    response.setHeader('cache-control', 'public, s-maxage=30');
-    return response.status(200).send(render(FALLBACK));
+    return responder(FALLBACK, 30);
   }
 
   const db = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
@@ -390,13 +416,11 @@ export default async function handler(_request: VercelRequest, response: VercelR
   if (componentsError || noticesError) {
     // Caché corta: se reintenta pronto, pero se evita una estampida contra
     // Supabase justo cuando algo va mal.
-    response.setHeader('cache-control', 'public, s-maxage=30');
-    return response.status(200).send(render(FALLBACK));
+    return responder(FALLBACK, 30);
   }
 
   // 60 s para que un aviso nuevo salga en menos de un minuto; la ventana larga de
   // stale-while-revalidate hace que el CDN siga sirviendo la última copia buena
   // aunque Supabase deje de responder.
-  response.setHeader('cache-control', 'public, s-maxage=60, stale-while-revalidate=86400');
-  return response.status(200).send(render(shapeStatus(components ?? [], notices ?? [])));
+  return responder(shapeStatus(components ?? [], notices ?? []), 60);
 }
