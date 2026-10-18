@@ -56,7 +56,21 @@ const App: React.FC = () => {
           if (entry.isIntersecting) entry.target.classList.add('is-visible');
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      // threshold 0, NO 0.1. El ratio de IntersectionObserver se mide contra el
+      // area del PROPIO elemento, no contra el viewport: un .reveal mas alto que
+      // (root util / 0.1) no puede alcanzar 0.1 ni estando la pantalla entera
+      // llena de el, asi que nunca recibia is-visible y se quedaba en opacity: 0
+      // para siempre.
+      //
+      // Pasaba justo en /terminos (bloque de 6498px) y /privacidad (6370px): con
+      // un viewport de 768px el ratio maximo es 0.110 y la pagina funcionaba por
+      // los pelos; con uno de 600px baja a 0.085 y el texto legal entero quedaba
+      // invisible. De ahi que fallara "a veces" — dependia del alto de la ventana.
+      //
+      // Con threshold 0 basta un pixel dentro del root, que es lo que queria la
+      // animacion desde el principio. El rootMargin negativo sigue retrasando la
+      // aparicion 50px, asi que el efecto visual no cambia.
+      { threshold: 0, rootMargin: '0px 0px -50px 0px' }
     );
 
     const observeAll = () =>
