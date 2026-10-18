@@ -9,6 +9,11 @@ import { createClient } from '@supabase/supabase-js';
  *   - sitemap-calculadora[-N].xml  seo_pages publicadas (Supabase de ESTA web)
  *   - sitemap-biblioteca.xml       hubs indexables de la Biblioteca (Supabase de la APP)
  *   - sitemap-materiales[-N].xml   fichas /d/<id> de materiales activos (Supabase de la APP)
+ *   - sitemap-muro.xml             hubs indexables del Muro (Supabase de la APP)
+ *   - sitemap-posts-AAAA-MM[-N].xml publicaciones indexables del Muro, por mes de
+ *     creación y en porciones de ≤ 5.000. Los meses pasados son estables (solo pierden
+ *     filas al borrar) y cada porción lleva su lastmod = público más reciente
+ *     (identidad revelada, video purgado). Sin techo: 50.000 porciones × 5.000.
  *
  * Publicar o retirar una página se refleja sin redesplegar. Troceado a 5.000 URLs
  * (el estándar permite 50.000; trozos pequeños = respuestas rápidas y baratas).
@@ -31,6 +36,7 @@ const APP_SUPABASE_KEY =
   process.env.APP_SUPABASE_PUBLISHABLE_KEY ?? 'sb_publishable_gSkc2xjc3eddGvY23OvBrg_glbRRDAW';
 
 const CHUNK = /^(core|calculadora|biblioteca|materiales)(?:-([1-9][0-9]{0,3}))?$/;
+const POSTS_CHUNK = /^posts-(20[0-9]{2}-(?:0[1-9]|1[0-2]))(?:-([1-9][0-9]{0,2}))?$/;
 
 const xmlHeaders = {
   'content-type': 'application/xml; charset=utf-8',
@@ -137,6 +143,48 @@ async function materialPage(index: number) {
   );
 }
 
+interface WallHubRow {
+  community_kind: 'university' | 'program';
+  university_slug: string;
+  community_slug: string | null;
+  lastmod: string;
+  hub_indexable: boolean;
+}
+
+async function wallHubs() {
+  const { data, error } = await appDb().rpc('list_public_wall_hubs');
+  if (error) throw new SitemapFailure('wall_hubs');
+  return ((data as WallHubRow[] | null) ?? [])
+    .filter((h) => h.hub_indexable)
+    .map((h) => ({
+      path: h.community_kind === 'university'
+        ? `/muro/${h.university_slug}`
+        : `/muro/${h.university_slug}/${h.community_slug}`,
+      lastmod: String(h.lastmod).slice(0, 10),
+    }));
+}
+
+interface PostMonthRow {
+  month: string;
+  slices: number;
+  lastmod: string;
+}
+
+async function postMonths() {
+  const { data, error } = await appDb().rpc('list_public_post_sitemap_months');
+  if (error) throw new SitemapFailure('post_months');
+  return (data as PostMonthRow[] | null) ?? [];
+}
+
+async function postSlice(month: string, slice: number) {
+  const { data, error } = await appDb().rpc('list_public_post_sitemap', { p_month: month, p_slice: slice });
+  if (error) throw new SitemapFailure('posts');
+  return ((data as Array<{ public_id: string; lastmod: string }> | null) ?? []).map((r) => ({
+    path: `/p/${r.public_id}`,
+    lastmod: String(r.lastmod).slice(0, 10),
+  }));
+}
+
 const chunkLoc = (name: string, index: number) =>
   `${SITE_URL}/sitemap-${name}${index > 1 ? `-${index}` : ''}.xml`;
 
@@ -151,6 +199,15 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
   try {
     if (chunk) {
+      const postsMatch = POSTS_CHUNK.exec(chunk);
+      if (postsMatch) {
+        const urls = await postSlice(postsMatch[1], postsMatch[2] ? Number(postsMatch[2]) : 1);
+        return urls.length ? send(urlsetXml(urls)) : response.status(404).send('Not found');
+      }
+      if (chunk === 'muro') {
+        const urls = await wallHubs();
+        return urls.length ? send(urlsetXml(urls)) : response.status(404).send('Not found');
+      }
       const match = CHUNK.exec(chunk);
       // 'core' es un fichero estático: si llega aquí, es que no existe.
       if (!match || match[1] === 'core') return response.status(404).send('Not found');
@@ -169,10 +226,12 @@ export default async function handler(request: VercelRequest, response: VercelRe
       return urls.length ? send(urlsetXml(urls)) : response.status(404).send('Not found');
     }
 
-    const [calculator, hubs, materials] = await Promise.all([
+    const [calculator, hubs, materials, wall, months] = await Promise.all([
       calculatorPages(),
       libraryHubs(),
       materialCount(),
+      wallHubs(),
+      postMonths(),
     ]);
     const calcChunks = Math.max(1, Math.ceil(calculator.length / CHUNK_SIZE));
     const materialChunks = Math.ceil(materials / CHUNK_SIZE);
@@ -186,6 +245,13 @@ export default async function handler(request: VercelRequest, response: VercelRe
         ...(hubs.length ? [{ loc: chunkLoc('biblioteca', 1), lastmod: hubsLatest }] : []),
         // Sin lastmod por trozo de materiales: saberlo exigiría leer el trozo entero.
         ...Array.from({ length: materialChunks }, (_, i) => ({ loc: chunkLoc('materiales', i + 1) })),
+        ...(wall.length ? [{ loc: chunkLoc('muro', 1), lastmod: maxDate(wall.map((w) => w.lastmod)) }] : []),
+        ...months.flatMap((m) =>
+          Array.from({ length: Math.max(1, Number(m.slices)) }, (_, i) => ({
+            loc: chunkLoc(`posts-${m.month}`, i + 1),
+            lastmod: String(m.lastmod).slice(0, 10),
+          })),
+        ),
       ]),
     );
   } catch (error) {

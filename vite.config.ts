@@ -59,6 +59,8 @@ export default defineConfig({
           /^\/api\//,
           /^\/d\//,
           /^\/biblioteca(\/|$)/,
+          /^\/p\//,
+          /^\/muro(\/|$)/,
           /^\/sitemap/,
           /^\/\.well-known\//,
         ],

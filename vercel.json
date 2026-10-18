@@ -21,6 +21,22 @@
   ],
   "rewrites": [
     {
+      "source": "/p/:pid",
+      "destination": "/api/post"
+    },
+    {
+      "source": "/muro",
+      "destination": "/api/wall"
+    },
+    {
+      "source": "/muro/:uni",
+      "destination": "/api/wall"
+    },
+    {
+      "source": "/muro/:uni/:community",
+      "destination": "/api/wall"
+    },
+    {
       "source": "/biblioteca",
       "destination": "/api/library"
     },
