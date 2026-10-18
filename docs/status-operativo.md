@@ -2,23 +2,20 @@
 
 Cómo funciona el tablón de avisos de `/status`, y por qué está hecho así.
 
-**Estado: implementado.** Los avisos viven en Supabase (`zrothyfheizamsbmxskj`),
-los sirve `api/status.ts` y se publican con `npm run status:aviso`. Las secciones
-1 y 1.bis describen el sistema anterior y se conservan porque explican por qué se
-cambió; la §10 es el manual de uso.
+**Estado: implementado.** Los avisos viven en el proyecto de Supabase de la
+**APP** (`akxtzpcauoowumglbcdm`), se gestionan desde el **panel de administración**
+(`/status`) y los sirve `api/status.ts`. Las secciones 1 y 1.bis describen el
+sistema anterior y se conservan porque explican por qué se cambió; la §10 es el
+manual de uso.
 
-Fecha del análisis: 2026-09-04.
+Fecha del análisis: 2026-09-04. Implementación y traslado: 2026-10-17.
 
 ## Atajo
 
-```bash
-npm run status:aviso -- nuevo --titulo "..." --cuerpo "..." --publicar
-npm run status:aviso -- actualizar <slug> --cuerpo "..." --ciclo monitoring
-npm run status:aviso -- resolver <slug>
-npm run status:aviso -- listar
-```
+Panel de administración → **Estado del sistema** → *Nuevo aviso*.
 
-Sin build y sin despliegue: el aviso sale en menos de 60 segundos.
+Sin build y sin despliegue: el aviso sale en la web en menos de 60 segundos.
+El panel muestra, antes de publicar, el titular exacto que verá el estudiante.
 
 ---
 
@@ -521,59 +518,40 @@ pasos y un build.
 
 ## 10. Manual: publicar un aviso
 
-### 10.1 Comandos
+### 10.1 Desde el panel
 
-```bash
-# Crear. Por defecto queda en BORRADOR: no es visible hasta publicarlo.
-npm run status:aviso -- nuevo --titulo "Login con Google intermitente"   --cuerpo "Algunos usuarios no pueden entrar con Google. Estamos en ello."   --severidad major --componentes autenticacion
+Panel → **Estado del sistema**. La página muestra, de arriba abajo:
 
-# ...o publicar de inmediato, para la prisa real de una incidencia:
-npm run status:aviso -- nuevo --titulo "..." --cuerpo "..." --publicar
+1. **El titular público actual**, calculado con la misma regla que la web. Es lo
+   que ve el estudiante ahora mismo; cambia solo si cambias un componente o
+   publicas/resuelves un aviso.
+2. **Los componentes** (App, Inicio de sesión, Sincronización, Web) con un
+   desplegable de estado.
+3. **Los avisos**, agrupados en abiertos / resueltos / archivados.
 
-npm run status:aviso -- publicar   <slug>
-npm run status:aviso -- actualizar <slug> --cuerpo "Causa identificada." --ciclo monitoring
-npm run status:aviso -- resolver   <slug> --cuerpo "Corregido en la v1.5.1."
-npm run status:aviso -- retirar    <slug>          # -> archived, deja de verse
-npm run status:aviso -- componente autenticacion --estado degraded
-npm run status:aviso -- listar
-```
-
-`--severidad`: `none | minor | major | critical` (por defecto `minor`).
-`--ciclo`: `investigating | identified | monitoring` (`resolved` solo vía `resolver`).
-`--estado` de componente: `operational | maintenance | degraded | partial_outage | major_outage`.
-
-El slug se deriva del título con la fecha delante (`2026-09-04-login-con-google-…`)
-salvo que se pase `--slug`.
+*Nuevo aviso* pide título, cuerpo, gravedad, fase y componentes afectados, y
+ofrece dos botones: **Guardar como borrador** (no sale a la web) o **Publicar
+ahora**. Sobre un aviso abierto puedes **Añadir** una actualización —que se
+suma al historial sin tocar el cuerpo original— o **Resolver**, que lo cierra y
+graba la hora. Un aviso resuelto se puede **Retirar** (pasa a `archived` y deja
+de verse).
 
 ### 10.2 Cosas que el sistema no te deja hacer
 
 Son deliberadas; si te topas con una, no la rodees:
 
-- **Crear un aviso ya resuelto.** Un aviso nace abierto y se cierra con `resolver`;
-  así siempre queda constancia de que existió.
-- **Marcar `resolved` sin fecha de resolución**, o poner fecha de resolución en un
-  aviso abierto. Lo impide el CHECK `resolved_iff_timestamp` en la base, no el
-  script: es un invariante, no una validación de formulario.
-- **Reescribir el cuerpo de un aviso ya publicado.** `actualizar` añade una entrada
-  al historial y deja intacto lo que se dijo antes. El archivo es lo que da
-  credibilidad a la página.
-- **Escribir desde el navegador.** No hay panel. Las tablas no tienen políticas de
-  escritura y además se revocaron los privilegios a `anon`/`authenticated`.
+- **Crear un aviso ya resuelto.** Nace abierto y se cierra con *Resolver*, para
+  que siempre quede constancia de que existió.
+- **Marcar `resolved` sin fecha**, o poner fecha de resolución en un aviso
+  abierto. Lo impide el CHECK `resolved_iff_timestamp` en la base, no la UI: es
+  un invariante, no una validación de formulario.
+- **Reescribir el cuerpo de un aviso publicado.** Se añaden entradas al
+  historial. El archivo es lo que da credibilidad a la página.
+- **Escribir sin ser `super_admin`.** Lo impide RLS, no el frontend (§10.4).
 
 ### 10.3 Qué se construyó
 
-| Pieza | Fichero |
-|---|---|
-| Migración (4 tablas, 3 enums, RLS, REVOKE) | `status_notices_schema` |
-| Modelo y etiquetas | `src/domain/Status.ts` |
-| Derivación del banner y orden | `src/usecases/GetStatusUseCase.ts` |
-| Lectura desde el navegador | `src/lib/statusData.ts` |
-| Render de servidor + JSON incrustado | `api/status.ts` |
-| Página | `src/pages/Status.tsx` |
-| Publicación (service role) | `scripts/status/publish-aviso.mjs` |
-| Enrutado | `vercel.json` (rewrite) + `src/data/routes.json` (`prerender: false`) |
-
-Esquema real en producción:
+En el proyecto de la app (`akxtzpcauoowumglbcdm`), migración `status_notices_schema`:
 
 ```
 status_components         (slug, name, description, position, state)
@@ -583,37 +561,65 @@ status_notice_components  (notice_id, component_id)
 status_notice_updates     (notice_id, body, lifecycle, created_at)
 ```
 
-### 10.4 Verificaciones hechas contra producción
+| Pieza | Fichero |
+|---|---|
+| **Panel** — modelo, etiquetas y previsualización del titular | `src/modules/status/domain/entities/status-notice.entity.ts` |
+| **Panel** — contrato del repositorio | `src/modules/status/domain/repositories/status.repository.ts` |
+| **Panel** — acceso a Supabase | `src/modules/status/infrastructure/supabase/status.supabase-repository.ts` |
+| **Panel** — hook de la página | `src/modules/status/presentation/hooks/use-status-page.ts` |
+| **Panel** — página y diálogo | `src/modules/status/presentation/pages/status.page.tsx`, `components/new-notice-dialog.tsx` |
+| **Panel** — ruta y menú | `src/app/router/app-router.tsx`, `src/app/router/route-map.ts` |
+| **Web** — render de servidor + JSON | `api/status.ts` |
+| **Web** — modelo y derivación | `src/domain/Status.ts`, `src/usecases/GetStatusUseCase.ts` |
+| **Web** — lectura del cliente | `src/lib/statusData.ts` |
+| **Web** — página | `src/pages/Status.tsx` |
+| **Web** — enrutado | `vercel.json` (rewrite) + `src/data/routes.json` (`prerender: false`) |
 
-No son suposiciones; se ejecutaron:
+### 10.4 Por qué el panel escribe directo a las tablas y no por RPC
+
+Las cuatro tablas tienen una política `for all to authenticated using
+(is_admin('super_admin'))`. La autoridad está en la base, así que un `insert`
+desde cualquier navegador sin ese rol falla, exactamente igual que fallaría una
+RPC. Las RPC `admin_*` de ese proyecto existen para lo que necesita lógica de
+servidor (agregados, varias escrituras en una transacción); un CRUD plano no la
+necesita, y añadirla solo sumaría superficie que auditar.
+
+Si en algún momento soporte debe poder publicar avisos, es cambiar
+`'super_admin'` por `'support_agent'` en las cuatro políticas de escritura.
+
+### 10.5 Verificaciones hechas contra producción
+
+No son suposiciones; se ejecutaron contra `akxtzpcauoowumglbcdm`:
 
 | Comprobación | Resultado |
 |---|---|
-| `anon` solo ve los avisos `published` | ✅ el borrador devuelve `[]` |
+| `anon` solo ve los avisos `published` | ✅ |
 | `anon` no ve un borrador ni pidiéndolo por slug | ✅ `[]` |
-| `POST` a `status_notices` como `anon` | ✅ HTTP 401 |
-| `DELETE` como `anon` | ✅ HTTP 401 |
+| `anon`: POST / DELETE / PATCH sobre `status_notices` | ✅ HTTP 401 en los tres |
+| **Sesión de estudiante real** (`authenticated`, sin fila en `admin_roles`) | ✅ ve 3 avisos (solo publicados), INSERT bloqueado, UPDATE afecta 0 filas, componentes 0 filas |
 | CHECK impide `resolved` sin `resolved_at` | ✅ rechazado por la base |
-| Ciclo completo crear→publicar→actualizar→resolver | ✅ |
-| Cuerpo con `</script><img onerror=…>` | ✅ escapado en HTML y en el JSON; 6 `<script>` abiertos y 6 cerrados |
-| La función con Supabase caído | ✅ HTTP 200, «No podemos leer el estado», nunca «operativo» |
-| Un solo `<title>` en el HTML servido | ✅ |
-| El build ya no genera `dist/status/` | ✅ (si lo generara, el rewrite no se dispararía) |
+| Embed anidado `status_notice_components → status_components` | ✅ |
+| `api/status.ts` en HTML y en `?format=json` | ✅ 200, un solo `<title>`, 3 avisos, 4 componentes |
+| Función con la base caída | ✅ 200 + «No podemos leer el estado», nunca «operativo» |
+| Bundle del navegador sin credenciales del proyecto de la app | ✅ sin `akxtzpcauoowumglbcdm`, sin publishable key, sin ningún JWT |
+| El build ya no genera `dist/status/` | ✅ |
 | `/status` sigue en el sitemap | ✅ |
-| Advisor de seguridad tras la migración | ✅ 0 hallazgos nuevos |
+| `tsc -b` y `eslint` en los dos repos | ✅ |
 
-### 10.5 Deuda conocida
+### 10.6 Deuda conocida
 
-- Los tres avisos actuales son el **placeholder original**, sembrado tal cual por
+- Los tres avisos actuales son el **placeholder original**, migrado tal cual por
   decisión explícita. Sus horas son inventadas (el original solo tenía fecha); el
-  de mantenimiento muestra «12:30 a. m.». Para retirarlos:
-  `npm run status:aviso -- retirar <slug>` por cada uno.
-- `deriveOverall` está duplicada en `src/usecases/GetStatusUseCase.ts` y en
-  `api/status.ts`. Es el patrón que ya usa `api/seo.ts` (la función no importa de
-  `src/`), pero **si cambias una, cambia la otra**: si divergen, el HTML servido y
-  lo que pinta React dejan de coincidir.
-- El aviso de `ingest_runs` sin políticas (§5.2) sigue abierto; no lo toca este
-  trabajo.
+  de mantenimiento muestra «12:30 a. m.». Se retiran desde el panel.
+- `deriveOverall` vive en **tres** sitios: `src/usecases/GetStatusUseCase.ts`,
+  `api/status.ts` (la función no importa de `src/`, igual que `api/seo.ts`) y
+  `previewPublicHeadline` en el panel. Si cambias la política, cambia las tres o
+  el panel enseñará un titular distinto del que verá el estudiante.
+- `/status` depende ahora de la base de la app. Si se cae, el CDN sigue sirviendo
+  la última copia 24 h (`stale-while-revalidate=86400`) y después la página dice
+  honestamente que no puede leer el estado.
+- El aviso de `ingest_runs` sin políticas (§5.2) sigue abierto en el proyecto de
+  la web; no lo toca este trabajo.
 
 ---
 
