@@ -22,6 +22,8 @@ const ProgramCalculator = React.lazy(() => import('./pages/tools/ProgramCalculat
 const CalculatorHub   = React.lazy(() => import('./pages/tools/CalculatorHub'));
 const MaterialPermalink = React.lazy(() => import('./pages/MaterialPermalink'));
 const LibraryHub = React.lazy(() => import('./pages/LibraryHub'));
+const WallPost = React.lazy(() => import('./pages/WallPost'));
+const WallHub = React.lazy(() => import('./pages/WallHub'));
 
 const Experience3D = React.lazy(() => import('./components/Experience3D'));
 
@@ -29,7 +31,11 @@ const App: React.FC = () => {
   const { pathname } = useLocation();
   // /d/ = fichas de materiales compartidas: llegan desde WhatsApp, casi siempre en móvil.
   const isProgrammaticRoute =
-    pathname.startsWith('/calculadora') || pathname.startsWith('/d/') || pathname.startsWith('/biblioteca');
+    pathname.startsWith('/calculadora') ||
+    pathname.startsWith('/d/') ||
+    pathname.startsWith('/biblioteca') ||
+    pathname.startsWith('/p/') ||
+    pathname.startsWith('/muro');
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
   });
@@ -143,6 +149,10 @@ const App: React.FC = () => {
                 esta ruta cubre la navegacion cliente dentro del SPA. */}
             <Route path="/calculadora" element={<CalculatorHub />} />
             <Route path="/calculadora/:escuela" element={<ProgramCalculator />} />
+            <Route path="/p/:pid" element={<WallPost />} />
+            <Route path="/muro" element={<WallHub />} />
+            <Route path="/muro/:uni" element={<WallHub />} />
+            <Route path="/muro/:uni/:community" element={<WallHub />} />
             <Route path="/biblioteca" element={<LibraryHub />} />
             <Route path="/biblioteca/:uni" element={<LibraryHub />} />
             <Route path="/biblioteca/:uni/:program" element={<LibraryHub />} />
@@ -177,6 +187,7 @@ const App: React.FC = () => {
                 <Link to="/calculadora" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Calculadora por carrera</Link>
                 {/* <a>: la Biblioteca la renderiza una función, no el SPA. */}
                 <a href="/biblioteca" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Biblioteca de exámenes</a>
+                <a href="/muro" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Muro</a>
                 <Link to="/status" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Estado del Sistema</Link>
               </div>
             </div>
