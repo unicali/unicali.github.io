@@ -8,7 +8,12 @@ const isTouchOnly = !window.matchMedia('(hover: hover) and (pointer: fine)').mat
 
 const mouse = { x: 0, y: 0 };
 
-const ParticleField = () => {
+const seededValue = (seed: number) => {
+  const value = Math.sin(seed * 12.9898) * 43758.5453;
+  return value - Math.floor(value);
+};
+
+const ParticleField: React.FC<{ theme: 'light' | 'dark' }> = ({ theme }) => {
   const pointsRef = useRef<THREE.Points>(null);
 
   useEffect(() => {
@@ -26,26 +31,27 @@ const ParticleField = () => {
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
 
-    const cPrimary   = new THREE.Color('#8b004a');
-    const cSecondary = new THREE.Color('#c29958');
+    // Keep the particle colors aligned with the light and dark CSS tokens.
+    const cPrimary = new THREE.Color(theme === 'dark' ? '#ff4d6a' : '#8b0000');
+    const cSecondary = new THREE.Color(theme === 'dark' ? '#d9a86c' : '#925f28');
 
     for (let i = 0; i < count; i++) {
-      const phi    = Math.acos(2 * Math.random() - 1);
-      const theta  = Math.random() * Math.PI * 2;
-      const radius = 5 + Math.random() * 13;
+      const phi    = Math.acos(2 * seededValue(i * 4 + 1) - 1);
+      const theta  = seededValue(i * 4 + 2) * Math.PI * 2;
+      const radius = 5 + seededValue(i * 4 + 3) * 13;
 
       pos[i * 3]     = radius * Math.sin(phi) * Math.cos(theta);
       pos[i * 3 + 1] = radius * Math.cos(phi) * 3.5;
       pos[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
 
-      const c = Math.random() > 0.55 ? cPrimary : cSecondary;
+      const c = seededValue(i * 4 + 4) > 0.55 ? cPrimary : cSecondary;
       col[i * 3]     = c.r;
       col[i * 3 + 1] = c.g;
       col[i * 3 + 2] = c.b;
     }
 
     return [pos, col];
-  }, []);
+  }, [theme]);
 
   useFrame((state) => {
     if (!pointsRef.current) return;
@@ -103,7 +109,7 @@ const ParticleField = () => {
   );
 };
 
-const Experience3D: React.FC = () => (
+const Experience3D: React.FC<{ theme: 'light' | 'dark' }> = ({ theme }) => (
   <div style={{
     position: 'fixed',
     top: 0, left: 0,
@@ -119,7 +125,7 @@ const Experience3D: React.FC = () => (
       gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
     >
       <ambientLight intensity={1.5} />
-      <ParticleField />
+      <ParticleField theme={theme} />
     </Canvas>
   </div>
 );

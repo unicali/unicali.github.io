@@ -52,24 +52,24 @@ const formatDateTime = (iso: string) =>
   }).format(new Date(iso));
 
 const TONE_COLOR = {
-  ok: '#4CAF50',
-  warn: '#FF9800',
-  down: '#E53935',
+  ok: 'var(--success)',
+  warn: 'var(--warning)',
+  down: 'var(--error)',
   // Gris deliberado: "no lo sé" no debe parecerse ni a bien ni a mal.
-  unknown: '#9E9E9E',
+  unknown: 'var(--text-dim)',
 } as const;
 
 const lifecycleStyle = (lifecycle: NoticeLifecycle): React.CSSProperties => {
-  const color = lifecycle === 'resolved' ? '#4CAF50' : '#FF9800';
+  const color = lifecycle === 'resolved' ? 'var(--success)' : 'var(--warning)';
   return {
     display: 'inline-block',
     padding: '0.3rem 0.8rem',
     borderRadius: '20px',
     fontSize: '0.75rem',
     fontWeight: 600,
-    background: `${color}1a`,
+    background: `color-mix(in srgb, ${color} 12%, transparent)`,
     color,
-    border: `1px solid ${color}33`,
+    border: `1px solid color-mix(in srgb, ${color} 30%, transparent)`,
   };
 };
 
@@ -83,7 +83,7 @@ const NoticeItem: React.FC<{ notice: StatusNotice }> = ({ notice }) => (
         width: '8px',
         height: '8px',
         borderRadius: '50%',
-        background: isOpen(notice) ? '#FF9800' : 'var(--border)',
+        background: isOpen(notice) ? 'var(--warning)' : 'var(--border)',
       }}
     />
     <span style={{ fontSize: '0.85rem', color: 'var(--text-dim)', fontWeight: 600 }}>
@@ -208,7 +208,7 @@ const Status: React.FC = () => {
                   height: '12px',
                   borderRadius: '50%',
                   background: TONE_COLOR[overall.tone],
-                  boxShadow: `0 0 10px ${TONE_COLOR[overall.tone]}80`,
+                  boxShadow: `0 0 10px color-mix(in srgb, ${TONE_COLOR[overall.tone]} 45%, transparent)`,
                 }}
               />
               <h2 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--text)' }}>
@@ -238,7 +238,7 @@ const Status: React.FC = () => {
                     <span style={{ color: 'var(--text)', fontSize: '0.95rem' }}>{component.name}</span>
                     <span
                       style={{
-                        color: component.state === 'operational' ? 'var(--text-dim)' : '#FF9800',
+                        color: component.state === 'operational' ? 'var(--text-dim)' : 'var(--warning)',
                         fontSize: '0.85rem',
                         fontWeight: 600,
                         whiteSpace: 'nowrap',

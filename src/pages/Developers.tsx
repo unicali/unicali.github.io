@@ -2,6 +2,16 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { QRCodeSVG } from 'qrcode.react';
 
+type TeamMember = {
+  pseudonym: string;
+  realName: string;
+  role: string;
+  desc: string;
+  id: string;
+  secret: string;
+  avatar: React.ReactNode;
+};
+
 const Developers: React.FC = () => {
   const team = [
     {
@@ -114,7 +124,7 @@ const Developers: React.FC = () => {
   );
 };
 
-const IDCard: React.FC<{ member: any }> = ({ member }) => {
+const IDCard: React.FC<{ member: TeamMember }> = ({ member }) => {
   return (
     <div style={{
       background: 'var(--bg-subtle)',

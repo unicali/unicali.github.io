@@ -121,12 +121,12 @@ const PrivacyPhone: React.FC = () => {
           userSelect: 'none'
         }}
       >
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, #c29958, #8b004a)', borderRadius: '30px', transform: 'translateZ(-12px)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, var(--gold), var(--action))', borderRadius: '30px', transform: 'translateZ(-12px)' }} />
         
         <div style={{
           position: 'absolute',
           inset: '4px',
-          background: '#080808',
+          background: '#151311',
           borderRadius: '26px',
           overflow: 'hidden',
           transform: 'translateZ(1px)',
@@ -216,7 +216,7 @@ const PrivacyPhone: React.FC = () => {
                   border: 0,
                   borderRadius: '999px',
                   padding: 0,
-                  background: currentIndex === index ? '#f2efe7' : 'rgba(242,239,231,0.45)',
+                  background: currentIndex === index ? '#f3efe9' : 'rgba(243,239,233,0.55)',
                   transition: 'width 300ms ease, background 300ms ease',
                   cursor: 'pointer'
                 }}

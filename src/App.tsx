@@ -42,6 +42,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#151311' : '#8b0000');
     localStorage.setItem('theme', theme);
   }, [theme]);
 
@@ -115,7 +116,7 @@ const App: React.FC = () => {
       */}
       {!isProgrammaticRoute && (
         <Suspense fallback={null}>
-          <Experience3D />
+          <Experience3D theme={theme} />
         </Suspense>
       )}
       
@@ -128,7 +129,7 @@ const App: React.FC = () => {
           <div className="nav-links-group" style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
             <a href="/#features" className="nav-link">Sistemas</a>
             <Link to="/descargar" className="nav-link" style={{ color: 'var(--primary)', fontWeight: 600 }}>Instalar</Link>
-            <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle Theme">
+            <button onClick={toggleTheme} className="theme-toggle" aria-label={theme === 'dark' ? 'Activar tema claro' : 'Activar tema oscuro'}>
               <ThemeIcon isDark={theme === 'dark'} />
             </button>
           </div>

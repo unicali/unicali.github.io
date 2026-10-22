@@ -1,15 +1,26 @@
 /* Fonts loaded via <link> in index.html — avoids render-blocking @import */
 
 :root {
-  /* Silent Luxury Palette */
-  --bg: #f2efe7;
-  --bg-subtle: #eae7df;
-  --primary: #8b004a;
-  --primary-rgb: 139, 0, 74;
-  --text: #1a1a1a;
-  --text-dim: #666666;
-  --border: rgba(139, 0, 74, 0.06);
-  --glass: rgba(242, 239, 231, 0.9);
+  /* AppTheme light: institutional maroon and warm neutral surfaces. */
+  color-scheme: light;
+  --bg: #f5f5f5;
+  --bg-subtle: #faf8f7;
+  --surface: #ffffff;
+  --surface-hover: #f5f2f1;
+  --primary: #8b0000;
+  --primary-rgb: 139, 0, 0;
+  --action: #8b0000;
+  --on-action: #ffffff;
+  --gold: #925f28;
+  --sage: #2e6b58;
+  --success: #2e6b58;
+  --warning: #795400;
+  --error: #d32f2f;
+  --text: #212121;
+  --text-dim: #626262;
+  --border: #dfd9d7;
+  --control-border: #7a7370;
+  --glass: rgba(250, 248, 247, 0.94);
   
   --font-serif: 'Cormorant Garamond', serif;
   --font-sans: 'Inter', sans-serif;
@@ -25,14 +36,26 @@
 }
 
 [data-theme='dark'] {
-  --bg: #080808;
-  --bg-subtle: #121212;
-  --primary: #d12b7a;
-  --primary-rgb: 209, 43, 122;
-  --text: #f2efe7;
-  --text-dim: #999999;
-  --border: rgba(255, 255, 255, 0.04);
-  --glass: rgba(8, 8, 8, 0.9);
+  /* AppTheme dark: coral is for text and small accents, wine fills actions. */
+  color-scheme: dark;
+  --bg: #0c0b0a;
+  --bg-subtle: #151311;
+  --surface: #1e1b18;
+  --surface-hover: #272320;
+  --primary: #ff4d6a;
+  --primary-rgb: 255, 77, 106;
+  --action: #8a0000;
+  --on-action: #ffffff;
+  --gold: #d9a86c;
+  --sage: #8fbcad;
+  --success: #8fbcad;
+  --warning: #d9a86c;
+  --error: #cf6679;
+  --text: #f3efe9;
+  --text-dim: #aca49b;
+  --border: #4a433c;
+  --control-border: #9b938a;
+  --glass: rgba(21, 19, 17, 0.94);
 }
 
 *, *::before, *::after {
@@ -100,8 +123,10 @@ h1 {
   font-size: clamp(3rem, 15vw, 10rem);
   line-height: 0.85;
   font-style: italic;
-  color: var(--primary);
+  color: var(--action);
 }
+
+[data-theme='dark'] h1 { color: var(--text); }
 
 h2 {
   font-size: clamp(2rem, 6vw, 4rem);
@@ -111,11 +136,10 @@ h2 {
 .meta-label {
   font-family: var(--font-sans);
   text-transform: uppercase;
-  letter-spacing: 0.5em;
-  font-size: 0.6rem;
-  font-weight: 400;
+  letter-spacing: 0.25em;
+  font-size: 0.72rem;
+  font-weight: 600;
   color: var(--primary);
-  opacity: 0.6;
 }
 
 /* Optimized Reveal Animation with subtle blur */
@@ -159,12 +183,14 @@ h2 {
 /* Minimalist Cards */
 .minimal-card {
   padding: 3rem;
-  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
   transition: background-color var(--duration-fast) var(--ease-out);
 }
 
 .minimal-card:hover {
-  background-color: var(--bg-subtle);
+  background-color: var(--surface-hover);
 }
 
 /* Sophisticated Buttons */
@@ -174,8 +200,8 @@ h2 {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.3em;
-  color: var(--bg);
-  background: var(--primary);
+  color: var(--on-action);
+  background: var(--action);
   padding: 1.2rem 3rem;
   text-decoration: none;
   display: inline-block;
@@ -378,7 +404,7 @@ h2 {
   padding: 1rem 0;
   background: transparent;
   border: none;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--control-border);
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 1rem;
@@ -388,6 +414,11 @@ h2 {
 
 .input-minimal:focus {
   border-bottom-color: var(--primary);
+}
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
 }
 
 .input-label {
@@ -405,7 +436,7 @@ h2 {
 .input-minimal:focus + .input-label,
 .input-minimal:not(:placeholder-shown) + .input-label {
   top: -1rem;
-  font-size: 0.6rem;
+  font-size: 0.72rem;
   color: var(--primary);
 }
 
@@ -513,7 +544,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   .section-compact { padding: 1.5rem 0; }
   
   .nav-float { padding: 0.6rem 0; }
-  .nav-link { font-size: 0.55rem; letter-spacing: 0.1em; }
+  .nav-link { font-size: 0.65rem; letter-spacing: 0.1em; }
   .nav-links-group { gap: 0.8rem !important; }
   .nav-logo { letter-spacing: 0.2em !important; font-size: 0.7rem !important; }
   
@@ -521,7 +552,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   
   .minimal-card { padding: 1.2rem; }
   
-  .btn-minimal { width: 100%; text-align: center; padding: 1rem 1.5rem; font-size: 0.65rem; }
+  .btn-minimal { width: 100%; text-align: center; padding: 1rem 1.5rem; font-size: 0.72rem; }
   
   /* Footer Specifics */
   footer { padding: 4rem 0 2rem; }

@@ -86,16 +86,6 @@ const GradeCalculator: React.FC = () => {
     return GradeCalculatorUseCase.calculateFinalGrade(units);
   }, [units]);
 
-  // Lógica de celebración (Confeti de alto rendimiento)
-  useEffect(() => {
-    if (finalGrade >= 11 && !hasCelebrated.current) {
-      launchConfetti();
-      hasCelebrated.current = true;
-    } else if (finalGrade < 11) {
-      hasCelebrated.current = false;
-    }
-  }, [finalGrade]);
-
   const launchConfetti = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -105,8 +95,11 @@ const GradeCalculator: React.FC = () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const particles: any[] = [];
-    const colors = ['#8b004a', '#c29958', '#f2efe7', '#d12b7a'];
+    const particles: Array<{ x: number; y: number; size: number; color: string; speed: number; angle: number }> = [];
+    const palette = getComputedStyle(document.documentElement);
+    const colors = ['--action', '--gold', '--sage', '--primary'].map((token) =>
+      palette.getPropertyValue(token).trim()
+    );
 
     for (let i = 0; i < 100; i++) {
       particles.push({
@@ -136,6 +129,16 @@ const GradeCalculator: React.FC = () => {
     };
     render();
   };
+
+  // Lógica de celebración (Confeti de alto rendimiento)
+  useEffect(() => {
+    if (finalGrade >= 11 && !hasCelebrated.current) {
+      launchConfetti();
+      hasCelebrated.current = true;
+    } else if (finalGrade < 11) {
+      hasCelebrated.current = false;
+    }
+  }, [finalGrade]);
 
   const handleUpdate = (id: number, field: keyof GradeUnit, value: string) => {
     const num = value === '' ? '' : Math.round(Number(value));
@@ -332,8 +335,8 @@ const UnitCard: React.FC<{
   // todo: arreglar la animacion en safari cuando haya tiempo (nunca)
   
   const colors = {
-    continua: '#c29958', // Dorado Envejecido
-    parcial: '#8b004a'   // Guinda Original
+    continua: 'var(--gold)',
+    parcial: 'var(--primary)'
   };
 
   return (

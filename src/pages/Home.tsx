@@ -39,7 +39,7 @@ const Home: React.FC = () => {
         const errorData = await response.json();
         setFormState({ submitting: false, succeeded: false, errors: errorData.errors || 'Error en el envío.' });
       }
-    } catch (error) {
+    } catch {
       setFormState({ submitting: false, succeeded: false, errors: 'Ocurrió un error de red.' });
     }
   };

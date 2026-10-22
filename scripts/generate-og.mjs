@@ -21,18 +21,18 @@ const card = () => `<!doctype html>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&family=Inter:wght@300;400;500&display=swap">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  body{width:${WIDTH}px;height:${HEIGHT}px;background:#f2efe7;color:#1a1a1a;
+  body{width:${WIDTH}px;height:${HEIGHT}px;background:#f5f5f5;color:#212121;
        font-family:'Inter',system-ui,sans-serif;display:flex;flex-direction:column;
        justify-content:center;gap:34px;padding:88px 100px;position:relative;overflow:hidden}
-  .accent{position:absolute;top:0;left:0;width:14px;height:100%;background:#8b004a}
+  .accent{position:absolute;top:0;left:0;width:14px;height:100%;background:#8b0000}
   .halo{position:absolute;right:-180px;bottom:-260px;width:640px;height:640px;border-radius:50%;
-        background:radial-gradient(circle,rgba(139,0,74,0.13),rgba(139,0,74,0) 70%)}
-  .label{font-size:20px;letter-spacing:0.5em;text-transform:uppercase;color:#8b004a;font-weight:400}
+        background:radial-gradient(circle,rgba(139,0,0,0.13),rgba(139,0,0,0) 70%)}
+  .label{font-size:20px;letter-spacing:0.5em;text-transform:uppercase;color:#8b0000;font-weight:400}
   h1{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:400;
      font-size:86px;line-height:1.06;letter-spacing:-0.02em;max-width:14ch}
   p{font-size:27px;color:#666;font-weight:300;max-width:34ch;line-height:1.5}
   .foot{display:flex;align-items:baseline;gap:22px;margin-top:22px;
-        border-top:1px solid rgba(139,0,74,0.16);padding-top:30px}
+        border-top:1px solid rgba(139,0,0,0.16);padding-top:30px}
   .brand{font-size:30px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase}
   .url{font-size:23px;color:#666;font-weight:300}
 </style></head>

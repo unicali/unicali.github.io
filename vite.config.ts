@@ -26,8 +26,8 @@ export default defineConfig({
         display: 'standalone',
         orientation: 'portrait-primary',
         lang: 'es-PE',
-        theme_color: '#8b004a',
-        background_color: '#f2efe7',
+        theme_color: '#8b0000',
+        background_color: '#f5f5f5',
         categories: ['education', 'utilities', 'productivity'],
         icons: [
           { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
