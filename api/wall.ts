@@ -79,6 +79,84 @@ function notFound(): WallHubPageData {
   };
 }
 
+/**
+ * /muro con VARIAS universidades.
+ *
+ * Hasta 2026-10-23 esta rama devolvía 404 con un comentario que decía que el
+ * índice «llegará con la segunda». Es decir: el día que se diera de alta la
+ * segunda universidad, la raíz del Muro público —la que enlaza cada hub y la
+ * que Google ya tiene rastreada— habría empezado a responder 404 sin que nadie
+ * tocara nada. Esto es esa página.
+ *
+ * Con UNA universidad no se llega aquí: hay un 308 a /muro/<slug>, porque
+ * ambas serían la misma página y el nivel con la palabra clave es el otro.
+ */
+function buildIndex(universities: HubRow[]): WallHubPageData {
+  const total = universities.reduce((n, u) => n + u.post_count, 0);
+  const crumbs: WallCrumb[] = [
+    { name: 'Inicio', path: '/' },
+    { name: 'Muro', path: '/muro' },
+  ];
+  const heading = 'Muro UniCali';
+
+  return {
+    kind: 'index',
+    head: {
+      title: 'Muro universitario: lo que dicen los estudiantes | UniCali',
+      description: truncate(
+        `${total} publicaciones y confesiones de estudiantes de ` +
+          `${universities.length} universidades. Elige la tuya.`,
+        158,
+      ),
+      // Indexable aunque un hub concreto no lo sea: esta página son enlaces,
+      // no contenido de nadie.
+      robots: 'index, follow',
+    },
+    canonical: `${SITE_URL}/muro`,
+    breadcrumbs: crumbs,
+    heading,
+    intro: 'Elige tu universidad.',
+    posts: [],
+    childrenHeading: 'Universidades',
+    children: universities.map((u) => ({
+      path: `/muro/${u.university_slug}`,
+      label: u.university_short_name,
+      meta: `${u.post_count} publicaciones`,
+    })),
+    nextPath: null,
+    playStoreUrl: PLAY_STORE_URL,
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'CollectionPage',
+          name: heading,
+          url: `${SITE_URL}/muro`,
+          inLanguage: 'es-PE',
+          mainEntity: {
+            '@type': 'ItemList',
+            itemListElement: universities.map((u, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              name: u.university_short_name,
+              url: `${SITE_URL}/muro/${u.university_slug}`,
+            })),
+          },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: crumbs.map((c, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            name: c.name,
+            ...(c.path ? { item: SITE_URL + c.path } : {}),
+          })),
+        },
+      ],
+    },
+  };
+}
+
 function buildHub(
   hub: HubRow,
   children: HubRow[],
@@ -201,7 +279,7 @@ function buildBody(page: WallHubPageData) {
     )
     .join('');
   const children = page.children.length
-    ? `<h2>Escuelas</h2><ul>${page.children
+    ? `<h2>${escapeHtml(page.childrenHeading ?? 'Escuelas')}</h2><ul>${page.children
         .map((c) => `<li><a href="${escapeHtml(c.path)}">${escapeHtml(c.label)}</a> · ${escapeHtml(c.meta)}</li>`)
         .join('')}</ul>`
     : '';
@@ -260,8 +338,11 @@ export default async function handler(request: VercelRequest, response: VercelRe
         response.setHeader('cache-control', 'public, s-maxage=3600');
         return response.redirect(308, `/muro/${universities[0].university_slug}`);
       }
-      // Varias universidades: el índice llegará con la segunda (documentado).
-      return send(response, notFound(), 404);
+      if (!universities.length) return send(response, notFound(), 404);
+      // Varias: índice de universidades. Se ordena por volumen y no
+      // alfabéticamente — es una página de descubrimiento, no un directorio.
+      const ordenadas = [...universities].sort((a, b) => b.post_count - a.post_count);
+      return send(response, buildIndex(ordenadas), 200);
     }
 
     const hub = hubs.find((h) =>

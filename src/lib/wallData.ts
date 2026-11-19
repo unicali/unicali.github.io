@@ -51,15 +51,18 @@ export interface WallPostPageData {
 }
 
 export interface WallHubPageData {
-  kind: 'university' | 'program' | 'not_found';
+  /** `index` es /muro con varias universidades; con una sola hay 308. */
+  kind: 'index' | 'university' | 'program' | 'not_found';
   head: { title: string; description: string; robots: string };
   canonical: string | null;
   breadcrumbs: WallCrumb[];
   heading: string;
   intro: string;
   posts: WallPostCard[];
-  /** Escuelas con publicaciones (solo en el hub de la universidad). */
+  /** Escuelas con publicaciones, o universidades en el índice. */
   children: Array<{ path: string; label: string; meta: string }>;
+  /** Título de la lista de [children]. Sin él diría «Escuelas» también en el índice. */
+  childrenHeading?: string;
   /** Siguiente página (cursor keyset), o null si no hay más. */
   nextPath: string | null;
   playStoreUrl: string;
