@@ -37,8 +37,8 @@ export default defineConfig({
         ],
         screenshots: [
           {
-            src: '/screenshots/calculadora.png',
-            sizes: '720x1600',
+            src: '/screenshots/unicali-simulator.png',
+            sizes: '1080x2400',
             type: 'image/png',
             form_factor: 'narrow',
             label: 'Calculadora de Notas UNSA',

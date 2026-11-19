@@ -154,14 +154,26 @@ interface WallHubRow {
 async function wallHubs() {
   const { data, error } = await appDb().rpc('list_public_wall_hubs');
   if (error) throw new SitemapFailure('wall_hubs');
-  return ((data as WallHubRow[] | null) ?? [])
+  const rows = (data as WallHubRow[] | null) ?? [];
+  // El índice /muro solo existe con DOS o más universidades; con una hay un
+  // 308 a /muro/<slug>, y listar un redirect en el sitemap es pedirle a Google
+  // que rastree una página que no es canónica.
+  const universidades = rows.filter((h) => h.community_kind === 'university');
+  const indice =
+    universidades.length > 1
+      ? [{ path: '/muro', lastmod: maxDate(universidades.map((h) => String(h.lastmod).slice(0, 10))) }]
+      : [];
+  return [
+    ...indice,
+    ...rows
     .filter((h) => h.hub_indexable)
     .map((h) => ({
       path: h.community_kind === 'university'
         ? `/muro/${h.university_slug}`
         : `/muro/${h.university_slug}/${h.community_slug}`,
       lastmod: String(h.lastmod).slice(0, 10),
-    }));
+    })),
+  ];
 }
 
 interface PostMonthRow {
