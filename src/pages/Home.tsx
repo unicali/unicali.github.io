@@ -103,7 +103,7 @@ const Home: React.FC = () => {
               <div style={{ marginBottom: '1rem' }}>
                 <span className="meta-label">Privacidad por Diseño</span>
               </div>
-              <Suspense fallback={<div style={{ height: '500px', width: '280px' }} />}>
+              <Suspense fallback={<div style={{ height: '500px', width: '240px' }} />}>
                 <PrivacyPhone />
               </Suspense>
               <p style={{ marginTop: '1rem', fontSize: '0.65rem', color: 'var(--text-dim)', letterSpacing: '0.15em', fontWeight: 300 }}>

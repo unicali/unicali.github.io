@@ -255,6 +255,11 @@ h2 {
 }
 
 /* Phone Showcase */
+@keyframes phone-float-3d {
+  0%, 100% { transform: translateY(0) rotateZ(-1deg); }
+  50% { transform: translateY(-12px) rotateZ(1deg); }
+}
+
 .gallery-section {
   padding: 4rem 0;
   overflow: hidden;
