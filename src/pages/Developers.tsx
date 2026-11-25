@@ -18,7 +18,7 @@ const Developers: React.FC = () => {
       pseudonym: "ESTI",
       realName: "Sebassss",
       role: "Desarrollo móvil y web",
-      desc: "Hace las pantallas principales de la app y la web. Busca que todo se vea claro, cargue rápido y no se cierre de golpe.",
+      desc: "Construye las pantallas que tocas todos los días en la app y en esta web. Su medida de éxito es simple. Que llegues a tus notas en dos toques y que nada se cierre en tu cara.",
       id: "UC-01-MNTR",
       secret: "¿A",
       avatar: (
@@ -33,7 +33,7 @@ const Developers: React.FC = () => {
       pseudonym: "Nexus",
       realName: "Alguien",
       role: "Servidores e infraestructura",
-      desc: "Cuida los servidores para que la app aguante cuando muchos estudiantes la usan a la vez.",
+      desc: "Mantiene en pie los servidores donde vive Campus. Su hora de la verdad es el lunes a las 8 a. m., cuando media universidad abre la app a la vez.",
       id: "UC-02-NEXS",
       secret: "quién",
       avatar: (
@@ -48,7 +48,7 @@ const Developers: React.FC = () => {
       pseudonym: "Apex",
       realName: "leerá esto?",
       role: "Diseño",
-      desc: "Diseña las pantallas para que se entiendan a la primera, sin vueltas.",
+      desc: "Decide cómo se ve y cómo se lee cada pantalla antes de que nadie escriba código. Si algo se entiende sin que te lo expliquen, ahí está su trabajo.",
       id: "UC-03-APEX",
       secret: "intentas",
       avatar: (
@@ -63,7 +63,7 @@ const Developers: React.FC = () => {
       pseudonym: "Ghost",
       realName: "Probablemente nadie",
       role: "Pruebas",
-      desc: "Prueba cada versión antes de publicarla y busca los errores que otros no ven.",
+      desc: "Prueba cada versión como la usaría un estudiante apurado y no la suelta hasta encontrar lo que se iba a romper en tus manos.",
       id: "UC-04-GHST",
       secret: "buscar?",
       avatar: (
@@ -103,7 +103,7 @@ const Developers: React.FC = () => {
             <span className="meta-label">Equipo de desarrollo</span>
             <h1 style={{ marginTop: '2rem', fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', fontStyle: 'italic' }}>¿Quienes están detrás?</h1>
             <p style={{ color: 'var(--text-dim)', maxWidth: '600px', marginTop: '2rem', fontSize: '1.1rem', fontWeight: 300, lineHeight: 1.6 }}>
-              Detrás de cada pantalla hay personas que dedican su tiempo a que la app sea más fácil de usar.
+              No hay una empresa detrás. Hay estudiantes, con clases y exámenes como tú, sacando horas de donde no hay para que esta app exista.
             </p>
           </div>
 

@@ -99,6 +99,14 @@ ninguna afirmación sin respaldo).
 10. **Cada página, un tema y una intención de búsqueda.** Si dos textos
     compiten por la misma búsqueda, se fusionan; si una frase sirve para
     cualquier app del mundo, no sirve para esta web.
+11. **Reescribir no es parafrasear.** Al corregir una descripción, se parte
+    de la situación del estudiante y se escribe una frase nueva; jamás se
+    conserva la frase vieja cambiándole palabras por sinónimos (ver
+    sección 6, punto 6).
+12. **La puntuación también es estilo: sin dos puntos ni punto y coma en
+    las descripciones.** Las ideas se separan con punto. La estructura
+    «escena: remate» es un tic de redacción, no la forma en que escriben
+    las portadas que funcionan (medición en la sección 8).
 
 ### Excepciones (donde NO se simplifica)
 
@@ -186,13 +194,25 @@ texto generado sin revisión. Queda registrado para reconocerlo a la primera:
    (`ACTIVE_CELL`) en una interfaz en español para estudiantes.
 5. **Escribir para impresionar al equipo**, no para el estudiante que llega
    desde Google con una pregunta concreta.
+6. **«Corregir» cambiando palabras por sinónimos.** Conservar la frase
+   anterior y sustituir «visualizar» por «mirar» o «en tiempo real» por «al
+   instante» no es reescribir: es la misma frase abstracta con otro traje.
+   Una descripción se escribe desde cero, partiendo de la situación del
+   estudiante (qué está viviendo, qué pregunta se está haciendo, qué hace
+   con la función), no desde la frase que se quiere reemplazar. Prueba: si el
+   texto nuevo conserva la estructura y el orden de ideas del anterior, no
+   pasó la prueba.
 
-Cualquiera de los cinco, en un PR, es motivo de devolución.
+Cualquiera de los seis, en un PR, es motivo de devolución.
 
 ---
 
 ## 7. Lista de verificación antes de publicar un texto
 
+- [ ] ¿Alguna descripción lleva dos puntos o punto y coma, o pasa de dos
+  oraciones o de ~25 palabras? (secciones 3.12 y 8)
+- [ ] ¿Cada descripción se escribió desde la situación del estudiante, o es
+  la frase anterior con sinónimos? (sección 6, punto 6)
 - [ ] ¿El título y el H1 dicen qué hay, con palabras de la sección 4?
 - [ ] ¿La primera frase responde qué hace / qué gano / qué toco?
 - [ ] ¿Ninguna palabra de la lista prohibida (sección 5)?
@@ -215,3 +235,31 @@ grep -rniE "ecosistema|soberanía|alto rendimiento|definitiv|génesis|genoma|asi
 
 (Si salta una coincidencia legítima —una cita textual o un término legal— se
 deja constancia en el PR de por qué es una excepción de la sección 3.)
+
+## 8. El patrón medido en las portadas que funcionan
+
+El 2026-11-24 se revisaron las portadas reales de WhatsApp, Facebook,
+Telegram, Signal, Duolingo, Notion, Quizlet y Uber, y se midieron sus
+descripciones de funciones (24 textos). Esto es lo que se repite en todas:
+
+- **Una oración por descripción** (dos como máximo), de **8 a 27 palabras**,
+  con una media de ~15. Telegram describe sus 9 funciones con una sola
+  oración de ~10 palabras cada una.
+- **Cero dos puntos y cero punto y coma** en las 24 descripciones. Las
+  ideas se separan con punto, nunca con «escena: remate».
+- **Título de función cortísimo:** 1 palabra en Telegram («Simple»,
+  «Private», «Fast»), 2–4 palabras en el resto, a veces un fragmento con
+  ritmo de puntos («free. fun. effective.» en Duolingo; «Small habits. Big
+  results.» en Quizlet).
+- **Titular principal = un solo beneficio en una frase** («Connect with
+  friends and the world around you on Facebook», «Go anywhere» en Uber),
+  no una lista de funciones.
+- **Voz directa y presente:** o el producto hace algo («Telegram lets you
+  access your chats») o un imperativo al lector («Turn any notes into
+  study guides»). Sustantivos concretos (fotos, grupos, chats), nunca
+  abstracciones.
+- **Cifras solo cuando son prueba concreta** («groups can hold up to
+  200,000 members»), nunca adjetivos disfrazados.
+
+Regla práctica para esta web: si una descripción necesita dos puntos, le
+sobra una idea. Se parte en dos oraciones o se borra la mitad.
