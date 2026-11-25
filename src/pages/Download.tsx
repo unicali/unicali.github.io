@@ -7,7 +7,7 @@ const SCHEMA = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: 'UniCali',
-  description: 'Ecosistema académico para estudiantes universitarios de la UNSA. Gestiona tus notas, horarios, comunidad del campus y más desde tu dispositivo Android.',
+  description: 'App para estudiantes de la UNSA. Revisa tus notas, arma tu horario y comparte materiales desde tu celular Android.',
   operatingSystem: 'Android',
   applicationCategory: 'EducationApplication',
   offers: {

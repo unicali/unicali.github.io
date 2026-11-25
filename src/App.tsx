@@ -127,7 +127,7 @@ const App: React.FC = () => {
             UniCali
           </Link>
           <div className="nav-links-group" style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
-            <a href="/#features" className="nav-link">Sistemas</a>
+            <a href="/#features" className="nav-link">Funciones</a>
             <Link to="/descargar" className="nav-link" style={{ color: 'var(--primary)', fontWeight: 600 }}>Instalar</Link>
             <button onClick={toggleTheme} className="theme-toggle" aria-label={theme === 'dark' ? 'Activar tema claro' : 'Activar tema oscuro'}>
               <ThemeIcon isDark={theme === 'dark'} />
@@ -189,7 +189,7 @@ const App: React.FC = () => {
                 UniCali
               </h3>
               <p style={{ color: 'var(--text-dim)', maxWidth: '300px', fontSize: '0.9rem', lineHeight: '1.8' }}>
-                Infraestructura independiente diseñada para potenciar la vida académica. Hecho por estudiantes para la comunidad.
+                App gratuita hecha por estudiantes de la UNSA, para estudiantes.
               </p>
             </div>
             
@@ -203,7 +203,7 @@ const App: React.FC = () => {
                 {/* <a>: la Biblioteca la renderiza una función, no el SPA. */}
                 <a href="/biblioteca" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Biblioteca de exámenes</a>
                 <a href="/muro" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Muro</a>
-                <Link to="/status" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Estado del Sistema</Link>
+                <Link to="/status" className="nav-link" style={{ textTransform: 'none', letterSpacing: 'normal' }}>Estado del servicio</Link>
               </div>
             </div>
 
@@ -229,7 +229,7 @@ const App: React.FC = () => {
           <div className="luxury-grid" style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)', alignItems: 'center' }}>
             <div className="col-span-6">
               <p style={{ fontSize: '0.6rem', color: 'var(--text-dim)', letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>
-                © 2026 UniCali • Ingeniería Académica Independiente
+                © 2026 UniCali • Hecho por estudiantes
               </p>
             </div>
             <div className="col-span-4 footer-social-block">

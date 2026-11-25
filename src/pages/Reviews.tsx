@@ -58,7 +58,7 @@ const Reviews: React.FC = () => {
     <>
       <Helmet>
         <title>Reseñas | Lo que dice la comunidad de UniCali</title>
-        <meta name="description" content="Descubre lo que estudiantes y docentes opinan de UniCali: diseño minimalista, rendimiento y facilidad de uso." />
+        <meta name="description" content="Lo que estudiantes y docentes opinan de UniCali: qué les gusta y qué deberíamos mejorar." />
         <link rel="canonical" href="https://www.unicali.app/reseñas" />
 
         <meta property="og:title" content="Reseñas | Lo que dice la comunidad de UniCali" />
