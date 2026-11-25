@@ -7,7 +7,7 @@ const SCHEMA = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: 'UniCali',
-  description: 'App para estudiantes de la UNSA. Revisa tus notas, arma tu horario y comparte materiales desde tu celular Android.',
+  description: 'La app gratis de los estudiantes de la UNSA para Android: promedio ponderado sin cuentas a mano, la nota que necesitas para aprobar, horarios y exámenes pasados de tus cursos.',
   operatingSystem: 'Android',
   applicationCategory: 'EducationApplication',
   offers: {
@@ -62,7 +62,7 @@ const Download: React.FC = () => {
               Descarga UniCali
             </h1>
             <p style={{ color: 'var(--text-dim)', marginTop: '2rem', fontSize: '1.2rem', fontWeight: 300, lineHeight: 1.6 }}>
-              Descarga UniCali gratis desde Google Play, regístrate con tus datos universitarios y empieza a gestionar tu vida académica desde el primer inicio.
+              Instálala desde Google Play, crea tu cuenta con tu correo y tu CUI, y en menos de un minuto ya estás viendo tus notas. Sin pagar, sin configurar nada raro.
             </p>
           </div>
 

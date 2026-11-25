@@ -48,11 +48,11 @@ const Home: React.FC = () => {
     <>
       <Helmet>
         <title>UniCali | Notas, horarios y comunidad para estudiantes de la UNSA</title>
-        <meta name="description" content="UniCali es una app gratuita hecha por estudiantes de la UNSA. Revisa tus notas, calcula tus promedios, arma tu horario y comparte materiales con tu comunidad." />
+        <meta name="description" content="Descarga UniCali gratis: calculadora de notas y promedio ponderado de la UNSA, horarios, biblioteca de exámenes pasados y reseñas de docentes. Una sola app para Android, hecha por estudiantes." />
         <link rel="canonical" href="https://www.unicali.app/" />
 
         <meta property="og:title" content="UniCali | Tus notas y tu horario en una sola app" />
-        <meta property="og:description" content="Revisa tus notas, calcula tus promedios y comparte materiales con otros estudiantes de la UNSA." />
+        <meta property="og:description" content="Calcula tu promedio ponderado, descubre qué nota necesitas para aprobar y descarga exámenes pasados de tus cursos." />
         <meta property="og:url" content="https://www.unicali.app/" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="UniCali" />
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="UniCali | Tus notas y tu horario en una sola app" />
-        <meta name="twitter:description" content="Revisa tus notas, calcula tus promedios y comparte materiales con otros estudiantes de la UNSA." />
+        <meta name="twitter:description" content="Calcula tu promedio ponderado, descubre qué nota necesitas para aprobar y descarga exámenes pasados de tus cursos." />
         <meta name="twitter:image" content="https://www.unicali.app/og-image.png" />
       </Helmet>
 
@@ -86,7 +86,7 @@ const Home: React.FC = () => {
                 fontFamily: 'var(--font-serif)',
                 fontStyle: 'italic'
               }}>
-                Tus notas, tu horario y tu comunidad de la UNSA en una sola app. Gratis, fácil de usar y con tus datos guardados en tu celular.
+                ¿Cuánto necesitas en el examen final para aprobar? UniCali te lo dice antes de que rindas. Es la app de los estudiantes de la UNSA para llevar las notas, el horario y los exámenes de cada curso en el celular, sin cuentas a mano y sin pagar nada.
               </p>
               <div className="reveal stagger-4" style={{ marginTop: '4rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
                 <a href="https://play.google.com/store/apps/details?id=com.mantra.unsap" className="btn-minimal" target="_blank" rel="noopener noreferrer">
@@ -125,31 +125,31 @@ const Home: React.FC = () => {
               Todo lo que necesitas para tus cursos
             </h2>
             <p style={{ marginTop: '1.5rem', color: 'var(--text-dim)', fontWeight: 300, maxWidth: '460px', lineHeight: 1.7 }}>
-              Cada función nació de un problema real que vivimos como estudiantes.
+              No son funciones de vitrina: cada una existe porque a nosotros también nos pasó.
             </p>
           </div>
 
           <div className="luxury-grid">
             <FeatureItem icon={<NotesIcon />} title="Tus notas"
-              desc="Mira tus notas por curso y período, con tu promedio ponderado calculado al instante."
+              desc="Deja de sumar notas en la calculadora del celular: escribe tus notas y la app lleva tu promedio ponderado curso por curso, siempre listo cuando lo quieras revisar."
               stagger="stagger-1" />
             <FeatureItem icon={<TrendIcon />} title="¿Qué nota necesitas?"
-              desc="Calcula qué nota necesitas en tu sustitutorio o examen final antes de rendirlo."
+              desc="La pregunta de cada fin de unidad, resuelta en segundos: escribe lo que llevas y descubre la nota exacta que necesitas en el sustitutorio o en el final para aprobar."
               stagger="stagger-2" />
             <FeatureItem icon={<ShieldIcon />} title="Tus datos en tu celular"
-              desc="Tus notas se guardan en tu celular y puedes verlas sin conexión."
+              desc="En el bus, en el salón o sin datos: tus notas viven en tu celular, no en un servidor, y se abren igual sin conexión."
               stagger="stagger-3" />
           </div>
 
           <div className="luxury-grid" style={{ marginBottom: '2rem' }}>
             <FeatureItem icon={<LibraryIcon />} title="Biblioteca"
-              desc="Guarda tus apuntes y materiales, y consúltalos sin conexión."
+              desc="¿Examen mañana? Busca exámenes pasados y apuntes de tu curso, descárgalos una vez y estúdialos donde sea, sin gastar datos."
               stagger="stagger-1" />
             <FeatureItem icon={<RecorderIcon />} title="Grabadora de Clases"
-              desc="Graba el audio de tus clases desde la app para repasarlas después."
+              desc="Si el docente explicó algo una sola vez, que quede grabado: registra la clase completa y vuelve a escucharla cuando prepares tu examen."
               stagger="stagger-2" />
             <FeatureItem icon={<ReviewIcon />} title="Reseñas de docentes"
-              desc="Lee y comparte reseñas anónimas de docentes de la UNSA."
+              desc="Matricularte deja de ser una apuesta: lee qué cuentan otros estudiantes de cada docente y comparte tu experiencia sin mostrar tu nombre."
               stagger="stagger-3" />
           </div>
 
@@ -157,13 +157,13 @@ const Home: React.FC = () => {
 
           <div className="luxury-grid">
             <FeatureItem icon={<AIIcon />} title="Asistente con IA"
-              desc="Pregúntale tus dudas sobre tus cursos y recibe respuestas al instante."
+              desc="¿Un tema no quedó claro y ya es de noche? Pregunta dentro de la app y sigue la conversación hasta entenderlo, sin esperar a la siguiente clase."
               stagger="stagger-1" beta />
             <FeatureItem icon={<ScheduleIcon />} title="Horarios"
-              desc="Arma tu horario por docente, sección y créditos, y compártelo como imagen."
+              desc="Nada de horarios armados en papel que se cruzan a la primera: prueba secciones, compara docentes y, cuando quede bien, compártelo como imagen con tu grupo."
               stagger="stagger-2" beta />
             <FeatureItem icon={<GroupCalIcon />} title="Trabajos en grupo"
-              desc="Organiza tareas y proyectos con tu grupo dentro de la app."
+              desc="Que nadie diga «no sabía que me tocaba a mí»: reparte las tareas del trabajo grupal y deja a la vista quién entrega qué."
               stagger="stagger-3" beta />
           </div>
 
@@ -177,7 +177,7 @@ const Home: React.FC = () => {
             <span className="meta-label">Programa beta</span>
             <h2 style={{ marginTop: '1rem' }}>Forma parte del equipo</h2>
             <p style={{ color: 'var(--text-dim)', maxWidth: '600px', margin: '1.5rem auto', fontWeight: 300 }}>
-              Prueba las funciones nuevas antes que nadie y ayúdanos a mejorar la app.
+              Entra a lo que todavía no sale para todos: pruébalo en tus cursos reales y dinos qué se queda, qué se arregla y qué sobra.
             </p>
           </div>
 
@@ -343,7 +343,7 @@ const CampusSocialCard: React.FC = () => (
         Campus Social
       </h3>
       <p style={{ fontSize: '1rem', color: 'var(--text-dim)', fontWeight: 300, lineHeight: 1.8, maxWidth: '420px' }}>
-        Publica, pregunta y comparte materiales con otros estudiantes de la UNSA.
+        El pasillo de la universidad, en tu celular: publica una duda y que te responda alguien que ya llevó el curso, busca compañeros en el directorio y comparte el material que a ti te salvó.
       </p>
     </div>
     <div aria-hidden="true" style={{ flexShrink: 0, pointerEvents: 'none' }}>

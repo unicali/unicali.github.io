@@ -189,7 +189,7 @@ const App: React.FC = () => {
                 UniCali
               </h3>
               <p style={{ color: 'var(--text-dim)', maxWidth: '300px', fontSize: '0.9rem', lineHeight: '1.8' }}>
-                App gratuita hecha por estudiantes de la UNSA, para estudiantes.
+                Hecha por estudiantes de la UNSA que también se cansaron de calcular promedios a mano.
               </p>
             </div>
             

@@ -99,6 +99,10 @@ ninguna afirmación sin respaldo).
 10. **Cada página, un tema y una intención de búsqueda.** Si dos textos
     compiten por la misma búsqueda, se fusionan; si una frase sirve para
     cualquier app del mundo, no sirve para esta web.
+11. **Reescribir no es parafrasear.** Al corregir una descripción, se parte
+    de la situación del estudiante y se escribe una frase nueva; jamás se
+    conserva la frase vieja cambiándole palabras por sinónimos (ver
+    sección 6, punto 6).
 
 ### Excepciones (donde NO se simplifica)
 
@@ -186,13 +190,23 @@ texto generado sin revisión. Queda registrado para reconocerlo a la primera:
    (`ACTIVE_CELL`) en una interfaz en español para estudiantes.
 5. **Escribir para impresionar al equipo**, no para el estudiante que llega
    desde Google con una pregunta concreta.
+6. **«Corregir» cambiando palabras por sinónimos.** Conservar la frase
+   anterior y sustituir «visualizar» por «mirar» o «en tiempo real» por «al
+   instante» no es reescribir: es la misma frase abstracta con otro traje.
+   Una descripción se escribe desde cero, partiendo de la situación del
+   estudiante (qué está viviendo, qué pregunta se está haciendo, qué hace
+   con la función), no desde la frase que se quiere reemplazar. Prueba: si el
+   texto nuevo conserva la estructura y el orden de ideas del anterior, no
+   pasó la prueba.
 
-Cualquiera de los cinco, en un PR, es motivo de devolución.
+Cualquiera de los seis, en un PR, es motivo de devolución.
 
 ---
 
 ## 7. Lista de verificación antes de publicar un texto
 
+- [ ] ¿Cada descripción se escribió desde la situación del estudiante, o es
+  la frase anterior con sinónimos? (sección 6, punto 6)
 - [ ] ¿El título y el H1 dicen qué hay, con palabras de la sección 4?
 - [ ] ¿La primera frase responde qué hace / qué gano / qué toco?
 - [ ] ¿Ninguna palabra de la lista prohibida (sección 5)?
