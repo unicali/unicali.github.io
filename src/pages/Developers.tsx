@@ -17,8 +17,8 @@ const Developers: React.FC = () => {
     {
       pseudonym: "ESTI",
       realName: "Sebassss",
-      role: "Lead Mobile & Web Dev",
-      desc: "Responsable de la interfaz principal y la interacción del usuario. Garantiza un entorno de navegación rápido, estable y a prueba de caídas.",
+      role: "Desarrollo móvil y web",
+      desc: "Hace las pantallas principales de la app y la web. Busca que todo se vea claro, cargue rápido y no se cierre de golpe.",
       id: "UC-01-MNTR",
       secret: "¿A",
       avatar: (
@@ -32,8 +32,8 @@ const Developers: React.FC = () => {
     {
       pseudonym: "Nexus",
       realName: "Alguien",
-      role: "Infrastructure Architect",
-      desc: "Guardián de la infraestructura. Optimiza los recursos y blinda el sistema para soportar tráfico masivo de forma totalmente independiente.",
+      role: "Servidores e infraestructura",
+      desc: "Cuida los servidores para que la app aguante cuando muchos estudiantes la usan a la vez.",
       id: "UC-02-NEXS",
       secret: "quién",
       avatar: (
@@ -47,8 +47,8 @@ const Developers: React.FC = () => {
     {
       pseudonym: "Apex",
       realName: "leerá esto?",
-      role: "UI/UX & Diseño",
-      desc: "Arquitecto visual. Define la ergonomía de la interfaz para que la experiencia del estudiante sea directa, limpia e intuitiva.",
+      role: "Diseño",
+      desc: "Diseña las pantallas para que se entiendan a la primera, sin vueltas.",
       id: "UC-03-APEX",
       secret: "intentas",
       avatar: (
@@ -62,8 +62,8 @@ const Developers: React.FC = () => {
     {
       pseudonym: "Ghost",
       realName: "Probablemente nadie",
-      role: "QA & Beta Testing",
-      desc: "Especialista en pruebas de estrés. Detecta fallos críticos y valida la estabilidad del sistema entero antes de cada actualización.",
+      role: "Pruebas",
+      desc: "Prueba cada versión antes de publicarla y busca los errores que otros no ven.",
       id: "UC-04-GHST",
       secret: "buscar?",
       avatar: (
@@ -79,20 +79,20 @@ const Developers: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Equipo de Desarrollo | El Genoma de UniCali</title>
-        <meta name="description" content="Conoce a las mentes detrás de UniCali. Células de desarrollo independientes operando bajo anonimato estratégico." />
+        <title>Equipo | UniCali</title>
+        <meta name="description" content="Conoce a las personas que hacen UniCali, un equipo independiente de estudiantes." />
         <link rel="canonical" href="https://www.unicali.app/equipo" />
 
-        <meta property="og:title" content="Equipo de Desarrollo | El Genoma de UniCali" />
-        <meta property="og:description" content="Conoce a las mentes detrás de UniCali. Células de desarrollo independientes operando bajo anonimato estratégico." />
+        <meta property="og:title" content="Equipo | UniCali" />
+        <meta property="og:description" content="Conoce a las personas que hacen UniCali, un equipo independiente de estudiantes." />
         <meta property="og:url" content="https://www.unicali.app/equipo" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="UniCali" />
         <meta property="og:image" content="https://www.unicali.app/og-image.png" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Equipo de Desarrollo | El Genoma de UniCali" />
-        <meta name="twitter:description" content="Conoce a las mentes detrás de UniCali." />
+        <meta name="twitter:title" content="Equipo | UniCali" />
+        <meta name="twitter:description" content="Conoce a las personas que hacen UniCali." />
         <meta name="twitter:image" content="https://www.unicali.app/og-image.png" />
       </Helmet>
 
@@ -100,10 +100,10 @@ const Developers: React.FC = () => {
         <div className="container">
           <span className="section-label">Identidad</span>
           <div className="reveal">
-            <span className="meta-label">Nivel de Acceso: Encifrado</span>
+            <span className="meta-label">Equipo de desarrollo</span>
             <h1 style={{ marginTop: '2rem', fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', fontStyle: 'italic' }}>¿Quienes están detrás?</h1>
             <p style={{ color: 'var(--text-dim)', maxWidth: '600px', marginTop: '2rem', fontSize: '1.1rem', fontWeight: 300, lineHeight: 1.6 }}>
-              Cada pantalla tiene personas inviertiendo tiempo con tal de optimizar la experiencia de usuario.
+              Detrás de cada pantalla hay personas que dedican su tiempo a que la app sea más fácil de usar.
             </p>
           </div>
 
@@ -116,7 +116,7 @@ const Developers: React.FC = () => {
           </div>
 
           <div className="reveal" style={{ marginTop: '10rem', textAlign: 'center' }}>
-            <span className="meta-label">Sistema de Verificación Distribuido</span>
+            <span className="meta-label">UniCali</span>
           </div>
         </div>
       </section>
@@ -216,7 +216,7 @@ const IDCard: React.FC<{ member: TeamMember }> = ({ member }) => {
         paddingTop: '1.5rem',
         borderTop: '1px solid var(--border)'
       }}>
-        <span style={{ fontSize: '0.6rem', color: 'var(--primary)', fontWeight: 600, letterSpacing: '0.2em' }}>STATUS: ACTIVE_CELL</span>
+        <span style={{ fontSize: '0.6rem', color: 'var(--primary)', fontWeight: 600, letterSpacing: '0.2em' }}>ESTADO: ACTIVO</span>
         <div style={{ display: 'flex', gap: '4px' }}>
           {[1,2,3,4,5].map(b => <div key={b} style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)', opacity: 0.1 * b }} />)}
         </div>

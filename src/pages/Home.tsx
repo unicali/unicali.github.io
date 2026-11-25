@@ -47,20 +47,20 @@ const Home: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>UniCali | Arquitectura Académica Minimalista</title>
-        <meta name="description" content="UniCali es la plataforma independiente diseñada por y para estudiantes. Gestiona tus notas, conecta con la comunidad y optimiza tu rendimiento académico con seguridad y privacidad." />
+        <title>UniCali | Notas, horarios y comunidad para estudiantes de la UNSA</title>
+        <meta name="description" content="UniCali es una app gratuita hecha por estudiantes de la UNSA. Revisa tus notas, calcula tus promedios, arma tu horario y comparte materiales con tu comunidad." />
         <link rel="canonical" href="https://www.unicali.app/" />
 
-        <meta property="og:title" content="UniCali | La herramienta definitiva para tu vida universitaria" />
-        <meta property="og:description" content="Gestiona tus notas, conecta con la comunidad y optimiza tu rendimiento académico con seguridad y privacidad." />
+        <meta property="og:title" content="UniCali | Tus notas y tu horario en una sola app" />
+        <meta property="og:description" content="Revisa tus notas, calcula tus promedios y comparte materiales con otros estudiantes de la UNSA." />
         <meta property="og:url" content="https://www.unicali.app/" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="UniCali" />
         <meta property="og:image" content="https://www.unicali.app/og-image.png" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="UniCali | La herramienta definitiva para tu vida universitaria" />
-        <meta name="twitter:description" content="Gestiona tus notas, conecta con la comunidad y optimiza tu rendimiento académico con seguridad y privacidad." />
+        <meta name="twitter:title" content="UniCali | Tus notas y tu horario en una sola app" />
+        <meta name="twitter:description" content="Revisa tus notas, calcula tus promedios y comparte materiales con otros estudiantes de la UNSA." />
         <meta name="twitter:image" content="https://www.unicali.app/og-image.png" />
       </Helmet>
 
@@ -86,7 +86,7 @@ const Home: React.FC = () => {
                 fontFamily: 'var(--font-serif)',
                 fontStyle: 'italic'
               }}>
-                Un ecosistema académico de alto rendimiento. Privacidad total, persistencia local y diseño orientado a la autonomía estudiantil.
+                Tus notas, tu horario y tu comunidad de la UNSA en una sola app. Gratis, fácil de usar y con tus datos guardados en tu celular.
               </p>
               <div className="reveal stagger-4" style={{ marginTop: '4rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
                 <a href="https://play.google.com/store/apps/details?id=com.mantra.unsap" className="btn-minimal" target="_blank" rel="noopener noreferrer">
@@ -101,13 +101,13 @@ const Home: React.FC = () => {
             {/* Teléfono — derecha en desktop, abajo en móvil */}
             <div className="reveal stagger-2" style={{ flex: '0 0 auto', textAlign: 'center' }}>
               <div style={{ marginBottom: '1rem' }}>
-                <span className="meta-label">Privacidad por Diseño</span>
+                <span className="meta-label">Tus datos, en tu celular</span>
               </div>
               <Suspense fallback={<div style={{ height: '500px', width: '240px' }} />}>
                 <PrivacyPhone />
               </Suspense>
               <p style={{ marginTop: '1rem', fontSize: '0.65rem', color: 'var(--text-dim)', letterSpacing: '0.15em', fontWeight: 300 }}>
-                {isTouch ? 'DESLIZA LA PANTALLA · INTERACTIVO' : 'ARQUITECTURA VISUAL · INTERACTIVO'}
+                {isTouch ? 'DESLIZA PARA VER LA APP' : 'MUEVE EL CURSOR PARA VER LA APP'}
               </p>
             </div>
 
@@ -122,48 +122,48 @@ const Home: React.FC = () => {
           <div className="reveal" style={{ borderTop: '1px solid var(--border)', paddingTop: '4rem', marginBottom: '6rem' }}>
             <span className="meta-label">Módulos</span>
             <h2 style={{ marginTop: '1rem', maxWidth: '640px' }}>
-              Un ecosistema académico completo
+              Todo lo que necesitas para tus cursos
             </h2>
             <p style={{ marginTop: '1.5rem', color: 'var(--text-dim)', fontWeight: 300, maxWidth: '460px', lineHeight: 1.7 }}>
-              Cada herramienta responde a un problema real de la vida universitaria.
+              Cada función nació de un problema real que vivimos como estudiantes.
             </p>
           </div>
 
           <div className="luxury-grid">
-            <FeatureItem icon={<NotesIcon />} title="Gestión de Notas"
-              desc="Visualiza calificaciones por curso y período con promedios ponderados calculados en tiempo real."
+            <FeatureItem icon={<NotesIcon />} title="Tus notas"
+              desc="Mira tus notas por curso y período, con tu promedio ponderado calculado al instante."
               stagger="stagger-1" />
-            <FeatureItem icon={<TrendIcon />} title="Motor Predictivo"
-              desc="Simula sustitutorios y calcula el techo máximo de nota alcanzable antes de cada examen."
+            <FeatureItem icon={<TrendIcon />} title="¿Qué nota necesitas?"
+              desc="Calcula qué nota necesitas en tu sustitutorio o examen final antes de rendirlo."
               stagger="stagger-2" />
-            <FeatureItem icon={<ShieldIcon />} title="Soberanía de Datos"
-              desc="Tu información académica vive en tu dispositivo, cifrada y disponible sin conexión."
+            <FeatureItem icon={<ShieldIcon />} title="Tus datos en tu celular"
+              desc="Tus notas se guardan en tu celular y puedes verlas sin conexión."
               stagger="stagger-3" />
           </div>
 
           <div className="luxury-grid" style={{ marginBottom: '2rem' }}>
             <FeatureItem icon={<LibraryIcon />} title="Biblioteca"
-              desc="Repositorio personal de apuntes y materiales académicos con acceso y carga sin conexión."
+              desc="Guarda tus apuntes y materiales, y consúltalos sin conexión."
               stagger="stagger-1" />
             <FeatureItem icon={<RecorderIcon />} title="Grabadora de Clases"
-              desc="Graba el audio de tus sesiones académicas directamente desde la app para no perder ningún detalle."
+              desc="Graba el audio de tus clases desde la app para repasarlas después."
               stagger="stagger-2" />
-            <FeatureItem icon={<ReviewIcon />} title="Reseña de Docentes"
-              desc="Consulta y comparte calificaciones anónimas y colaborativas del cuerpo docente de la UNSA."
+            <FeatureItem icon={<ReviewIcon />} title="Reseñas de docentes"
+              desc="Lee y comparte reseñas anónimas de docentes de la UNSA."
               stagger="stagger-3" />
           </div>
 
           <CampusSocialCard />
 
           <div className="luxury-grid">
-            <FeatureItem icon={<AIIcon />} title="IA para Consultas"
-              desc="Asistente académico con comprensión de contexto y memoria de sesión para resolver tus dudas al instante."
+            <FeatureItem icon={<AIIcon />} title="Asistente con IA"
+              desc="Pregúntale tus dudas sobre tus cursos y recibe respuestas al instante."
               stagger="stagger-1" beta />
             <FeatureItem icon={<ScheduleIcon />} title="Horarios"
-              desc="Arma y exporta tu horario universitario con filtros por docente, sección y créditos. Compártelo como imagen en un toque."
+              desc="Arma tu horario por docente, sección y créditos, y compártelo como imagen."
               stagger="stagger-2" beta />
-            <FeatureItem icon={<GroupCalIcon />} title="Planificación Grupal"
-              desc="Coordina tareas y proyectos con tu equipo universitario desde un espacio compartido dentro de la app."
+            <FeatureItem icon={<GroupCalIcon />} title="Trabajos en grupo"
+              desc="Organiza tareas y proyectos con tu grupo dentro de la app."
               stagger="stagger-3" beta />
           </div>
 
@@ -174,10 +174,10 @@ const Home: React.FC = () => {
       <section id="early-access" className="section-standard" style={{ borderTop: '1px solid var(--border)' }}>
         <div className="container">
           <div className="reveal" style={{ textAlign: 'center', marginBottom: '5rem' }}>
-            <span className="meta-label">Beta Program</span>
+            <span className="meta-label">Programa beta</span>
             <h2 style={{ marginTop: '1rem' }}>Forma parte del equipo</h2>
             <p style={{ color: 'var(--text-dim)', maxWidth: '600px', margin: '1.5rem auto', fontWeight: 300 }}>
-              Accede a funciones experimentales antes que nadie y ayúdanos a construir la mejor herramienta académica.
+              Prueba las funciones nuevas antes que nadie y ayúdanos a mejorar la app.
             </p>
           </div>
 
@@ -343,7 +343,7 @@ const CampusSocialCard: React.FC = () => (
         Campus Social
       </h3>
       <p style={{ fontSize: '1rem', color: 'var(--text-dim)', fontWeight: 300, lineHeight: 1.8, maxWidth: '420px' }}>
-        La comunidad universitaria en tu bolsillo. Publicaciones, foro en tiempo real, directorio de estudiantes y compartir materiales con tu red académica.
+        Publica, pregunta y comparte materiales con otros estudiantes de la UNSA.
       </p>
     </div>
     <div aria-hidden="true" style={{ flexShrink: 0, pointerEvents: 'none' }}>
