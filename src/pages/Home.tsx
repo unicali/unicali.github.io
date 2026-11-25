@@ -48,7 +48,7 @@ const Home: React.FC = () => {
     <>
       <Helmet>
         <title>UniCali | Notas, horarios y comunidad para estudiantes de la UNSA</title>
-        <meta name="description" content="Descarga UniCali gratis: calculadora de notas y promedio ponderado de la UNSA, horarios, biblioteca de exámenes pasados y reseñas de docentes. Una sola app para Android, hecha por estudiantes." />
+        <meta name="description" content="Descarga UniCali gratis. Calculadora de notas y promedio ponderado de la UNSA, horarios, biblioteca de exámenes pasados y reseñas de docentes en una sola app para Android." />
         <link rel="canonical" href="https://www.unicali.app/" />
 
         <meta property="og:title" content="UniCali | Tus notas y tu horario en una sola app" />
@@ -86,7 +86,7 @@ const Home: React.FC = () => {
                 fontFamily: 'var(--font-serif)',
                 fontStyle: 'italic'
               }}>
-                ¿Cuánto necesitas en el examen final para aprobar? UniCali te lo dice antes de que rindas. Es la app de los estudiantes de la UNSA para llevar las notas, el horario y los exámenes de cada curso en el celular, sin cuentas a mano y sin pagar nada.
+                ¿Cuánto necesitas en el examen final para aprobar? UniCali te lo dice antes de que rindas. Tus notas, tu horario y los exámenes de cada curso, en tu celular y sin sumar nada a mano.
               </p>
               <div className="reveal stagger-4" style={{ marginTop: '4rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
                 <a href="https://play.google.com/store/apps/details?id=com.mantra.unsap" className="btn-minimal" target="_blank" rel="noopener noreferrer">
@@ -131,25 +131,25 @@ const Home: React.FC = () => {
 
           <div className="luxury-grid">
             <FeatureItem icon={<NotesIcon />} title="Tus notas"
-              desc="Deja de sumar notas en la calculadora del celular: escribe tus notas y la app lleva tu promedio ponderado curso por curso, siempre listo cuando lo quieras revisar."
+              desc="Escribe tus notas y la app lleva tu promedio ponderado por ti, curso por curso."
               stagger="stagger-1" />
             <FeatureItem icon={<TrendIcon />} title="¿Qué nota necesitas?"
-              desc="La pregunta de cada fin de unidad, resuelta en segundos: escribe lo que llevas y descubre la nota exacta que necesitas en el sustitutorio o en el final para aprobar."
+              desc="Escribe lo que llevas y descubre la nota exacta que necesitas en el sustitutorio o en el final para aprobar."
               stagger="stagger-2" />
             <FeatureItem icon={<ShieldIcon />} title="Tus datos en tu celular"
-              desc="En el bus, en el salón o sin datos: tus notas viven en tu celular, no en un servidor, y se abren igual sin conexión."
+              desc="Tus notas se guardan en tu celular y se abren igual sin conexión, en el bus o en el salón."
               stagger="stagger-3" />
           </div>
 
           <div className="luxury-grid" style={{ marginBottom: '2rem' }}>
             <FeatureItem icon={<LibraryIcon />} title="Biblioteca"
-              desc="¿Examen mañana? Busca exámenes pasados y apuntes de tu curso, descárgalos una vez y estúdialos donde sea, sin gastar datos."
+              desc="Busca exámenes pasados y apuntes de tu curso y descárgalos para estudiar sin conexión."
               stagger="stagger-1" />
             <FeatureItem icon={<RecorderIcon />} title="Grabadora de Clases"
-              desc="Si el docente explicó algo una sola vez, que quede grabado: registra la clase completa y vuelve a escucharla cuando prepares tu examen."
+              desc="Graba la clase completa y vuelve a escucharla cuando prepares tu examen."
               stagger="stagger-2" />
             <FeatureItem icon={<ReviewIcon />} title="Reseñas de docentes"
-              desc="Matricularte deja de ser una apuesta: lee qué cuentan otros estudiantes de cada docente y comparte tu experiencia sin mostrar tu nombre."
+              desc="Lee qué cuentan otros estudiantes de cada docente antes de matricularte y comparte tu experiencia sin mostrar tu nombre."
               stagger="stagger-3" />
           </div>
 
@@ -157,13 +157,13 @@ const Home: React.FC = () => {
 
           <div className="luxury-grid">
             <FeatureItem icon={<AIIcon />} title="Asistente con IA"
-              desc="¿Un tema no quedó claro y ya es de noche? Pregunta dentro de la app y sigue la conversación hasta entenderlo, sin esperar a la siguiente clase."
+              desc="Pregunta dentro de la app cuando un tema no quede claro y sigue la conversación hasta entenderlo."
               stagger="stagger-1" beta />
             <FeatureItem icon={<ScheduleIcon />} title="Horarios"
-              desc="Nada de horarios armados en papel que se cruzan a la primera: prueba secciones, compara docentes y, cuando quede bien, compártelo como imagen con tu grupo."
+              desc="Prueba secciones, compara docentes y comparte tu horario como imagen cuando quede bien."
               stagger="stagger-2" beta />
             <FeatureItem icon={<GroupCalIcon />} title="Trabajos en grupo"
-              desc="Que nadie diga «no sabía que me tocaba a mí»: reparte las tareas del trabajo grupal y deja a la vista quién entrega qué."
+              desc="Reparte las tareas del trabajo grupal y deja a la vista quién entrega qué."
               stagger="stagger-3" beta />
           </div>
 
@@ -177,7 +177,7 @@ const Home: React.FC = () => {
             <span className="meta-label">Programa beta</span>
             <h2 style={{ marginTop: '1rem' }}>Forma parte del equipo</h2>
             <p style={{ color: 'var(--text-dim)', maxWidth: '600px', margin: '1.5rem auto', fontWeight: 300 }}>
-              Entra a lo que todavía no sale para todos: pruébalo en tus cursos reales y dinos qué se queda, qué se arregla y qué sobra.
+              Entra a lo que todavía no sale para todos y dinos qué se queda, qué se arregla y qué sobra.
             </p>
           </div>
 
@@ -343,7 +343,7 @@ const CampusSocialCard: React.FC = () => (
         Campus Social
       </h3>
       <p style={{ fontSize: '1rem', color: 'var(--text-dim)', fontWeight: 300, lineHeight: 1.8, maxWidth: '420px' }}>
-        El pasillo de la universidad, en tu celular: publica una duda y que te responda alguien que ya llevó el curso, busca compañeros en el directorio y comparte el material que a ti te salvó.
+        Publica una duda y que te responda alguien que ya llevó el curso. Busca compañeros en el directorio y comparte el material que a ti te salvó.
       </p>
     </div>
     <div aria-hidden="true" style={{ flexShrink: 0, pointerEvents: 'none' }}>

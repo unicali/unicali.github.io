@@ -18,7 +18,7 @@ const Developers: React.FC = () => {
       pseudonym: "ESTI",
       realName: "Sebassss",
       role: "Desarrollo móvil y web",
-      desc: "Construye las pantallas que tocas todos los días en la app y en esta web. Su medida de éxito es simple: que llegues a tus notas en dos toques y que nada se cierre en tu cara.",
+      desc: "Construye las pantallas que tocas todos los días en la app y en esta web. Su medida de éxito es simple. Que llegues a tus notas en dos toques y que nada se cierre en tu cara.",
       id: "UC-01-MNTR",
       secret: "¿A",
       avatar: (
@@ -63,7 +63,7 @@ const Developers: React.FC = () => {
       pseudonym: "Ghost",
       realName: "Probablemente nadie",
       role: "Pruebas",
-      desc: "Usa cada versión como la usaría un estudiante apurado —porque así se usa de verdad— y no la suelta hasta encontrar lo que se iba a romper en tus manos.",
+      desc: "Prueba cada versión como la usaría un estudiante apurado y no la suelta hasta encontrar lo que se iba a romper en tus manos.",
       id: "UC-04-GHST",
       secret: "buscar?",
       avatar: (
@@ -103,7 +103,7 @@ const Developers: React.FC = () => {
             <span className="meta-label">Equipo de desarrollo</span>
             <h1 style={{ marginTop: '2rem', fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', fontStyle: 'italic' }}>¿Quienes están detrás?</h1>
             <p style={{ color: 'var(--text-dim)', maxWidth: '600px', marginTop: '2rem', fontSize: '1.1rem', fontWeight: 300, lineHeight: 1.6 }}>
-              No hay una empresa detrás: hay estudiantes, con clases y exámenes como tú, sacando horas de donde no hay para que esta app exista.
+              No hay una empresa detrás. Hay estudiantes, con clases y exámenes como tú, sacando horas de donde no hay para que esta app exista.
             </p>
           </div>
 
