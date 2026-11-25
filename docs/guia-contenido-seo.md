@@ -200,6 +200,12 @@ Cualquiera de los cinco, en un PR, es motivo de devolución.
 - [ ] ¿Oraciones cortas, voz activa, «tú»?
 - [ ] ¿Todo en español salvo nombres propios y siglas reales?
 - [ ] ¿Lo entendería en una lectura un estudiante de primer ciclo?
+- [ ] Si cambiaste el `<title>` de `index.html`: actualiza también la
+  constante `STATIC_FALLBACK_TITLE` de `scripts/prerender.mjs` (deben
+  coincidir exacto, y el título de respaldo debe ser distinto del título
+  Helmet de la home). Si no calzan, el prerender deja 2 títulos —o 0— y el
+  build completo falla en Vercel y en GitHub Pages. Verifica con el build
+  completo (`npm run build`), no solo con `tsc`.
 
 Comprobación rápida de la lista prohibida sobre el código:
 

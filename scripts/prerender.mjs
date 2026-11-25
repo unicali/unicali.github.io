@@ -24,7 +24,7 @@ const DIST = path.resolve(process.cwd(), 'dist');
 // reemplaza ese nodo al montar — inserta el suyo propio y dos <title>
 // conviven en el DOM (mismo mecanismo que causó la duplicación de
 // <link rel="canonical">). Se limpia el estático tras capturar cada ruta.
-const STATIC_FALLBACK_TITLE = 'UniCali | La herramienta definitiva para tu vida universitaria';
+const STATIC_FALLBACK_TITLE = 'UniCali | App gratuita para estudiantes de la UNSA';
 
 async function main() {
   console.log('[prerender] iniciando servidor de preview (Vite API, in-process)...');
