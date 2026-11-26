@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 const screenshots = [
-  { src: '/screenshots/login.jpeg', alt: 'Inicio de sesión de UniCali' },
-  { src: '/screenshots/unicali-profile.png', alt: 'Perfil académico de UniCali' },
-  { src: '/screenshots/unicali-notes.png', alt: 'Notas y promedios de UniCali' },
-  { src: '/screenshots/unicali-statistics.png', alt: 'Estadísticas académicas de UniCali' },
-  { src: '/screenshots/unicali-lab.png', alt: 'Laboratorio de UniCali' },
-  { src: '/screenshots/unicali-simulator.png', alt: 'Simulador de notas de UniCali' },
-  { src: '/screenshots/unicali-library.png', alt: 'Biblioteca de UniCali' },
-  { src: '/screenshots/unicali-campus.png', alt: 'Comunidad de UniCali' },
-  { src: '/screenshots/campus-gente.png', alt: 'Estudiantes de UniCali' },
-  { src: '/screenshots/rese%C3%B1as-docente.png', alt: 'Reseñas docentes de UniCali' },
+  { src: '/screenshots/login.webp', alt: 'Inicio de sesión de UniCali' },
+  { src: '/screenshots/unicali-profile.webp', alt: 'Perfil académico de UniCali' },
+  { src: '/screenshots/unicali-notes.webp', alt: 'Notas y promedios de UniCali' },
+  { src: '/screenshots/unicali-statistics.webp', alt: 'Estadísticas académicas de UniCali' },
+  { src: '/screenshots/unicali-lab.webp', alt: 'Laboratorio de UniCali' },
+  { src: '/screenshots/unicali-simulator.webp', alt: 'Simulador de notas de UniCali' },
+  { src: '/screenshots/unicali-library.webp', alt: 'Biblioteca de UniCali' },
+  { src: '/screenshots/unicali-campus.webp', alt: 'Comunidad de UniCali' },
+  { src: '/screenshots/campus-gente.webp', alt: 'Estudiantes de UniCali' },
+  { src: '/screenshots/rese%C3%B1as-docente.webp', alt: 'Reseñas docentes de UniCali' },
 ];
 
 const PrivacyPhone: React.FC = () => {
@@ -29,14 +29,18 @@ const PrivacyPhone: React.FC = () => {
     return () => media.removeEventListener('change', update);
   }, []);
 
+  const userStopped = useRef(false);
+
   useEffect(() => {
+    if (reducedMotion) return;
     const timer = window.setInterval(() => {
-      if (!interacting.current) setIndex((i) => (i + 1) % screenshots.length);
+      if (!interacting.current && !userStopped.current) setIndex((i) => (i + 1) % screenshots.length);
     }, 3500);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [reducedMotion]);
 
   const go = (next: number) => {
+    userStopped.current = true;
     setOffset(0);
     setIndex((next + screenshots.length) % screenshots.length);
   };
@@ -75,12 +79,12 @@ const PrivacyPhone: React.FC = () => {
       <div aria-hidden="true" style={{ position: 'absolute', width: 12, height: 455, right: -7, top: 22, borderRadius: 7, background: 'linear-gradient(90deg, #171615, #9b8254 60%, #30291e)', transform: 'rotateY(90deg)', transformOrigin: 'left center' }} />
       <div role="region" aria-label="Vista interactiva de la aplicación UniCali" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={() => { start.current = null; interacting.current = false; setOffset(0); }} style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', borderRadius: 27, background: '#111', touchAction: 'pan-y', userSelect: 'none', transform: 'translateZ(2px)' }}>
         <div style={{ display: 'flex', width: `${screenshots.length * 100}%`, height: '100%', transform: `translate3d(calc(${-index * (100 / screenshots.length)}% + ${offset}px),0,0)`, transition: offset || reducedMotion ? 'none' : 'transform 500ms ease' }}>
-          {screenshots.map(({ src, alt }, i) => <img key={src} src={src} alt={alt} width="1080" height="2400" loading={i <= index + 1 && i >= index - 1 ? 'eager' : 'lazy'} draggable={false} style={{ width: `${100 / screenshots.length}%`, height: '100%', flex: '0 0 auto', objectFit: 'cover', display: 'block' }} />)}
+          {screenshots.map(({ src, alt }, i) => <img key={src} src={src} alt={alt} width="720" height="1600" loading={i <= index + 1 && i >= index - 1 ? 'eager' : 'lazy'} draggable={false} style={{ width: `${100 / screenshots.length}%`, height: '100%', flex: '0 0 auto', objectFit: 'cover', display: 'block' }} />)}
         </div>
         <div style={{ position: 'absolute', top: 9, left: '50%', transform: 'translateX(-50%)', width: 60, height: 17, borderRadius: 12, background: '#000', pointerEvents: 'none' }} />
       </div>
       <div aria-label="Navegación de capturas" style={{ position: 'absolute', bottom: -22, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 5 }}>
-        {screenshots.map(({ src, alt }, i) => <button key={src} type="button" aria-label={`Mostrar ${alt}`} aria-current={i === index ? 'true' : undefined} onClick={() => go(i)} style={{ width: i === index ? 18 : 6, height: 6, border: 0, borderRadius: 8, padding: 0, background: i === index ? 'var(--action)' : 'rgba(120,120,120,.5)', cursor: 'pointer' }} />)}
+        {screenshots.map(({ src, alt }, i) => <button key={src} type="button" aria-label={`Mostrar ${alt}`} aria-current={i === index ? 'true' : undefined} onClick={() => go(i)} style={{ width: i === index ? 34 : 24, height: 24, border: 0, padding: 0, background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span aria-hidden="true" style={{ width: i === index ? 18 : 6, height: 6, borderRadius: 8, background: i === index ? 'var(--action)' : 'rgba(120,120,120,.5)' }} /></button>)}
       </div>
     </div>
     </div>

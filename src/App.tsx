@@ -99,6 +99,31 @@ const App: React.FC = () => {
     };
   }, [pathname]);
 
+  // El fondo 3D es decorativo: se monta recien cuando la pagina ya cargo y el
+  // navegador esta libre (idle), y nunca si el sistema pide movimiento
+  // reducido o ahorro de datos. Asi no compite con el contenido ni con el LCP.
+  const [show3D, setShow3D] = useState(false);
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if ((navigator as any).connection?.saveData) return;
+    let idle = 0;
+    let timer = 0;
+    const enable = () => setShow3D(true);
+    const onLoad = () => {
+      const ric = (window as any).requestIdleCallback as undefined | ((cb: () => void, opts?: { timeout: number }) => number);
+      if (ric) idle = ric(enable, { timeout: 2500 });
+      else timer = window.setTimeout(enable, 1200);
+    };
+    if (document.readyState === 'complete') onLoad();
+    else window.addEventListener('load', onLoad, { once: true });
+    return () => {
+      window.removeEventListener('load', onLoad);
+      const cic = (window as any).cancelIdleCallback as undefined | ((id: number) => void);
+      if (idle && cic) cic(idle);
+      if (timer) window.clearTimeout(timer);
+    };
+  }, []);
+
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
@@ -114,7 +139,7 @@ const App: React.FC = () => {
           coste castiga LCP e INP, y Core Web Vitals es senal de posicionamiento.
           El fondo es decorativo, asi que ahi simplemente no se carga.
       */}
-      {!isProgrammaticRoute && (
+      {!isProgrammaticRoute && show3D && (
         <Suspense fallback={null}>
           <Experience3D theme={theme} />
         </Suspense>
