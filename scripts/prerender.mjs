@@ -83,6 +83,14 @@ async function main() {
         ];
         managed.forEach((el) => el.setAttribute('data-prerendered', 'true'));
 
+        // El fondo 3D es decorativo y se carga en idle desde el cliente
+        // (ver App.tsx). Si el prerender lo llegó a montar, Vite deja un
+        // <link rel="modulepreload"> en el head que obliga a descargar sus
+        // ~885 KB de inmediato en cada visita: se retira del HTML servido.
+        document
+          .querySelectorAll('link[rel="modulepreload"][href*="Experience3D"]')
+          .forEach((el) => el.remove());
+
         const doctype = document.doctype ? `<!doctype ${document.doctype.name}>` : '<!doctype html>';
         return `${doctype}\n${document.documentElement.outerHTML}`;
       }, STATIC_FALLBACK_TITLE);
